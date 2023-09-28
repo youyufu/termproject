@@ -6,8 +6,8 @@ This is the link to the Google Calendar API documentation: https://developers.go
 This is the link to the openFDA API documentation: https://open.fda.gov/apis/
 
 Using Google Workspace/Cloud to access/set up the Google Calendar API:
-![](C:\Users\danie\Pictures\google_workspace_API_instructions.png)
-![](C:\Users\danie\Pictures\google_cloud_API_screenshot.png)
+![](google_workspace_API_instructions.png)
+![](google_cloud_API_screenshot.png)
 
 Example API output in Java (the next 10 calendar events):
 ![](google_calendar_API_java_output.png)
