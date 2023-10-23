@@ -17,4 +17,3 @@ Using Google Workspace/Cloud to access/set up the Google Calendar API:
 
 Example API output in Java (the next 10 calendar events):
 ![](google_calendar_API_java_output.png)
->>>>>>> 1b2ff39e8eb23cc657217164364c05dcc8f60ba7
