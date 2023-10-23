@@ -8,6 +8,8 @@ This is the link to the openFDA API documentation: https://open.fda.gov/apis/
 
 This is the link to the HealthData Drug Interaction API documentation: https://lhncbc.nlm.nih.gov/RxNav/APIs/InteractionAPIs.html
 
+This is the link to the RxNorm API documentation: https://lhncbc.nlm.nih.gov/RxNav/APIs/api-RxNorm.findRxcuiByString.html
+
 =======
 Using Google Workspace/Cloud to access/set up the Google Calendar API:
 ![](google_workspace_API_instructions.png)
