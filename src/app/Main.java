@@ -61,7 +61,7 @@ public class Main {
         checklistViewModel.setState(testChecklist);
         checklistViewModel.firePropertyChangedAddTake(testChecklist.getTakeToday().get(0));
 
-        String[] testMedicine1 = {"Codeine", "5 mL", "500 mL", "1", "2", "3", "4", "5", "6", "7", "take by mouth with that purp sprite yahurr"};
+        String[] testMedicine1 = {"Codeine", "5 mL", "500 mL", "1", "2", "3", "4", "5", "6", "7", "take by mouth; do not mix with sprite"};
         testTable.addData(testMedicine1);
         tableViewModel.setState(testTable);
         tableViewModel.firePropertyChanged();
