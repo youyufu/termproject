@@ -1,6 +1,6 @@
 package view;
 
-import interface_adapter.SwitchViewController;
+import interface_adapter.switchView.SwitchViewController;
 import interface_adapter.enterMedicine.EnterController;
 import interface_adapter.enterMedicine.EnterState;
 import interface_adapter.enterMedicine.EnterViewModel;
@@ -28,7 +28,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
     private final JTextField thursdayInputField = new JTextField(2);
     private final JTextField fridayInputField = new JTextField(2);
     private final JTextField saturdayInputField = new JTextField(2);
-    private final JTextField descriptionInputField = new JTextField(200);
+    private final JTextField descriptionInputField = new JTextField(75);
     private final SwitchViewController switchViewController;
     private final EnterController enterController;
     private final JButton back;
@@ -48,6 +48,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         LabelTextPanel doseUnit = new LabelTextPanel(new JLabel(EnterViewModel.DOSE_UNIT_LABEL), doseUnitInputField);
         LabelTextPanel doseInventory = new LabelTextPanel(new JLabel(EnterViewModel.DOSE_INVENTORY_LABEL), doseInventoryInputField);
         JLabel days = new JLabel(EnterViewModel.DAYS_LABEL);
+        days.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel sunday = new LabelTextPanel(new JLabel(EnterViewModel.SUNDAY_LABEL), sundayInputField);
         LabelTextPanel monday = new LabelTextPanel(new JLabel(EnterViewModel.MONDAY_LABEL), mondayInputField);
         LabelTextPanel tuesday = new LabelTextPanel(new JLabel(EnterViewModel.TUESDAY_LABEL), tuesdayInputField);

@@ -1,7 +1,7 @@
 package view;
 
 import interface_adapter.MainViewModel;
-import interface_adapter.SwitchViewController;
+import interface_adapter.switchView.SwitchViewController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,12 +83,8 @@ public class MainView extends JLabel implements ActionListener, PropertyChangeLi
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
+    public void actionPerformed(ActionEvent e) {}
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-    }
+    public void propertyChange(PropertyChangeEvent evt) {}
 }

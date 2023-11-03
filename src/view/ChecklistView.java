@@ -1,9 +1,8 @@
 package view;
 
 import interface_adapter.checklistChecked.ChecklistController;
-import interface_adapter.checklistChecked.ChecklistState;
 import interface_adapter.checklistChecked.ChecklistViewModel;
-import interface_adapter.SwitchViewController;
+import interface_adapter.switchView.SwitchViewController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,6 +35,7 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
         JLabel header1 = new JLabel(ChecklistViewModel.HEADER_LABEL);
         header1.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel header2 = new JLabel(ChecklistViewModel.LOW_STOCK_LABEL);
+        header2.setAlignmentX(Component.CENTER_ALIGNMENT);
         JPanel buttons = new JPanel();
         buttons.add(back);
         back.addActionListener(
@@ -60,6 +60,8 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
             lowStock.add(lowMed);
             lowMap.put(medication[0], lowMed);
         }
+        checklist.setLayout(new BoxLayout(checklist, BoxLayout.Y_AXIS));
+        checklist.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(header1);
         this.add(checklist);

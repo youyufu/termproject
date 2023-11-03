@@ -1,6 +1,6 @@
 package view;
 
-import interface_adapter.SwitchViewController;
+import interface_adapter.switchView.SwitchViewController;
 import interface_adapter.deleteMedicine.DeleteController;
 import interface_adapter.deleteMedicine.DeleteState;
 import interface_adapter.deleteMedicine.DeleteViewModel;
