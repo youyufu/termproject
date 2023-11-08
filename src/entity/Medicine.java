@@ -10,5 +10,7 @@ public class Medicine {
    private String description;
 
 
+   public Medicine(String medicine, Dose dose, int[] weeklySchedule, String description) {
    }
+}
 

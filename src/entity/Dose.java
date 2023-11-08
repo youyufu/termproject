@@ -8,9 +8,12 @@ public class Dose {
 
     private String unit;
 
+    public Dose(int doseSize, int inventory, String unit) {
+    }
+
 
     public int getDose(){return size;}
 
     public String getUnit(){return unit;}
-    public int getDosesRemaining(){return inventory - size;}
+    public int getDosesRemaining(){return (inventory - size) % size;}
 }
