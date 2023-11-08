@@ -43,5 +43,9 @@ public class EnterPresenter {
 
     }
 
-
+    public void prepareFailView(String error){
+        EnterState enterState = enterViewModel.getState();
+        enterState.setEnterError(error);
+        enterViewModel.firePropertyChanged();
+    }
 }
