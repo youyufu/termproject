@@ -9,6 +9,9 @@ public class Dose {
     private String unit;
 
     public Dose(int doseSize, int inventory, String unit) {
+        this.size = doseSize;
+        this.inventory = inventory;
+        this.unit = unit;
     }
 
 
