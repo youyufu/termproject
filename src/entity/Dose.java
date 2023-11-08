@@ -2,11 +2,11 @@ package entity;
 
 public class Dose {
 
-    private int size;
+    private final int size;
 
     private int inventory;
 
-    private String unit;
+    private final String unit;
 
     public Dose(int doseSize, int inventory, String unit) {
         this.size = doseSize;
@@ -18,6 +18,5 @@ public class Dose {
     public int getDose(){return size;}
     public String getUnit(){return unit;}
     public int getDosesRemaining(){return inventory % size;}
-
     public void takeDose(){this.inventory -= this.size;}
 }
