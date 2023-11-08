@@ -10,7 +10,11 @@ public class Medicine {
    private String description;
 
 
-   public Medicine(String medicine, Dose dose, int[] weeklySchedule, String description) {
+   public Medicine(String medicine, Dose doses, int[] weeklySchedule, String description) {
+      this.name = medicine;
+      this.doses = doses;
+      this.weeklySchedule = weeklySchedule;
+      this.description = description;
    }
 }
 
