@@ -9,4 +9,7 @@ public class Medicine {
 
    private String description;
 
+
+   }
+
 }
