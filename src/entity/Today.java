@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Today {
 
-    private Map<Medicine, Boolean> todayChecklist;
+    private final Map<Medicine, Boolean> todayChecklist;
 
     public Today(Map<Medicine, Boolean> todayChecklist) {
         this.todayChecklist = todayChecklist;
