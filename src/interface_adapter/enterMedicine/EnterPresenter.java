@@ -1,5 +1,6 @@
 package interface_adapter.enterMedicine;
 
+import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import use_case.enterMedicine.EnterOutputData;
@@ -23,6 +24,8 @@ public class EnterPresenter {
     public void prepareSuccessView(EnterOutputData entry){
 
         EnterState enterState = enterViewModel.getState();
+        TableState tableState = tableViewModel.getState();
+        tableState.addData();
         enterState.setMedicineName(entry.getMedicineName());
         enterState.setDoseSize(entry.getDoseSize());
         enterState.setDoseUnit(entry.getDoseUnit());
