@@ -13,7 +13,7 @@ public class EnterPresenter {
     private TableViewModel tableViewModel;
     private ViewManager viewManager;
 
-    public  EnterPresenter(ViewManager viewManager, EnterViewModel enterViewModel, ChecklistViewModel
+    public EnterPresenter(ViewManager viewManager, EnterViewModel enterViewModel, ChecklistViewModel
             checklistViewModel, TableViewModel tableViewModel){
         this.viewManager = viewManager;
         this.enterViewModel = enterViewModel;
