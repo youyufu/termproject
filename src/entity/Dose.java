@@ -17,6 +17,6 @@ public class Dose {
 
     public int getDose(){return size;}
     public String getUnit(){return unit;}
-    public int getDosesRemaining(){return inventory % size;}
+    public int getDosesRemaining(){return inventory / size;}
     public void takeDose(){this.inventory -= this.size;}
 }
