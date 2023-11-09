@@ -24,23 +24,10 @@ public class EnterPresenter {
         EnterState enterState = enterViewModel.getState();
         TableState tableState = tableViewModel.getState();
         tableState.addData();
-        enterState.setMedicineName(entry.getMedicineName());
-        enterState.setDoseSize(entry.getDoseSize());
-        enterState.setDoseUnit(entry.getDoseUnit());
-        enterState.setDoseInventory(entry.getDoseInventory());
-        enterState.setSundayDoses(entry.getSundayDoses());
-        enterState.setMondayDoses(entry.getMondayDoses());
-        enterState.setTuesdayDoses(entry.getTuesdayDoses());
-        enterState.setWednesdayDoses(entry.getWednesdayDoses());
-        enterState.setThursdayDoses(entry.getThursdayDoses());
-        enterState.setFridayDoses(entry.getFridayDoses());
-        enterState.setSaturdayDoses(entry.getSaturdayDoses);
-        enterState.setDescription(entry.getDescription());
 
         this.enterViewModel.setState(enterState);
         enterViewModel.firePropertyChanged();
 
-        viewManager.propertyChange();
 
     }
 
