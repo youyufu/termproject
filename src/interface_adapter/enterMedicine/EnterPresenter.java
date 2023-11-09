@@ -23,13 +23,14 @@ public class EnterPresenter {
 
         EnterState enterState = enterViewModel.getState();
         TableState tableState = tableViewModel.getState();
-        tableState.addData();
+        String[] tableData = tableState.getLongValues();
+        tableState.addData(tableData);
 
         this.enterViewModel.setState(enterState);
         enterViewModel.firePropertyChanged();
-
-
     }
+
+    public void updateChecklistState(){}
 
     public void prepareFailView(String error){
         EnterState enterState = enterViewModel.getState();
