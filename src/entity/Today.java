@@ -14,5 +14,5 @@ public class Today {
 
     public void take(Medicine medicine){todayChecklist.put(medicine, Boolean.TRUE);}
 
-    public void undo(Medicine medicine){todayChecklist.remove(medicine);}
+    public void remove(Medicine medicine){todayChecklist.remove(medicine);}
 }
