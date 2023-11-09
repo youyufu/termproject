@@ -11,7 +11,6 @@ public class EnterPresenter {
     private EnterViewModel enterViewModel;
     private ChecklistViewModel checklistViewModel;
     private TableViewModel tableViewModel;
-    private ViewManager viewManager;
 
     public EnterPresenter(ViewManager viewManager, EnterViewModel enterViewModel, ChecklistViewModel
             checklistViewModel, TableViewModel tableViewModel){
