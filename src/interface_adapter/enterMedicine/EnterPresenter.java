@@ -5,10 +5,11 @@ import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistState;
 import interface_adapter.checklistChecked.ChecklistViewModel;
+import use_case.enterMedicine.EnterOutputBoundary;
 import use_case.enterMedicine.EnterOutputData;
 import view.ViewManager;
 
-public class EnterPresenter {
+public class EnterPresenter implements EnterOutputBoundary {
 
     private EnterViewModel enterViewModel;
     private ChecklistViewModel checklistViewModel;
@@ -21,6 +22,7 @@ public class EnterPresenter {
         this.tableViewModel = tableViewModel;
     }
 
+    @Override
     public void prepareSuccessView(EnterOutputData entry){
 
         EnterState enterState = enterViewModel.getState();
@@ -45,6 +47,7 @@ public class EnterPresenter {
         checklistViewModel.firePropertyChanged();
     }
 
+    @Override
     public void prepareFailView(String error){
         EnterState enterState = enterViewModel.getState();
         enterState.setEnterError(error);
