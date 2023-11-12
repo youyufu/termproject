@@ -1,20 +1,13 @@
 package entity;
 
 public class Medicine {
-   private String name;
+    private String name;
 
-   private Dose doses;
+    public String getName() {
+        return name;
+    }
 
-   private int[] weeklySchedule;
-
-   private String description;
-
-
-   public Medicine(String medicine, Dose doses, int[] weeklySchedule, String description) {
-      this.name = medicine;
-      this.doses = doses;
-      this.weeklySchedule = weeklySchedule;
-      this.description = description;
-   }
+    public void setName(String name) {
+        this.name = name;
+    }
 }
-
