@@ -18,4 +18,9 @@ public class Medicine {
         this.weeklySchedule = weeklySchedule;
         this.description = description;
     }
+    public String getName() {return this.name;}
+    public int[] getWeeklySchedule() {return this.weeklySchedule;}
+    public String getDoseString() {return String.valueOf(doses.getSize()) + " " + doses.getUnit();}
+    public String getInventoryString() {return String.valueOf(doses.getInventory()) + " " + doses.getUnit();}
+    public String getDescription() {return this.description;}
 }

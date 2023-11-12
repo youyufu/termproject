@@ -5,10 +5,11 @@ import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistState;
 import interface_adapter.checklistChecked.ChecklistViewModel;
+import use_case.enterMedicine.EnterOutputBoundary;
 import use_case.enterMedicine.EnterOutputData;
 import view.ViewManager;
 
-public class EnterPresenter {
+public class EnterPresenter implements EnterOutputBoundary {
 
     private EnterViewModel enterViewModel;
     private ChecklistViewModel checklistViewModel;
@@ -23,13 +24,13 @@ public class EnterPresenter {
 
     public void prepareSuccessView(EnterOutputData entry){
 
-        EnterState enterState = enterViewModel.getState();
         TableState tableState = tableViewModel.getState();
-        String[] tableData = new String[]{entry.toString()};
+        String[] tableData = new String[]{entry.getMedication(),
+                entry.getDose(), entry.getInventory(), String.valueOf(entry.getSu()), String.valueOf(entry.getM()),
+                String.valueOf(entry.getTu()), String.valueOf(entry.getW()), String.valueOf(entry.getTh()),
+                String.valueOf(entry.getF()), String.valueOf(entry.getSa()), entry.getDescription()};
         tableState.addData(tableData);
 
-        this.enterViewModel.setState(enterState);
-        enterViewModel.firePropertyChanged();
         this.tableViewModel.setState(tableState);
         tableViewModel.firePropertyChanged();
 

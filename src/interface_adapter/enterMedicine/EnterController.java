@@ -12,7 +12,7 @@ public class EnterController {
     }
     public void execute(String medicineName, String doseSize, String doseUnit, String doseInventory,
             Integer[] day, String description)
-    {EnterInputData enterInputData = new EnterInputData(medicineName, doseSize, doseUnit,
+        {EnterInputData enterInputData = new EnterInputData(medicineName, doseSize, doseUnit,
             doseInventory, day, description);
 
         enterInputBoundary.execute(enterInputData);}
