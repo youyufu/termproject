@@ -1,5 +1,6 @@
 package interface_adapter.enterMedicine;
 
+import java.util.ArrayList;
 import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
@@ -23,14 +24,17 @@ public class EnterPresenter {
 
         EnterState enterState = enterViewModel.getState();
         TableState tableState = tableViewModel.getState();
-        String[] tableData = tableState.getLongValues();
+        String[] tableData = new String[]{entry.toString()};
         tableState.addData(tableData);
 
         this.enterViewModel.setState(enterState);
         enterViewModel.firePropertyChanged();
+        this.tableViewModel.setState(tableState);
+        tableViewModel.firePropertyChanged();
+
     }
 
-    public void updateChecklistState(){}
+    public void updateChecklistState(EnterOutputData entry){}
 
     public void prepareFailView(String error){
         EnterState enterState = enterViewModel.getState();
