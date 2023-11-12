@@ -13,7 +13,17 @@ public class EnterInteractor implements EnterInputBoundary {
 
     @Override
     public void execute(EnterInputData enterInputData) {
-        EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine());
-        enterPresenter.prepareView(enterOutputData);
+        EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(),
+                enterInputData.getDoseSize().toString(),
+                enterInputData.getInventory().toString(),
+                enterInputData.getDay()[0],
+                enterInputData.getDay()[1],
+                enterInputData.getDay()[2],
+                enterInputData.getDay()[3],
+                enterInputData.getDay()[4],
+                enterInputData.getDay()[5],
+                enterInputData.getDay()[6],
+                enterInputData.getDescription());
+        enterPresenter.prepareSuccessView(enterOutputData);
     }
 }

@@ -1,5 +1,7 @@
 package use_case.enterMedicine;
 
 public interface EnterOutputBoundary {
-    void prepareView(EnterOutputData enterOutputData);
+    void prepareSuccessView(EnterOutputData enterOutputData);
+
+    void prepareFailView(String error);
 }
