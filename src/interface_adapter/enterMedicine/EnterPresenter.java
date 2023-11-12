@@ -42,7 +42,7 @@ public class EnterPresenter {
         checklistState.addTakeToday(checklistAddition);
 
         this.checklistViewModel.setState(checklistState);
-        tableViewModel.firePropertyChanged();
+        checklistViewModel.firePropertyChanged();
     }
 
     public void prepareFailView(String error){
