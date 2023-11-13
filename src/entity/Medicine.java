@@ -5,6 +5,14 @@ import java.util.Map;
 public class Medicine {
     private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private Dose doses;
 
     private int[] weeklySchedule;
