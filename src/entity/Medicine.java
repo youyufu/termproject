@@ -3,14 +3,6 @@ package entity;
 public class Medicine {
     private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     private Dose doses;
 
     private Integer[] weeklySchedule;
@@ -29,4 +21,5 @@ public class Medicine {
     public String getDoseString() {return String.valueOf(doses.getSize()) + " " + doses.getUnit();}
     public String getInventoryString() {return String.valueOf(doses.getInventory()) + " " + doses.getUnit();}
     public String getDescription() {return this.description;}
+    public Dose getDose() {return this.doses;}
 }

@@ -37,14 +37,22 @@ public class EnterPresenter implements EnterOutputBoundary {
 
     }
 
-    public void updateChecklistState(EnterOutputData entry){
+    public void updateChecklistView(EnterOutputData entry){
 
         ChecklistState checklistState = checklistViewModel.getState();
         String[] checklistAddition = new String[]{entry.getMedication(), entry.getDose()};
         checklistState.addTakeToday(checklistAddition);
-
         this.checklistViewModel.setState(checklistState);
-        checklistViewModel.firePropertyChanged();
+        checklistViewModel.firePropertyChangedAddTake(checklistAddition);
+    }
+
+    @Override
+    public void updateLowView(EnterOutputData enterOutputData) {
+        ChecklistState checklistState = checklistViewModel.getState();
+        String[] lowAddition = new String[]{enterOutputData.getMedication(), String.valueOf(enterOutputData.getDosesRemaining())};
+        checklistState.addLow(lowAddition);
+        this.checklistViewModel.setState(checklistState);
+        checklistViewModel.firePropertyChangedAddLow(lowAddition);
     }
 
     @Override

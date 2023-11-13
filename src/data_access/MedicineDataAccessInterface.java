@@ -9,4 +9,5 @@ public interface MedicineDataAccessInterface {
     public void removeMedicine(String medicine);
     public void saveToday(Today today);
     public void updateToday(Medicine medicine);
+    public Today getToday();
 }
