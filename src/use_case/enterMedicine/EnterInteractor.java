@@ -4,6 +4,8 @@ import data_access.MedicineDataAccessInterface;
 import entity.Medicine;
 import entity.Dose;
 import entity.MedicineFactory;
+
+import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpClient;
@@ -30,10 +32,21 @@ public class EnterInteractor implements EnterInputBoundary {
         }
         else {
             // API call to get id
-            // API call to drug interaction checker
-            if () {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://rxnav.nlm.nih.gov/REST/rxcui.json?name=" + name + "&allsrc=0&srclist=ALL&search=2"))
+                    .method("GET", HttpRequest.BodyPublishers.noBody()).build();
+            HttpResponse<String> response = null;
+            try {
+                response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+                response.body();
+            } catch (IOException e) {
+
+            } catch (InterruptedException e) {
 
             }
+
+            // API call to drug interaction checker
+            if () {}
             else {
                 Dose dose = medicineFactory.createDose(enterInputData.getDoseSize(),
                         enterInputData.getInventory(),
