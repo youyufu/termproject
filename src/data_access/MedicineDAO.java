@@ -4,6 +4,7 @@ import entity.Medicine;
 import entity.Today;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MedicineDAO implements MedicineDataAccessInterface{
     private ArrayList<Medicine> userMedicines = new ArrayList<>();
@@ -20,6 +21,18 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         userMedicines.add(medicine);
 
     }
+    public void  removeMedicine(String medicine){
+        ArrayList<Medicine> medicineList = new ArrayList<>();
+        for(Medicine m : userMedicines){
+            if(m.getName().equals(medicine)){
+                continue;
+            }
+            medicineList.add(m);
+        }
+        userMedicines = medicineList;
+    }
+
+
     public void saveToday(Today today){
         this.today = today;
     }
