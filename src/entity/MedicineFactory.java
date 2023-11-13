@@ -2,7 +2,7 @@ package entity;
 
 public class MedicineFactory {
 
-    public Medicine createMedicine(String medicine, Dose dose, int[] weeklySchedule, String description){
+    public Medicine createMedicine(String medicine, Dose dose, Integer[] weeklySchedule, String description){
         return new Medicine(medicine, dose, weeklySchedule, description);
     }
 
