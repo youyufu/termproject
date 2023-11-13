@@ -4,15 +4,12 @@ import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistState;
 import interface_adapter.checklistChecked.ChecklistViewModel;
-import interface_adapter.enterMedicine.EnterState;
-import interface_adapter.enterMedicine.EnterViewModel;
 import use_case.deleteMedicine.DeleteOutputData;
-import use_case.enterMedicine.EnterOutputData;
 
 public class DeletePresenter {
-    private DeleteViewModel deleteViewModel;
-    private ChecklistViewModel checklistViewModel;
-    private TableViewModel tableViewModel;
+    private final DeleteViewModel deleteViewModel;
+    private final ChecklistViewModel checklistViewModel;
+    private final TableViewModel tableViewModel;
 
     public DeletePresenter(DeleteViewModel deleteViewModel, ChecklistViewModel
             checklistViewModel, TableViewModel tableViewModel){
@@ -25,8 +22,8 @@ public class DeletePresenter {
 
         DeleteState deleteState = deleteViewModel.getState();
         TableState tableState = tableViewModel.getState();
-        String[] tableData = new String[]{entry.toString()};
-        tableState.removeData(tableData);
+        String medicineName = entry.getMedication();
+        tableState.removeData(medicineName);
 
         this.deleteViewModel.setState(deleteState);
         deleteViewModel.firePropertyChanged();
@@ -35,19 +32,19 @@ public class DeletePresenter {
 
     }
 
-    public void updateChecklistState(EnterOutputData entry){
+    public void updateChecklistState(DeleteOutputData entry){
 
         ChecklistState checklistState = checklistViewModel.getState();
-        String[] checklistAddition = new String[]{entry.getMedication(), entry.getDose()};
-        checklistState.addTakeToday(checklistAddition);
+        String checklistRemoval = entry.getMedication();
+        checklistState.removeTakeToday(checklistRemoval);
 
         this.checklistViewModel.setState(checklistState);
         checklistViewModel.firePropertyChanged();
     }
 
     public void prepareFailView(String error){
-        EnterState enterState = enterViewModel.getState();
-        enterState.setEnterError(error);
-        enterViewModel.firePropertyChanged();
+        DeleteState deleteState = deleteViewModel.getState();
+        deleteState.setDeleteError(error);
+        deleteViewModel.firePropertyChanged();
     }
 }
