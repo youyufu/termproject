@@ -45,7 +45,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
     }
     public void saveToday(Today today){}
     public void updateToday(Medicine medicine){
-        if (!userMedicines.contains(medicine)) {today.add(medicine);}
+        if (!today.getTodayChecklist().containsKey(medicine)) {today.add(medicine);}
         else {if (today.getTodayChecklist().get(medicine)) {today.add(medicine);}
             else {today.take(medicine);}
         }
