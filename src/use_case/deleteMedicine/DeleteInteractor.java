@@ -1,7 +1,7 @@
 package use_case.deleteMedicine;
 
 import data_access.MedicineDataAccessInterface;
-import use_case.enterMedicine.EnterOutputBoundary;
+
 
 public class DeleteInteractor implements DeleteInputBoundary{
 
