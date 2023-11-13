@@ -25,13 +25,13 @@ public class EnterPresenter implements EnterOutputBoundary {
     @Override
     public void prepareSuccessView(EnterOutputData entry){
 
-        EnterState enterState = enterViewModel.getState();
         TableState tableState = tableViewModel.getState();
-        String[] tableData = new String[]{entry.toString()};
+        String[] tableData = new String[]{entry.getMedication(),
+                entry.getDose(), entry.getInventory(), String.valueOf(entry.getSu()), String.valueOf(entry.getM()),
+                String.valueOf(entry.getTu()), String.valueOf(entry.getW()), String.valueOf(entry.getTh()),
+                String.valueOf(entry.getF()), String.valueOf(entry.getSa()), entry.getDescription()};
         tableState.addData(tableData);
 
-        this.enterViewModel.setState(enterState);
-        enterViewModel.firePropertyChanged();
         this.tableViewModel.setState(tableState);
         tableViewModel.firePropertyChanged();
 

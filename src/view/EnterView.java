@@ -84,13 +84,13 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                                     currentState.getDoseSize(),
                                     currentState.getDoseUnit(),
                                     currentState.getDoseInventory(),
-                                    currentState.getSundayDoses(),
-                                    currentState.getMondayDoses(),
-                                    currentState.getTuesdayDoses(),
-                                    currentState.getWednesdayDoses(),
-                                    currentState.getThursdayDoses(),
-                                    currentState.getFridayDoses(),
-                                    currentState.getSaturdayDoses(),
+                                    new Integer[]{Integer.parseInt(currentState.getSundayDoses()),
+                                            Integer.parseInt(currentState.getMondayDoses()),
+                                            Integer.parseInt(currentState.getTuesdayDoses()),
+                                            Integer.parseInt(currentState.getWednesdayDoses()),
+                                            Integer.parseInt(currentState.getThursdayDoses()),
+                                            Integer.parseInt(currentState.getFridayDoses()),
+                                            Integer.parseInt(currentState.getSaturdayDoses())},
                                     currentState.getDescription()
                             );
                         }

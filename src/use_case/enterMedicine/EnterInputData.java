@@ -10,8 +10,8 @@ public class EnterInputData {
 
     public EnterInputData(String medicine,
                           String doseSize,
-                          String inventory,
                           String unit,
+                          String inventory,
                           Integer[] day,
                           String description) {
         this.medicine = medicine;
