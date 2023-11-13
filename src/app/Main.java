@@ -9,7 +9,6 @@ import interface_adapter.TableViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.checklistChecked.ChecklistController;
 import interface_adapter.checklistChecked.ChecklistViewModel;
-import interface_adapter.deleteMedicine.DeleteController;
 import interface_adapter.deleteMedicine.DeleteViewModel;
 import interface_adapter.enterMedicine.EnterViewModel;
 import view.*;
@@ -37,8 +36,8 @@ public class Main {
         SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel);
         MainView mainView = new MainView(switchViewController, mainViewModel);
         EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO);
+        DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, medicineDAO);
         // for ui testing
-        DeleteView deleteView = new DeleteView(switchViewController, new DeleteController(), deleteViewModel);
         TableView tableView = new TableView(switchViewController, tableViewModel);
         ChecklistView checklistView = new ChecklistView(switchViewController, new ChecklistController(), checklistViewModel);
         views.add(mainView, mainView.viewName);

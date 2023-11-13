@@ -4,9 +4,10 @@ import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistState;
 import interface_adapter.checklistChecked.ChecklistViewModel;
+import use_case.deleteMedicine.DeleteOutputBoundary;
 import use_case.deleteMedicine.DeleteOutputData;
 
-public class DeletePresenter {
+public class DeletePresenter implements DeleteOutputBoundary {
     private final DeleteViewModel deleteViewModel;
     private final ChecklistViewModel checklistViewModel;
     private final TableViewModel tableViewModel;
