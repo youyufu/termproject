@@ -11,6 +11,7 @@ public class DeleteController {
     public void execute(String medicine) {
 
         DeleteInputData deleteInputData = new DeleteInputData(medicine);
+
         deleteInputBoundary.execute(deleteInputData);
     }
 }
