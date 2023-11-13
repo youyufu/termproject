@@ -1,12 +1,14 @@
 package entity;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public class Today {
 
-    private Map<Medicine, Boolean> todayChecklist;
+    private HashMap<Medicine, Boolean> todayChecklist;
+    private Integer day;
 
-    public Today(Map<Medicine, Boolean> todayChecklist) {
+    public Today(Integer day, HashMap<Medicine, Boolean> todayChecklist) {
+        this.day = day;
         this.todayChecklist = todayChecklist;
     }
 
@@ -15,4 +17,7 @@ public class Today {
     public void take(Medicine medicine){todayChecklist.put(medicine, Boolean.TRUE);}
 
     public void remove(Medicine medicine){todayChecklist.remove(medicine);}
+    public Integer getDay() {return this.day;}
+
+    public HashMap<Medicine, Boolean> getTodayChecklist() {return todayChecklist;}
 }

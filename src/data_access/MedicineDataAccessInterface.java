@@ -4,9 +4,11 @@ import entity.Medicine;
 import entity.Today;
 
 public interface MedicineDataAccessInterface {
-    public boolean exists(String name);
-    public void saveMedicine(Medicine medicine);
-    public void removeMedicine(String medicine);
-    public void saveToday(Today today);
-    public void updateToday(Medicine medicine);
+    boolean exists(String name);
+    void saveMedicine(Medicine medicine);
+    void removeMedicine(String medicine);
+    void saveToday(Today today);
+    void updateToday(Medicine medicine);
+    Today getToday();
+    void takeMedicine(String medicine);
 }

@@ -1,6 +1,7 @@
 package data_access;
 
 import entity.Medicine;
+import entity.MedicineFactory;
 import entity.Today;
 
 import java.util.ArrayList;
@@ -9,6 +10,11 @@ import java.util.List;
 public class MedicineDAO implements MedicineDataAccessInterface{
     private ArrayList<Medicine> userMedicines = new ArrayList<>();
     private Today today;
+    private MedicineFactory medicineFactory;
+    public MedicineDAO(Today today1, MedicineFactory medicineFactory) {
+        this.today = today1;
+        this.medicineFactory = medicineFactory;
+    }
     public boolean exists(String name){
         for(Medicine medicine : userMedicines){
             if(medicine.getName().equals(name)){
@@ -19,7 +25,6 @@ public class MedicineDAO implements MedicineDataAccessInterface{
     }
     public void saveMedicine(Medicine medicine){
         userMedicines.add(medicine);
-
     }
     public void  removeMedicine(String medicine){
         ArrayList<Medicine> medicineList = new ArrayList<>();
@@ -31,28 +36,19 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         }
         userMedicines = medicineList;
     }
-
-
-    public void saveToday(Today today){
-        this.today = today;
+    public void takeMedicine(String medicine) {
+        for (Medicine m:userMedicines) {
+            if (m.getName().equals(medicine)) {
+                m.getDose().takeDose();
+            }
+        }
     }
+    public void saveToday(Today today){}
     public void updateToday(Medicine medicine){
-        today.add(medicine);
+        if (!userMedicines.contains(medicine)) {today.add(medicine);}
+        else {if (today.getTodayChecklist().get(medicine)) {today.add(medicine);}
+            else {today.take(medicine);}
+        }
     }
-
-    public ArrayList<Medicine> getUserMedicines() {
-        return userMedicines;
-    }
-
-    public void setUserMedicines(ArrayList<Medicine> userMedicines) {
-        this.userMedicines = userMedicines;
-    }
-
-    public Today getToday() {
-        return today;
-    }
-
-    public void setToday(Today today) {
-        this.today = today;
-    }
+    public Today getToday() {return today;}
 }

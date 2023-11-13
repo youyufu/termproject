@@ -2,8 +2,8 @@ package app;
 
 import data_access.MedicineDAO;
 import entity.MedicineFactory;
+import entity.Today;
 import interface_adapter.MainViewModel;
-import interface_adapter.enterMedicine.EnterPresenter;
 import interface_adapter.switchView.SwitchViewController;
 import interface_adapter.TableViewModel;
 import interface_adapter.ViewManagerModel;
@@ -11,17 +11,12 @@ import interface_adapter.checklistChecked.ChecklistController;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.deleteMedicine.DeleteController;
 import interface_adapter.deleteMedicine.DeleteViewModel;
-import interface_adapter.enterMedicine.EnterController;
 import interface_adapter.enterMedicine.EnterViewModel;
-import interface_adapter.switchView.SwitchViewPresenter;
-import use_case.enterMedicine.EnterInputBoundary;
-import use_case.enterMedicine.EnterInteractor;
-import use_case.enterMedicine.EnterOutputBoundary;
-import use_case.switchView.SwitchViewInteractor;
 import view.*;
-
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -37,15 +32,12 @@ public class Main {
         DeleteViewModel deleteViewModel = new DeleteViewModel();
         TableViewModel tableViewModel = new TableViewModel();
         ChecklistViewModel checklistViewModel = new ChecklistViewModel();
-        MedicineDAO medicineDAO = new MedicineDAO();
-
-        // for testing UI
-        SwitchViewController switchViewController = new SwitchViewController(new SwitchViewInteractor(new SwitchViewPresenter(viewManagerModel)));
+        LocalDate localDate = LocalDate.now();
+        MedicineDAO medicineDAO = getMedicineDAO(localDate);
+        SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel);
         MainView mainView = new MainView(switchViewController, mainViewModel);
-        EnterOutputBoundary enterPresenter = new EnterPresenter(enterViewModel, checklistViewModel, tableViewModel);
-        EnterInputBoundary enterInteractor = new EnterInteractor(medicineDAO, enterPresenter, new MedicineFactory());
-        EnterController enterController = new EnterController(enterInteractor);
-        EnterView enterView = new EnterView(switchViewController, enterController, enterViewModel);
+        EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO);
+        // for ui testing
         DeleteView deleteView = new DeleteView(switchViewController, new DeleteController(), deleteViewModel);
         TableView tableView = new TableView(switchViewController, tableViewModel);
         ChecklistView checklistView = new ChecklistView(switchViewController, new ChecklistController(), checklistViewModel);
@@ -58,5 +50,20 @@ public class Main {
         viewManagerModel.firePropertyChanged();
         application.pack();
         application.setVisible(true);
+    }
+
+    private static MedicineDAO getMedicineDAO(LocalDate localDate) {
+        String day = localDate.getDayOfWeek().name();
+        Integer dayInt = null;
+        switch (day) {
+            case "SUNDAY" -> dayInt = 0;
+            case "MONDAY" -> dayInt = 1;
+            case "TUESDAY" -> dayInt = 2;
+            case "WEDNESDAY" -> dayInt = 3;
+            case "THURSDAY" -> dayInt = 4;
+            case "FRIDAY" -> dayInt = 5;
+            case "SATURDAY" -> dayInt = 6;
+        }
+        return new MedicineDAO(new Today(dayInt, new HashMap<>()), new MedicineFactory());
     }
 }

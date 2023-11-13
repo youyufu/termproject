@@ -12,6 +12,7 @@ public class EnterOutputData {
     private final Integer f;
     private final Integer sa;
     private final String description;
+    private final Integer dosesRemaining;
 
     public EnterOutputData(String medication,
                            String dose,
@@ -23,7 +24,8 @@ public class EnterOutputData {
                            Integer th,
                            Integer f,
                            Integer sa,
-                           String description) {
+                           String description,
+                           Integer dosesRemaining) {
         this.medication = medication;
         this.dose = dose;
         this.inventory = inventory;
@@ -35,6 +37,7 @@ public class EnterOutputData {
         this.f = f;
         this.sa = sa;
         this.description = description;
+        this.dosesRemaining = dosesRemaining;
     }
 
     public String getMedication() {
@@ -80,4 +83,5 @@ public class EnterOutputData {
     public String getDescription() {
         return description;
     }
+    public Integer getDosesRemaining() {return dosesRemaining;}
 }
