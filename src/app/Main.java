@@ -1,9 +1,8 @@
 package app;
 
 import data_access.MedicineDAO;
+import entity.MedicineFactory;
 import interface_adapter.MainViewModel;
-import interface_adapter.TableState;
-import interface_adapter.checklistChecked.ChecklistState;
 import interface_adapter.enterMedicine.EnterPresenter;
 import interface_adapter.switchView.SwitchViewController;
 import interface_adapter.TableViewModel;
@@ -23,7 +22,6 @@ import view.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -45,7 +43,7 @@ public class Main {
         SwitchViewController switchViewController = new SwitchViewController(new SwitchViewInteractor(new SwitchViewPresenter(viewManagerModel)));
         MainView mainView = new MainView(switchViewController, mainViewModel);
         EnterOutputBoundary enterPresenter = new EnterPresenter(enterViewModel, checklistViewModel, tableViewModel);
-        EnterInputBoundary enterInteractor = new EnterInteractor(medicineDAO, enterPresenter);
+        EnterInputBoundary enterInteractor = new EnterInteractor(medicineDAO, enterPresenter, new MedicineFactory());
         EnterController enterController = new EnterController(enterInteractor);
         EnterView enterView = new EnterView(switchViewController, enterController, enterViewModel);
         DeleteView deleteView = new DeleteView(switchViewController, new DeleteController(), deleteViewModel);
