@@ -1,6 +1,10 @@
 package use_case.deleteMedicine;
 
+
 public class DeleteInputData {
-    public DeleteInputData(String medicine) {
-    }
+
+    final private String medicineName;
+    public DeleteInputData(String medicine) {this.medicineName = medicine;}
+
+    String getMedicineName() {return medicineName;}
 }
