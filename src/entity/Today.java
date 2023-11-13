@@ -18,4 +18,6 @@ public class Today {
 
     public void remove(Medicine medicine){todayChecklist.remove(medicine);}
     public Integer getDay() {return this.day;}
+
+    public HashMap<Medicine, Boolean> getTodayChecklist() {return todayChecklist;}
 }

@@ -36,24 +36,19 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         }
         userMedicines = medicineList;
     }
-
-
-    public void saveToday(Today today){
-        this.today = today;
+    public void takeMedicine(String medicine) {
+        for (Medicine m:userMedicines) {
+            if (m.getName().equals(medicine)) {
+                m.getDose().takeDose();
+            }
+        }
     }
+    public void saveToday(Today today){}
     public void updateToday(Medicine medicine){
-        today.add(medicine);
+        if (!userMedicines.contains(medicine)) {today.add(medicine);}
+        else {if (today.getTodayChecklist().get(medicine)) {today.add(medicine);}
+            else {today.take(medicine);}
+        }
     }
-
-    public ArrayList<Medicine> getUserMedicines() {
-        return userMedicines;
-    }
-
-    public void setUserMedicines(ArrayList<Medicine> userMedicines) {
-        this.userMedicines = userMedicines;
-    }
-
-    public Today getToday() {
-        return today;
-    }
+    public Today getToday() {return today;}
 }
