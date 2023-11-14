@@ -8,7 +8,6 @@ import interface_adapter.MainViewModel;
 import interface_adapter.switchView.SwitchViewController;
 import interface_adapter.TableViewModel;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.checklistChecked.ChecklistController;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.deleteMedicine.DeleteViewModel;
 import interface_adapter.enterMedicine.EnterViewModel;
