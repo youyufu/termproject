@@ -122,4 +122,6 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         save();
     }
     public Today getToday() {return today;}
+
+    public HashMap<String, Medicine> getUserMedicines() {return userMedicines;}
 }
