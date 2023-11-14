@@ -102,8 +102,8 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
         for (String medicine: checklistMap.keySet()) {
             if (checklistMap.get(medicine) == source)
                 if (e.getStateChange() == ItemEvent.DESELECTED) {
-                    checklistController.execute(medicine, 1);
-                } else {checklistController.execute(medicine, -1);}
+                    checklistController.execute(medicine);
+                } else {checklistController.execute(medicine);}
         }
     }
 }

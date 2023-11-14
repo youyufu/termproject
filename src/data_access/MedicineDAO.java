@@ -41,16 +41,12 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                 } if (today.get("dayInt") == this.today.getDay()) {
                     for (Object object1:todayArray) {
                         JSONObject med = (JSONObject) object1;
-                        if ((Boolean) med.get("taken")) {
-                            this.today.take((String) med.get("name"));
-                        } else {
-                            this.today.add((String) med.get("name"));
-                        }
+                        this.today.add((String) med.get("name"), (Integer) med.get("taken"));
                     }
                 } else {
                     for (Medicine medicine:userMedicines.values()) {
                         if (medicine.getWeeklySchedule()[(int) today.get("dayInt")] != 0) {
-                            this.today.add(medicine.getName());
+                            this.today.add(medicine.getName(), 0);
                         }
                     }
                 }
@@ -68,7 +64,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
             JSONObject today = new JSONObject();
             today.put("dayInt", String.valueOf(this.today.getDay()));
             JSONArray dayArray = new JSONArray();
-            HashMap<String, Boolean> todayChecklist = this.today.getTodayChecklist();
+            HashMap<String, Integer> todayChecklist = this.today.getTodayChecklist();
             for (String medicine:todayChecklist.keySet()) {
                 JSONObject med = new JSONObject();
                 med.put("name", medicine);
@@ -102,7 +98,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
     public void saveMedicine(Medicine medicine){
         userMedicines.put(medicine.getName(), medicine);
         if (medicine.getWeeklySchedule()[today.getDay()] != 0) {
-            today.add(medicine.getName());
+            today.add(medicine.getName(), 0);
         }
         save();
     }
@@ -118,7 +114,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
     }
     public void undoTakeMedicine(String medicine){
         userMedicines.get(medicine).getDose().undoTakeDose();
-        today.add(medicine);
+        today.untake(medicine);
         save();
     }
     public Today getToday() {return today;}

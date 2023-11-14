@@ -1,6 +1,7 @@
 package app;
 
 import data_access.MedicineDAO;
+import data_access.MedicineDataAccessInterface;
 import entity.MedicineFactory;
 import entity.Today;
 import interface_adapter.MainViewModel;
@@ -32,14 +33,13 @@ public class Main {
         TableViewModel tableViewModel = new TableViewModel();
         ChecklistViewModel checklistViewModel = new ChecklistViewModel();
         LocalDate localDate = LocalDate.now();
-        MedicineDAO medicineDAO = getMedicineDAO(localDate);
+        MedicineDataAccessInterface medicineDAO = getMedicineDAO(localDate);
         SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel);
         MainView mainView = new MainView(switchViewController, mainViewModel);
         EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO);
         DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, medicineDAO);
-        // for ui testing
-        TableView tableView = new TableView(switchViewController, tableViewModel);
-        ChecklistView checklistView = new ChecklistView(switchViewController, new ChecklistController(), checklistViewModel);
+        TableView tableView = TableViewFactory.create(switchViewController, tableViewModel, medicineDAO);
+        ChecklistView checklistView = ChecklistUseCaseFactory.create(switchViewController, checklistViewModel, tableViewModel, medicineDAO);
         views.add(mainView, mainView.viewName);
         views.add(enterView, enterView.viewName);
         views.add(deleteView, deleteView.viewName);

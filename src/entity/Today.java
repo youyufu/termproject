@@ -4,12 +4,13 @@ import java.util.HashMap;
 
 public class Today {
 
-    private HashMap<String, Boolean> todayChecklist = new HashMap<>();
+    private HashMap<String, Integer> todayChecklist = new HashMap<>();
     private Integer day;
     public Today(Integer day) {this.day = day;}
-    public void add(String medicine){todayChecklist.put(medicine, Boolean.FALSE);}
-    public void take(String medicine){todayChecklist.put(medicine, Boolean.TRUE);}
+    public void add(String medicine, Integer taken) {todayChecklist.put(medicine, taken);}
+    public void take(String medicine){todayChecklist.put(medicine, todayChecklist.get(medicine) + 1);}
+    public void untake(String medicine) {todayChecklist.put(medicine, todayChecklist.get(medicine) - 1);}
     public void remove(String medicine){todayChecklist.remove(medicine);}
     public Integer getDay() {return this.day;}
-    public HashMap<String, Boolean> getTodayChecklist() {return todayChecklist;}
+    public HashMap<String, Integer> getTodayChecklist() {return todayChecklist;}
 }
