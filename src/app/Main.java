@@ -14,8 +14,8 @@ import interface_adapter.enterMedicine.EnterViewModel;
 import view.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -63,6 +63,11 @@ public class Main {
             case "FRIDAY" -> dayInt = 5;
             case "SATURDAY" -> dayInt = 6;
         }
-        return new MedicineDAO(new Today(dayInt, new HashMap<>()), new MedicineFactory());
+        try {
+            return new MedicineDAO("./medicine.json", new Today(dayInt), new MedicineFactory());
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+
     }
 }
