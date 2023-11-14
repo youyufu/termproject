@@ -8,10 +8,10 @@ import entity.Today;
 import java.io.*;
 import java.util.HashMap;
 
-import simple.JSONArray;
-import simple.JSONObject;
-import simple.parser.JSONParser;
-import simple.parser.ParseException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class MedicineDAO implements MedicineDataAccessInterface{
     private final File jsonFile;
