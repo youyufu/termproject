@@ -4,7 +4,8 @@ import data_access.MedicineDataAccessInterface;
 import entity.Medicine;
 import entity.Dose;
 import entity.MedicineFactory;
-
+import org.json.JSONObject;
+import org.json.JSONArray;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -38,7 +39,10 @@ public class EnterInteractor implements EnterInputBoundary {
             HttpResponse<String> response = null;
             try {
                 response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-                response.body();
+                JSONObject jsonResponse = new JSONObject(response.body());
+                JSONObject idGroup = (JSONObject) jsonResponse.get("idGroup");
+                JSONArray rxnormId = (JSONArray) idGroup.get("rxnormId");
+                String id = rxnormId.getString(0);
             } catch (IOException e) {
 
             } catch (InterruptedException e) {
@@ -54,7 +58,8 @@ public class EnterInteractor implements EnterInputBoundary {
                 Medicine medicine = medicineFactory.createMedicine(enterInputData.getMedicine(),
                         dose,
                         enterInputData.getDay(),
-                        enterInputData.getDescription());
+                        enterInputData.getDescription(),
+                        id);
                 medicineDataAccessObject.saveMedicine(medicine);
                 EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(),
                         medicine.getDoseString(),
