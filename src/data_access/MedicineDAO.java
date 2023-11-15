@@ -45,7 +45,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                     Integer fr = (Integer) med.get("fri");
                     Integer sa = (Integer) med.get("sat");
                     Integer[] weeklySchedule = {su, mo, tu, we, th, fr, sa};
-                    Medicine medicine = medicineFactory.createMedicine((String) med.get("name"), dose, weeklySchedule, (String) med.get("description"));
+                    Medicine medicine = medicineFactory.createMedicine((String) med.get("name"), dose, weeklySchedule, (String) med.get("description"), (String) med.get("id"));
                     userMedicines.put(medicine.getName(), medicine);
                 } if (today.get("dayInt") == this.today.getDay()) {
                     for (Object object1:todayArray) {
@@ -95,6 +95,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                 med.put("fri", medicine.getWeeklySchedule()[5]);
                 med.put("sat", medicine.getWeeklySchedule()[6]);
                 med.put("description", medicine.getDescription());
+                med.put("id", medicine.getId());
                 medArray.put(med);
             }
             file.put("today", today);
