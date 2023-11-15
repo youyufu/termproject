@@ -59,16 +59,16 @@ public class EnterInteractor implements EnterInputBoundary {
                     } else {
                         medicineDataAccessObject.saveMedicine(medicine);
                         EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(), medicine.getDoseString(),
-                            medicine.getInventoryString(),
-                            medicine.getWeeklySchedule()[0],
-                            medicine.getWeeklySchedule()[1],
-                            medicine.getWeeklySchedule()[2],
-                            medicine.getWeeklySchedule()[3],
-                            medicine.getWeeklySchedule()[4],
-                            medicine.getWeeklySchedule()[5],
-                            medicine.getWeeklySchedule()[6],
-                            medicine.getDescription(),
-                            medicine.getDose().getDosesRemaining());
+                                medicine.getInventoryString(),
+                                medicine.getWeeklySchedule()[0],
+                                medicine.getWeeklySchedule()[1],
+                                medicine.getWeeklySchedule()[2],
+                                medicine.getWeeklySchedule()[3],
+                                medicine.getWeeklySchedule()[4],
+                                medicine.getWeeklySchedule()[5],
+                                medicine.getWeeklySchedule()[6],
+                                medicine.getDescription(),
+                                medicine.getDose().getDosesRemaining());
                         enterPresenter.prepareSuccessView(enterOutputData);
                         Integer today = medicineDataAccessObject.getTodayDay();
                         for (int i = 0; i < Math.min(medicine.getWeeklySchedule()[today], medicine.getDose().getDosesRemaining()); i++) {
