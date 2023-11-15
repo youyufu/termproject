@@ -8,13 +8,15 @@ public class Medicine {
     private Integer[] weeklySchedule;
 
     private String description;
+    private String id;
 
 
-    public Medicine(String medicine, Dose doses, Integer[] weeklySchedule, String description) {
+    public Medicine(String medicine, Dose doses, Integer[] weeklySchedule, String description, String id) {
         this.name = medicine;
         this.doses = doses;
         this.weeklySchedule = weeklySchedule;
         this.description = description;
+        this.id = id;
     }
     public String getName() {return this.name;}
     public Integer[] getWeeklySchedule() {return this.weeklySchedule;}
@@ -22,4 +24,5 @@ public class Medicine {
     public String getInventoryString() {return String.valueOf(doses.getInventory()) + " " + doses.getUnit();}
     public String getDescription() {return this.description;}
     public Dose getDose() {return this.doses;}
+    public String getId() {return this.id;}
 }
