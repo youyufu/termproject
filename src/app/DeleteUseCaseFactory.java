@@ -1,6 +1,7 @@
 package app;
 
 import data_access.MedicineDAO;
+import data_access.MedicineDataAccessInterface;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.deleteMedicine.DeleteController;
@@ -14,11 +15,16 @@ import view.DeleteView;
 
 public class DeleteUseCaseFactory {
     private DeleteUseCaseFactory() {}
-    public static DeleteView create(SwitchViewController switchViewController, DeleteViewModel deleteViewModel, ChecklistViewModel checklistViewModel, TableViewModel tableViewModel, MedicineDAO medicineDAO) {
+    public static DeleteView create(SwitchViewController switchViewController, DeleteViewModel deleteViewModel,
+                                    ChecklistViewModel checklistViewModel, TableViewModel tableViewModel,
+                                    MedicineDataAccessInterface medicineDAO) {
         DeleteController deleteController = createDeleteUseCase(deleteViewModel, checklistViewModel, tableViewModel, medicineDAO);
         return new DeleteView(switchViewController, deleteController, deleteViewModel);
     }
-    public static DeleteController createDeleteUseCase(DeleteViewModel deleteViewModel, ChecklistViewModel checklistViewModel, TableViewModel tableViewModel, MedicineDAO medicineDAO) {
+    public static DeleteController createDeleteUseCase(DeleteViewModel deleteViewModel,
+                                                       ChecklistViewModel checklistViewModel,
+                                                       TableViewModel tableViewModel,
+                                                       MedicineDataAccessInterface medicineDAO) {
         DeleteOutputBoundary deletePresenter = new DeletePresenter(deleteViewModel, checklistViewModel, tableViewModel);
         DeleteInputBoundary deleteInteractor = new DeleteInteractor(medicineDAO, deletePresenter);
         return new DeleteController(deleteInteractor);

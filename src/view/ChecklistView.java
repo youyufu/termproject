@@ -62,6 +62,8 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
         }
         checklist.setLayout(new BoxLayout(checklist, BoxLayout.Y_AXIS));
         checklist.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lowStock.setLayout(new BoxLayout(lowStock, BoxLayout.Y_AXIS));
+        lowStock.setAlignmentX(CENTER_ALIGNMENT);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(header1);
         this.add(checklist);
@@ -102,8 +104,8 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
         for (String medicine: checklistMap.keySet()) {
             if (checklistMap.get(medicine) == source)
                 if (e.getStateChange() == ItemEvent.DESELECTED) {
-                    checklistController.execute(medicine, 1);
-                } else {checklistController.execute(medicine, -1);}
+                    checklistController.execute(medicine);
+                } else {checklistController.execute(medicine);}
         }
     }
 }
