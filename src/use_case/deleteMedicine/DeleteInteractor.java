@@ -1,6 +1,10 @@
 package use_case.deleteMedicine;
 
 import data_access.MedicineDataAccessInterface;
+import entity.Dose;
+import entity.Medicine;
+import entity.MedicineFactory;
+import use_case.enterMedicine.EnterOutputData;
 
 
 public class DeleteInteractor implements DeleteInputBoundary{
@@ -8,13 +12,24 @@ public class DeleteInteractor implements DeleteInputBoundary{
     final MedicineDataAccessInterface medicineDataAccessObject;
     final DeleteOutputBoundary deletePresenter;
 
-    public DeleteInteractor(MedicineDataAccessInterface medicineDataAccessObject, DeleteOutputBoundary deletePresenter) {
+    final MedicineFactory medicineFactory;
+
+    public DeleteInteractor(MedicineDataAccessInterface medicineDataAccessObject, DeleteOutputBoundary deletePresenter,
+    MedicineFactory medicineFactory) {
         this.medicineDataAccessObject = medicineDataAccessObject;
         this.deletePresenter = deletePresenter;
+        this.medicineFactory = medicineFactory;
     }
     @Override
     public void execute(DeleteInputData input) {
+        String name = input.getMedicineName();
+        if (!medicineDataAccessObject.exists(name)) {
         DeleteOutputData deleteOutputData = new DeleteOutputData(input.getMedicineName());
         deletePresenter.prepareSuccessView(deleteOutputData);
     }
+        else{ medicineDataAccessObject.removeMedicine(name);
+            DeleteOutputData deleteOutputData = new DeleteOutputData(name);
+            deletePresenter.prepareSuccessView(deleteOutputData);
+            deletePresenter.updateChecklistState(deleteOutputData);}
+            }
 }
