@@ -24,7 +24,6 @@ public class DeleteInteractor implements DeleteInputBoundary{
         DeleteOutputData deleteOutputData = new DeleteOutputData(input.getMedicineName());
         deletePresenter.prepareSuccessView(deleteOutputData);
         deletePresenter.updateChecklistState(deleteOutputData);
-        deletePresenter.(deleteOutputData)
     }
         else{ medicineDataAccessObject.removeMedicine(name);
             DeleteOutputData deleteOutputData = new DeleteOutputData(name);
