@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.checklistChecked.ChecklistController;
+import interface_adapter.checklistChecked.ChecklistState;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.switchView.SwitchViewController;
 
@@ -95,6 +96,16 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
             String medication = (String) evt.getNewValue();
             lowStock.remove(lowMap.get(medication));
             lowMap.remove(medication);
+        } else if (evt.getPropertyName().equals("showRestock")) {
+            ChecklistState checklistState = (ChecklistState) evt.getNewValue();
+            ArrayList<String> restock = checklistState.getRestock();
+            if (!restock.isEmpty()) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (String medicine:restock) {
+                stringBuilder.append(medicine).append("\n");
+            } String s = stringBuilder.toString();
+            JOptionPane.showMessageDialog(this, s);
+            }
         }
     }
 
