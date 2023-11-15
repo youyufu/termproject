@@ -131,7 +131,18 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         today.untake(medicine);
         save();
     }
-    public Today getToday() {return today;}
 
+    @Override
+    public String getIdListString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Medicine medicine:userMedicines.values()) {
+            stringBuilder.append(medicine.getId()).append("+");
+        } stringBuilder.deleteCharAt(stringBuilder.length());
+        return stringBuilder.toString();
+    }
+
+    public Integer getTodayDay() {return today.getDay();}
+    @Override
+    public HashMap<String, Integer> getTodayChecklist() {return today.getTodayChecklist();}
     public HashMap<String, Medicine> getUserMedicines() {return userMedicines;}
 }

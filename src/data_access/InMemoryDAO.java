@@ -35,9 +35,12 @@ public class InMemoryDAO implements MedicineDataAccessInterface {
     }
 
     @Override
-    public Today getToday() {
-        return today;
+    public Integer getTodayDay() {
+        return today.getDay();
     }
+
+    @Override
+    public HashMap<String, Integer> getTodayChecklist() {return today.getTodayChecklist();}
 
     @Override
     public HashMap<String, Medicine> getUserMedicines() {
@@ -54,5 +57,14 @@ public class InMemoryDAO implements MedicineDataAccessInterface {
     public void undoTakeMedicine(String medicine) {
         userMedicine.get(medicine).getDose().undoTakeDose();
         today.untake(medicine);
+    }
+
+    @Override
+    public String getIdListString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Medicine medicine:userMedicine.values()) {
+            stringBuilder.append(medicine.getId()).append("+");
+        } stringBuilder.deleteCharAt(stringBuilder.length());
+        return stringBuilder.toString();
     }
 }

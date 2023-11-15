@@ -28,10 +28,10 @@ public class ChecklistUseCaseFactory {
                 checklistViewModel.firePropertyChangedAddLow(checklistData);
             }
         } checklistViewModel.firePropertyChanged();
-        HashMap<String, Integer> todayChecklist = medicineDAO.getToday().getTodayChecklist();
+        HashMap<String, Integer> todayChecklist = medicineDAO.getTodayChecklist();
         for (String medicine:todayChecklist.keySet()) {
             String[] checklistData = new String[]{medicine, userMedicines.get(medicine).getDoseString()};
-            for (int i = 0; i < Math.min(userMedicines.get(medicine).getWeeklySchedule()[medicineDAO.getToday().getDay()]
+            for (int i = 0; i < Math.min(userMedicines.get(medicine).getWeeklySchedule()[medicineDAO.getTodayDay()]
                             - todayChecklist.get(medicine), userMedicines.get(medicine).getDose().getDosesRemaining()); i++) {
                 checklistState.addTakeToday(checklistData);
                 checklistViewModel.firePropertyChangedAddTake(checklistData);

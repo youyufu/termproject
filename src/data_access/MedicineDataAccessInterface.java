@@ -9,8 +9,10 @@ public interface MedicineDataAccessInterface {
     boolean exists(String name);
     void saveMedicine(Medicine medicine);
     void removeMedicine(String medicine);
-    Today getToday();
+    Integer getTodayDay();
+    HashMap<String, Integer> getTodayChecklist();
     HashMap<String, Medicine> getUserMedicines();
     void takeMedicine(String medicine);
     void undoTakeMedicine(String medicine);
+    String getIdListString();
 }
