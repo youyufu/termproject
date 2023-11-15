@@ -6,12 +6,12 @@ import entity.MedicineFactory;
 import entity.Today;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MedicineDAO implements MedicineDataAccessInterface{
     private final File jsonFile;
@@ -26,37 +26,26 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         if (jsonFile.length() == 0) {
             save();
         } else {
-            JSONParser jsonParser= new JSONParser();
             try {
-                FileReader fileReader = new FileReader(jsonFile);
-                Object object = jsonParser.parse(fileReader);
-                JSONArray jsonArray = (JSONArray) object;
-                JSONObject today = (JSONObject) jsonArray.get(0);
+                String content = new String(Files.readAllBytes(Paths.get(jsonFile.toURI())));
+                JSONObject file = new JSONObject(content);
+                JSONObject today = (JSONObject) file.get("today");
                 JSONArray todayArray = (JSONArray) today.get("todayArray") ;
-                JSONArray medArray = (JSONArray) jsonArray.get(1);
+                JSONArray medArray = (JSONArray) file.get("medicines");
                 for (Object object1:medArray) {
                     JSONObject med = (JSONObject) object1;
-                    Long doseSize = (Long) med.get("doseSize");
-                    Integer dS = doseSize.intValue();
-                    Long doseInventory = (Long) med.get("doseInventory");
-                    Integer dI = doseInventory.intValue();
+                    Integer dS = (Integer) med.get("doseSize");
+                    Integer dI = (Integer) med.get("doseInventory");
                     Dose dose = medicineFactory.createDose(dS, dI, (String) med.get("doseUnit"));
-                    Long sun = (Long) med.get("sun");
-                    Integer su = sun.intValue();
-                    Long mon = (Long) med.get("mon");
-                    Integer mo = mon.intValue();
-                    Long tue = (Long) med.get("tue");
-                    Integer tu = tue.intValue();
-                    Long wed = (Long) med.get("wed");
-                    Integer we = wed.intValue();
-                    Long thu = (Long) med.get("thu");
-                    Integer th = thu.intValue();
-                    Long fri = (Long) med.get("fri");
-                    Integer fr = fri.intValue();
-                    Long sat = (Long) med.get("sat");
-                    Integer sa = sat.intValue();
+                    Integer su = (Integer) med.get("sun");
+                    Integer mo = (Integer) med.get("mon");
+                    Integer tu = (Integer) med.get("tue");
+                    Integer we = (Integer) med.get("wed");
+                    Integer th = (Integer) med.get("thu");
+                    Integer fr = (Integer) med.get("fri");
+                    Integer sa = (Integer) med.get("sat");
                     Integer[] weeklySchedule = {su, mo, tu, we, th, fr, sa};
-                    Medicine medicine = medicineFactory.createMedicine((String) med.get("name"), dose, weeklySchedule, (String) med.get("description"));
+                    Medicine medicine = medicineFactory.createMedicine((String) med.get("name"), dose, weeklySchedule, (String) med.get("description"), (String) med.get("id"));
                     userMedicines.put(medicine.getName(), medicine);
                 } if (today.get("dayInt") == this.today.getDay()) {
                     for (Object object1:todayArray) {
@@ -72,15 +61,14 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                         }
                     }
                 }
-            } catch (ParseException e) {
+            } catch (IOException e) {
                 throw new IOException();
             }
         }
     }
     private void save() {
         try (FileWriter fileWriter = new FileWriter(jsonFile)) {
-            JSONArray dataArray = new JSONArray();
-
+            JSONObject file = new JSONObject();
             JSONObject today = new JSONObject();
             today.put("dayInt", String.valueOf(this.today.getDay()));
             JSONArray dayArray = new JSONArray();
@@ -89,8 +77,8 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                 JSONObject med = new JSONObject();
                 med.put("name", medicine);
                 med.put("taken", todayChecklist.get(medicine));
-                dayArray.add(med);
-            } today.put("dayArray", dayArray);
+                dayArray.put(med);
+            } today.put("todayArray", dayArray);
 
             JSONArray medArray = new JSONArray();
             for (Medicine medicine:userMedicines.values()) {
@@ -107,12 +95,12 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                 med.put("fri", medicine.getWeeklySchedule()[5]);
                 med.put("sat", medicine.getWeeklySchedule()[6]);
                 med.put("description", medicine.getDescription());
-                medArray.add(med);
+                med.put("id", medicine.getId());
+                medArray.put(med);
             }
-
-            dataArray.add(today);
-            dataArray.add(medArray);
-            fileWriter.write(dataArray.toJSONString());
+            file.put("today", today);
+            file.put("medicines", medArray);
+            fileWriter.write(file.toString());
             fileWriter.flush();
         } catch (IOException e) {
             throw new RuntimeException();
@@ -143,7 +131,18 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         today.untake(medicine);
         save();
     }
-    public Today getToday() {return today;}
 
+    @Override
+    public String getIdListString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Medicine medicine:userMedicines.values()) {
+            stringBuilder.append(medicine.getId()).append("+");
+        } stringBuilder.deleteCharAt(stringBuilder.length());
+        return stringBuilder.toString();
+    }
+
+    public Integer getTodayDay() {return today.getDay();}
+    @Override
+    public HashMap<String, Integer> getTodayChecklist() {return today.getTodayChecklist();}
     public HashMap<String, Medicine> getUserMedicines() {return userMedicines;}
 }

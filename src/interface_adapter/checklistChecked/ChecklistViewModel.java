@@ -19,11 +19,10 @@ public class ChecklistViewModel extends ViewModel {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     @Override
-    public void firePropertyChanged() {}
+    public void firePropertyChanged() {support.firePropertyChange("showRestock", null, checklistState);}
 
     @Override
     public void firePropertyChanged(String[] item) {}
-
     public void firePropertyChangedAddTake(String[] item) {support.firePropertyChange("addTake", checklistState, item);}
     public void firePropertyChangedRemoveTake(String item) {support.firePropertyChange("removeTake", checklistState, item);}
     public void firePropertyChangedAddLow(String[] item) {support.firePropertyChange("addLow", checklistState, item);}
