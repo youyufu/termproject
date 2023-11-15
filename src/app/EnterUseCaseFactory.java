@@ -1,6 +1,7 @@
 package app;
 
 import data_access.MedicineDAO;
+import data_access.MedicineDataAccessInterface;
 import entity.MedicineFactory;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
@@ -17,12 +18,12 @@ public class EnterUseCaseFactory {
     private EnterUseCaseFactory(){}
     public static EnterView create(SwitchViewController switchViewController, EnterViewModel enterViewModel,
                                    ChecklistViewModel checklistViewModel, TableViewModel tableViewModel,
-                                   MedicineDAO medicineDAO){
+                                   MedicineDataAccessInterface medicineDAO){
         EnterController enterController = createEnterUseCase(enterViewModel, checklistViewModel, tableViewModel, medicineDAO);
         return new EnterView(switchViewController, enterController, enterViewModel);
     }
     public static EnterController createEnterUseCase(EnterViewModel enterViewModel, ChecklistViewModel checklistViewModel,
-                                                     TableViewModel tableViewModel, MedicineDAO medicineDAO) {
+                                                     TableViewModel tableViewModel, MedicineDataAccessInterface medicineDAO) {
         EnterOutputBoundary enterPresenter = new EnterPresenter(enterViewModel, checklistViewModel, tableViewModel);
         MedicineFactory medicineFactory = new MedicineFactory();
         EnterInputBoundary enterInteractor = new EnterInteractor(medicineDAO, enterPresenter, medicineFactory);
