@@ -1,10 +1,7 @@
 package use_case.deleteMedicine;
 
 import data_access.MedicineDataAccessInterface;
-import entity.Dose;
-import entity.Medicine;
 import entity.MedicineFactory;
-import use_case.enterMedicine.EnterOutputData;
 
 
 public class DeleteInteractor implements DeleteInputBoundary{
@@ -26,6 +23,8 @@ public class DeleteInteractor implements DeleteInputBoundary{
         if (!medicineDataAccessObject.exists(name)) {
         DeleteOutputData deleteOutputData = new DeleteOutputData(input.getMedicineName());
         deletePresenter.prepareSuccessView(deleteOutputData);
+        deletePresenter.updateChecklistState(deleteOutputData);
+        deletePresenter.(deleteOutputData)
     }
         else{ medicineDataAccessObject.removeMedicine(name);
             DeleteOutputData deleteOutputData = new DeleteOutputData(name);
