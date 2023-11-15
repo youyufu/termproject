@@ -27,7 +27,8 @@ public class MedicineDAO implements MedicineDataAccessInterface{
             save();
         } else {
             JSONParser jsonParser= new JSONParser();
-            try (FileReader fileReader = new FileReader(jsonFile)) {
+            try {
+                FileReader fileReader = new FileReader(jsonFile);
                 Object object = jsonParser.parse(fileReader);
                 JSONArray jsonArray = (JSONArray) object;
                 JSONObject today = (JSONObject) jsonArray.get(0);
@@ -35,23 +36,42 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                 JSONArray medArray = (JSONArray) jsonArray.get(1);
                 for (Object object1:medArray) {
                     JSONObject med = (JSONObject) object1;
-                    Dose dose = medicineFactory.createDose((Integer) med.get("doseSize"), (Integer) med.get("doseInventory"), (String) med.get("doseUnit"));
-                    Medicine medicine = medicineFactory.createMedicine((String) med.get("name"), dose, (Integer[]) med.get("weeklySchedule"), (String) med.get("description"));
+                    Long doseSize = (Long) med.get("doseSize");
+                    Integer dS = doseSize.intValue();
+                    Long doseInventory = (Long) med.get("doseInventory");
+                    Integer dI = doseInventory.intValue();
+                    Dose dose = medicineFactory.createDose(dS, dI, (String) med.get("doseUnit"));
+                    Long sun = (Long) med.get("sun");
+                    Integer su = sun.intValue();
+                    Long mon = (Long) med.get("mon");
+                    Integer mo = mon.intValue();
+                    Long tue = (Long) med.get("tue");
+                    Integer tu = tue.intValue();
+                    Long wed = (Long) med.get("wed");
+                    Integer we = wed.intValue();
+                    Long thu = (Long) med.get("thu");
+                    Integer th = thu.intValue();
+                    Long fri = (Long) med.get("fri");
+                    Integer fr = fri.intValue();
+                    Long sat = (Long) med.get("sat");
+                    Integer sa = sat.intValue();
+                    Integer[] weeklySchedule = {su, mo, tu, we, th, fr, sa};
+                    Medicine medicine = medicineFactory.createMedicine((String) med.get("name"), dose, weeklySchedule, (String) med.get("description"));
                     userMedicines.put(medicine.getName(), medicine);
                 } if (today.get("dayInt") == this.today.getDay()) {
                     for (Object object1:todayArray) {
                         JSONObject med = (JSONObject) object1;
-                        this.today.add((String) med.get("name"), (Integer) med.get("taken"));
+                        Long taken = (Long) med.get("taken");
+                        Integer t = taken.intValue();
+                        this.today.add((String) med.get("name"), t);
                     }
                 } else {
                     for (Medicine medicine:userMedicines.values()) {
-                        if (medicine.getWeeklySchedule()[(int) today.get("dayInt")] != 0) {
+                        if (medicine.getWeeklySchedule()[this.today.getDay()] != 0) {
                             this.today.add(medicine.getName(), 0);
                         }
                     }
                 }
-
-
             } catch (ParseException e) {
                 throw new IOException();
             }
@@ -79,7 +99,13 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                 med.put("doseSize", medicine.getDose().getSize());
                 med.put("doseInventory", medicine.getDose().getInventory());
                 med.put("doseUnit", medicine.getDose().getUnit());
-                med.put("weeklySchedule", medicine.getWeeklySchedule());
+                med.put("sun", medicine.getWeeklySchedule()[0]);
+                med.put("mon", medicine.getWeeklySchedule()[1]);
+                med.put("tue", medicine.getWeeklySchedule()[2]);
+                med.put("wed", medicine.getWeeklySchedule()[3]);
+                med.put("thu", medicine.getWeeklySchedule()[4]);
+                med.put("fri", medicine.getWeeklySchedule()[5]);
+                med.put("sat", medicine.getWeeklySchedule()[6]);
                 med.put("description", medicine.getDescription());
                 medArray.add(med);
             }

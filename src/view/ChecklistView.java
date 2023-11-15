@@ -62,6 +62,8 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
         }
         checklist.setLayout(new BoxLayout(checklist, BoxLayout.Y_AXIS));
         checklist.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lowStock.setLayout(new BoxLayout(lowStock, BoxLayout.Y_AXIS));
+        lowStock.setAlignmentX(CENTER_ALIGNMENT);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(header1);
         this.add(checklist);
