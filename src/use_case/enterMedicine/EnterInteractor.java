@@ -54,9 +54,11 @@ public class EnterInteractor implements EnterInputBoundary {
                             dose,
                             enterInputData.getDay(),
                             enterInputData.getDescription(), id);
-                    medicineDataAccessObject.saveMedicine(medicine);
-                    EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(),
-                            medicine.getDoseString(),
+                    if (medicine.getDose().getDosesRemaining() == 0) {
+                        enterPresenter.prepareFailView("Cannot enter medicine with 0 doses remaining.");
+                    } else {
+                        medicineDataAccessObject.saveMedicine(medicine);
+                        EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(), medicine.getDoseString(),
                             medicine.getInventoryString(),
                             medicine.getWeeklySchedule()[0],
                             medicine.getWeeklySchedule()[1],
@@ -67,13 +69,14 @@ public class EnterInteractor implements EnterInputBoundary {
                             medicine.getWeeklySchedule()[6],
                             medicine.getDescription(),
                             medicine.getDose().getDosesRemaining());
-                    enterPresenter.prepareSuccessView(enterOutputData);
-                    Integer today = medicineDataAccessObject.getToday().getDay();
-                    for (int i = 0; i < medicine.getWeeklySchedule()[today]; i++) {
-                        enterPresenter.updateChecklistView(enterOutputData);
-                    }
-                    if (medicine.getDose().getDosesRemaining() < 14) {
-                        enterPresenter.updateLowView(enterOutputData);
+                        enterPresenter.prepareSuccessView(enterOutputData);
+                        Integer today = medicineDataAccessObject.getTodayDay();
+                        for (int i = 0; i < Math.min(medicine.getWeeklySchedule()[today], medicine.getDose().getDosesRemaining()); i++) {
+                            enterPresenter.updateChecklistView(enterOutputData);
+                        }
+                        if (medicine.getDose().getDosesRemaining() < 14) {
+                            enterPresenter.updateLowView(enterOutputData);
+                        }
                     }
                 }
             } catch (IOException e) {
