@@ -1,21 +1,21 @@
 package app;
 
 import data_access.MedicineDAO;
+import data_access.MedicineDataAccessInterface;
 import entity.MedicineFactory;
 import entity.Today;
 import interface_adapter.MainViewModel;
 import interface_adapter.switchView.SwitchViewController;
 import interface_adapter.TableViewModel;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.checklistChecked.ChecklistController;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.deleteMedicine.DeleteViewModel;
 import interface_adapter.enterMedicine.EnterViewModel;
 import view.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,14 +32,13 @@ public class Main {
         TableViewModel tableViewModel = new TableViewModel();
         ChecklistViewModel checklistViewModel = new ChecklistViewModel();
         LocalDate localDate = LocalDate.now();
-        MedicineDAO medicineDAO = getMedicineDAO(localDate);
+        MedicineDataAccessInterface medicineDAO = getMedicineDAO(localDate);
         SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel);
         MainView mainView = new MainView(switchViewController, mainViewModel);
         EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO);
         DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, medicineDAO);
-        // for ui testing
-        TableView tableView = new TableView(switchViewController, tableViewModel);
-        ChecklistView checklistView = new ChecklistView(switchViewController, new ChecklistController(), checklistViewModel);
+        TableView tableView = TableViewFactory.create(switchViewController, tableViewModel, medicineDAO);
+        ChecklistView checklistView = ChecklistUseCaseFactory.create(switchViewController, checklistViewModel, tableViewModel, medicineDAO);
         views.add(mainView, mainView.viewName);
         views.add(enterView, enterView.viewName);
         views.add(deleteView, deleteView.viewName);
@@ -63,6 +62,11 @@ public class Main {
             case "FRIDAY" -> dayInt = 5;
             case "SATURDAY" -> dayInt = 6;
         }
-        return new MedicineDAO(new Today(dayInt, new HashMap<>()), new MedicineFactory());
+        try {
+            return new MedicineDAO("./medicine.json", new Today(dayInt), new MedicineFactory());
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+
     }
 }

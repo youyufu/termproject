@@ -19,4 +19,5 @@ public class Dose {
     public Integer getInventory() {return this.inventory;}
     public Integer getDosesRemaining(){return inventory / size;}
     public void takeDose(){this.inventory -= this.size;}
+    public void undoTakeDose(){this.inventory += this.size;}
 }
