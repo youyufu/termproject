@@ -6,10 +6,12 @@ public class ChecklistState {
     private ArrayList<String[]> takeToday = new ArrayList<>();
     // takeToday stored in string array of {medicineName, doseString}
     private ArrayList<String[]> low = new ArrayList<>();
+    private ArrayList<String> restock = new ArrayList<>();
     // low stored in string array of {medicineName, doseRemaining}
     public ChecklistState(ChecklistState copy) {
         this.takeToday = copy.takeToday;
         this.low = copy.low;
+        this.restock = copy.restock;
     }
     public ChecklistState() {}
     public ArrayList<String[]> getTakeToday() {return this.takeToday;}
@@ -29,4 +31,8 @@ public class ChecklistState {
             i++;
         } low.remove(i);
     }
+
+    public ArrayList<String> getRestock() {return restock;}
+    public void addRestock(String medicine) {this.restock.add(medicine);}
+    public void removeRestock(String medicine) {this.restock.remove(medicine);}
 }
