@@ -6,6 +6,8 @@ import interface_adapter.enterMedicine.EnterState;
 import interface_adapter.enterMedicine.EnterViewModel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,22 +20,38 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
     public final String viewName = "enter";
     private final EnterViewModel enterViewModel;
     private final JTextField medicineNameInputField = new JTextField(50);
-    private final JTextField doseSizeInputField = new JTextField(4);
-    private final JTextField doseUnitInputField = new JTextField(10);
-    private final JTextField doseInventoryInputField = new JTextField(5);
-    private final JTextField sundayInputField = new JTextField(2);
-    private final JTextField mondayInputField = new JTextField(2);
-    private final JTextField tuesdayInputField = new JTextField(2);
-    private final JTextField wednesdayInputField = new JTextField(2);
-    private final JTextField thursdayInputField = new JTextField(2);
-    private final JTextField fridayInputField = new JTextField(2);
-    private final JTextField saturdayInputField = new JTextField(2);
-    private final JTextField descriptionInputField = new JTextField(75);
+    private final JTextField doseUnitInputField = new JTextField(8);
+    private final JTextField descriptionInputField = new JTextField(50);
     private final SwitchViewController switchViewController;
     private final EnterController enterController;
     private final JButton back;
     private final JButton enter;
 
+    static JSpinner addLabeledSpinner(Container c, String label, int columns) {
+        SpinnerNumberModel model = new SpinnerNumberModel(0, 0, null, 1);
+        JLabel l = new JLabel(label);
+        c.add(l);
+        JSpinner spinner = new JSpinner(model);
+        l.setLabelFor(spinner);
+        c.add(spinner);
+        JFormattedTextField ftf = getTextField(spinner);
+        if (ftf != null) {
+            ftf.setColumns(columns);
+            ftf.setHorizontalAlignment(JTextField.RIGHT);
+        }
+        return spinner;
+    }
+    static JFormattedTextField getTextField(JSpinner spinner) {
+        JComponent editor = spinner.getEditor();
+        if (editor instanceof JSpinner.DefaultEditor) {
+            return ((JSpinner.DefaultEditor)editor).getTextField();
+        } else {
+            System.err.println("Unexpected editor type: "
+                    + spinner.getEditor().getClass()
+                    + " isn't a descendant of DefaultEditor");
+            return null;
+        }
+    }
     public EnterView(SwitchViewController switchViewController1, EnterController enterController1, EnterViewModel enterViewModel1) {
         switchViewController = switchViewController1;
         enterController = enterController1;
@@ -44,18 +62,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         header.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         LabelTextPanel medicineName = new LabelTextPanel(new JLabel(EnterViewModel.MEDICINE_NAME_LABEL), medicineNameInputField);
-        LabelTextPanel doseSize = new LabelTextPanel(new JLabel(EnterViewModel.DOSE_SIZE_LABEL), doseSizeInputField);
         LabelTextPanel doseUnit = new LabelTextPanel(new JLabel(EnterViewModel.DOSE_UNIT_LABEL), doseUnitInputField);
-        LabelTextPanel doseInventory = new LabelTextPanel(new JLabel(EnterViewModel.DOSE_INVENTORY_LABEL), doseInventoryInputField);
         JLabel days = new JLabel(EnterViewModel.DAYS_LABEL);
         days.setAlignmentX(Component.CENTER_ALIGNMENT);
-        LabelTextPanel sunday = new LabelTextPanel(new JLabel(EnterViewModel.SUNDAY_LABEL), sundayInputField);
-        LabelTextPanel monday = new LabelTextPanel(new JLabel(EnterViewModel.MONDAY_LABEL), mondayInputField);
-        LabelTextPanel tuesday = new LabelTextPanel(new JLabel(EnterViewModel.TUESDAY_LABEL), tuesdayInputField);
-        LabelTextPanel wednesday = new LabelTextPanel(new JLabel(EnterViewModel.WEDNESDAY_LABEL), wednesdayInputField);
-        LabelTextPanel thursday = new LabelTextPanel(new JLabel(EnterViewModel.THURSDAY_LABEL), thursdayInputField);
-        LabelTextPanel friday = new LabelTextPanel(new JLabel(EnterViewModel.FRIDAY_LABEL), fridayInputField);
-        LabelTextPanel saturday = new LabelTextPanel(new JLabel(EnterViewModel.SATURDAY_LABEL), saturdayInputField);
         LabelTextPanel description = new LabelTextPanel(new JLabel(EnterViewModel.DESCRIPTION_LABEL), descriptionInputField);
 
         JPanel buttons = new JPanel();
@@ -84,13 +93,13 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                                     currentState.getDoseSize(),
                                     currentState.getDoseUnit(),
                                     currentState.getDoseInventory(),
-                                    new Integer[]{Integer.parseInt(currentState.getSundayDoses()),
-                                            Integer.parseInt(currentState.getMondayDoses()),
-                                            Integer.parseInt(currentState.getTuesdayDoses()),
-                                            Integer.parseInt(currentState.getWednesdayDoses()),
-                                            Integer.parseInt(currentState.getThursdayDoses()),
-                                            Integer.parseInt(currentState.getFridayDoses()),
-                                            Integer.parseInt(currentState.getSaturdayDoses())},
+                                    new Integer[]{currentState.getSundayDoses(),
+                                            currentState.getMondayDoses(),
+                                            currentState.getTuesdayDoses(),
+                                            currentState.getWednesdayDoses(),
+                                            currentState.getThursdayDoses(),
+                                            currentState.getFridayDoses(),
+                                            currentState.getSaturdayDoses()},
                                     currentState.getDescription()
                             );
                         }
@@ -118,27 +127,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 }
         );
-        doseSizeInputField.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        EnterState currentState = enterViewModel.getState();
-                        String text = doseSizeInputField.getText() + e.getKeyChar();
-                        currentState.setDoseSize(text);
-                        enterViewModel.setState(currentState);
-                    }
 
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
         doseUnitInputField.addKeyListener(
                 new KeyListener() {
                     @Override
@@ -146,174 +135,6 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                         EnterState currentState = enterViewModel.getState();
                         String text = doseUnitInputField.getText() + e.getKeyChar();
                         currentState.setDoseUnit(text);
-                        enterViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-        doseInventoryInputField.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        EnterState currentState = enterViewModel.getState();
-                        String text = doseInventoryInputField.getText() + e.getKeyChar();
-                        currentState.setDoseInventory(text);
-                        enterViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-        sundayInputField.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        EnterState currentState = enterViewModel.getState();
-                        String text = sundayInputField.getText() + e.getKeyChar();
-                        currentState.setSundayDoses(text);
-                        enterViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-        mondayInputField.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        EnterState currentState = enterViewModel.getState();
-                        String text = mondayInputField.getText() + e.getKeyChar();
-                        currentState.setMondayDoses(text);
-                        enterViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-        tuesdayInputField.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        EnterState currentState = enterViewModel.getState();
-                        String text = tuesdayInputField.getText() + e.getKeyChar();
-                        currentState.setTuesdayDoses(text);
-                        enterViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-        wednesdayInputField.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        EnterState currentState = enterViewModel.getState();
-                        String text = wednesdayInputField.getText() + e.getKeyChar();
-                        currentState.setWednesdayDoses(text);
-                        enterViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-        thursdayInputField.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        EnterState currentState = enterViewModel.getState();
-                        String text = thursdayInputField.getText() + e.getKeyChar();
-                        currentState.setThursdayDoses(text);
-                        enterViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-        fridayInputField.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        EnterState currentState = enterViewModel.getState();
-                        String text = fridayInputField.getText() + e.getKeyChar();
-                        currentState.setFridayDoses(text);
-                        enterViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-        saturdayInputField.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        EnterState currentState = enterViewModel.getState();
-                        String text = saturdayInputField.getText() + e.getKeyChar();
-                        currentState.setSaturdayDoses(text);
                         enterViewModel.setState(currentState);
                     }
 
@@ -352,17 +173,107 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(header);
         this.add(medicineName);
-        this.add(doseSize);
+        JPanel doseSizePanel = new JPanel();
+        JSpinner doseSize = addLabeledSpinner(doseSizePanel, EnterViewModel.DOSE_SIZE_LABEL, 3);
+        doseSize.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                EnterState currentState = enterViewModel.getState();
+                Integer currentInt = (Integer) doseSize.getModel().getValue();
+                currentState.setDoseSize(currentInt);
+            }
+        });
+        this.add(doseSizePanel);
         this.add(doseUnit);
-        this.add(doseInventory);
+        JPanel doseInventoryPanel = new JPanel();
+        JSpinner doseInventory = addLabeledSpinner(doseInventoryPanel, EnterViewModel.DOSE_INVENTORY_LABEL, 5);
+        doseInventory.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                EnterState currentState = enterViewModel.getState();
+                Integer currentInt = (Integer) doseInventory.getModel().getValue();
+                currentState.setDoseInventory(currentInt);
+            }
+        });
+        this.add(doseInventoryPanel);
         this.add(days);
-        this.add(sunday);
-        this.add(monday);
-        this.add(tuesday);
-        this.add(wednesday);
-        this.add(thursday);
-        this.add(friday);
-        this.add(saturday);
+        JPanel sundayPanel = new JPanel();
+        JSpinner sunday = addLabeledSpinner(sundayPanel, EnterViewModel.SUNDAY_LABEL, 2);
+        sunday.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                EnterState currentState = enterViewModel.getState();
+                Integer currentInt = (Integer) sunday.getModel().getValue();
+                currentState.setSundayDoses(currentInt);
+            }
+        });
+        this.add(sundayPanel);
+        JPanel mondayPanel = new JPanel();
+        JSpinner monday = addLabeledSpinner(mondayPanel, EnterViewModel.MONDAY_LABEL, 2);
+        monday.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                EnterState currentState = enterViewModel.getState();
+                Integer currentInt = (Integer) monday.getModel().getValue();
+                currentState.setMondayDoses(currentInt);
+            }
+        });
+        this.add(mondayPanel);
+        JPanel tuesdayPanel = new JPanel();
+        JSpinner tuesday = addLabeledSpinner(tuesdayPanel, EnterViewModel.TUESDAY_LABEL, 2);
+        tuesday.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                EnterState currentState = enterViewModel.getState();
+                Integer currentInt = (Integer) tuesday.getModel().getValue();
+                currentState.setTuesdayDoses(currentInt);
+            }
+        });
+        this.add(tuesdayPanel);
+        JPanel wednesdayPanel = new JPanel();
+        JSpinner wednesday = addLabeledSpinner(wednesdayPanel, EnterViewModel.WEDNESDAY_LABEL, 2);
+        wednesday.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                EnterState currentState = enterViewModel.getState();
+                Integer currentInt = (Integer) wednesday.getModel().getValue();
+                currentState.setWednesdayDoses(currentInt);
+            }
+        });
+        this.add(wednesdayPanel);
+        JPanel thursdayPanel = new JPanel();
+        JSpinner thursday = addLabeledSpinner(thursdayPanel, EnterViewModel.THURSDAY_LABEL, 2);
+        thursday.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                EnterState currentState = enterViewModel.getState();
+                Integer currentInt = (Integer) thursday.getModel().getValue();
+                currentState.setThursdayDoses(currentInt);
+            }
+        });
+        this.add(thursdayPanel);
+        JPanel fridayPanel = new JPanel();
+        JSpinner friday = addLabeledSpinner(fridayPanel, EnterViewModel.FRIDAY_LABEL, 2);
+        friday.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                EnterState currentState = enterViewModel.getState();
+                Integer currentInt = (Integer) friday.getModel().getValue();
+                currentState.setFridayDoses(currentInt);
+            }
+        });
+        this.add(fridayPanel);
+        JPanel saturdayPanel = new JPanel();
+        JSpinner saturday = addLabeledSpinner(saturdayPanel, EnterViewModel.SATURDAY_LABEL, 2);
+        saturday.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                EnterState currentState = enterViewModel.getState();
+                Integer currentInt = (Integer) saturday.getModel().getValue();
+                currentState.setSaturdayDoses(currentInt);
+            }
+        });
+        this.add(saturdayPanel);
         this.add(description);
         this.add(buttons);
     }

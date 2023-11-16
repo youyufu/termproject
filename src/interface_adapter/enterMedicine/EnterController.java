@@ -10,7 +10,7 @@ public class EnterController {
     public EnterController(EnterInputBoundary enterInputBoundary1) {
         this.enterInputBoundary = enterInputBoundary1;
     }
-    public void execute(String medicineName, String doseSize, String doseUnit, String doseInventory,
+    public void execute(String medicineName, Integer doseSize, String doseUnit, Integer doseInventory,
             Integer[] day, String description)
         {EnterInputData enterInputData = new EnterInputData(medicineName, doseSize, doseUnit,
             doseInventory, day, description);
