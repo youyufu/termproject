@@ -25,10 +25,9 @@ public class DeleteUseCaseFactory {
     public static DeleteController createDeleteUseCase(DeleteViewModel deleteViewModel,
                                                        ChecklistViewModel checklistViewModel,
                                                        TableViewModel tableViewModel,
-                                                       MedicineDataAccessInterface medicineDAO,
-                                                       MedicineFactory medicineFactory) {
+                                                       MedicineDataAccessInterface medicineDAO) {
         DeleteOutputBoundary deletePresenter = new DeletePresenter(deleteViewModel, checklistViewModel, tableViewModel);
-        DeleteInputBoundary deleteInteractor = new DeleteInteractor(medicineDAO, deletePresenter, medicineFactory);
+        DeleteInputBoundary deleteInteractor = new DeleteInteractor(medicineDAO, deletePresenter);
         return new DeleteController(deleteInteractor);
 
     }
