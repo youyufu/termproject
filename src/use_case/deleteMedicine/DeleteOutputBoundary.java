@@ -5,5 +5,4 @@ public interface DeleteOutputBoundary {
 
     void prepareFailView(String error);
 
-    void updateChecklistState(DeleteOutputData deleteOutputData);
 }
