@@ -4,30 +4,26 @@ import data_access.MedicineDataAccessInterface;
 import entity.MedicineFactory;
 
 
-public class DeleteInteractor implements DeleteInputBoundary{
+public class DeleteInteractor implements DeleteInputBoundary {
 
     final MedicineDataAccessInterface medicineDataAccessObject;
     final DeleteOutputBoundary deletePresenter;
 
-    final MedicineFactory medicineFactory;
 
-    public DeleteInteractor(MedicineDataAccessInterface medicineDataAccessObject, DeleteOutputBoundary deletePresenter,
-    MedicineFactory medicineFactory) {
+    public DeleteInteractor(MedicineDataAccessInterface medicineDataAccessObject, DeleteOutputBoundary deletePresenter) {
         this.medicineDataAccessObject = medicineDataAccessObject;
         this.deletePresenter = deletePresenter;
-        this.medicineFactory = medicineFactory;
     }
+
     @Override
     public void execute(DeleteInputData input) {
         String name = input.getMedicineName();
         if (!medicineDataAccessObject.exists(name)) {
-        DeleteOutputData deleteOutputData = new DeleteOutputData(input.getMedicineName());
-        deletePresenter.prepareSuccessView(deleteOutputData);
-        deletePresenter.updateChecklistState(deleteOutputData);
-    }
-        else{ medicineDataAccessObject.removeMedicine(name);
+            deletePresenter.prepareFailView("Medicine Name Does Not Exist");
+        } else if (medicineDataAccessObject.exists(name)) {
+            medicineDataAccessObject.removeMedicine(name);
             DeleteOutputData deleteOutputData = new DeleteOutputData(name);
             deletePresenter.prepareSuccessView(deleteOutputData);
-            deletePresenter.updateChecklistState(deleteOutputData);}
-            }
+        }
+    }
 }
