@@ -20,14 +20,15 @@ public class ChecklistUseCaseFactory {
         ChecklistView checklistView = new ChecklistView(switchViewController, checklistController, checklistViewModel);
         ChecklistState checklistState = checklistViewModel.getState();
         for (Medicine medicine: userMedicines.values()) {
-            if (medicine.getDose().getDosesRemaining() == 0) {
-                checklistState.addRestock(medicine.getName());
-            }else if (medicine.getDose().getDosesRemaining() < 14) {
+            if (medicine.getDose().getDosesRemaining() < 14) {
+                if (medicine.getDose().getDosesRemaining() == 0) {
+                    checklistState.addRestock(medicine.getName());
+                }
                 String[] checklistData = new String[]{medicine.getName(), String.valueOf(medicine.getDose().getDosesRemaining())};
                 checklistState.addLow(checklistData);
                 checklistViewModel.firePropertyChangedAddLow(checklistData);
             }
-        } checklistViewModel.firePropertyChanged();
+        }
         HashMap<String, Integer> todayChecklist = medicineDAO.getTodayChecklist();
         for (String medicine:todayChecklist.keySet()) {
             String[] checklistData = new String[]{medicine, userMedicines.get(medicine).getDoseString()};

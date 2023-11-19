@@ -101,6 +101,7 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
             ArrayList<String> restock = checklistState.getRestock();
             if (!restock.isEmpty()) {
                 StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("Restock:\n");
                 for (String medicine:restock) {
                 stringBuilder.append(medicine).append("\n");
             } String s = stringBuilder.toString();

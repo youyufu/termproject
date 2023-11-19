@@ -9,14 +9,14 @@ public class EnterInputData {
     final private String description;
 
     public EnterInputData(String medicine,
-                          String doseSize,
+                          Integer doseSize,
                           String unit,
-                          String inventory,
+                          Integer inventory,
                           Integer[] day,
                           String description) {
         this.medicine = medicine;
-        this.doseSize = Integer.valueOf(doseSize);
-        this.inventory = Integer.valueOf(inventory);
+        this.doseSize = doseSize;
+        this.inventory = inventory;
         this.unit = unit;
         this.day = day;
         this.description = description;
