@@ -2,6 +2,7 @@ package app;
 
 import data_access.MedicineDAO;
 import data_access.MedicineDataAccessInterface;
+import entity.MedicineFactory;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.deleteMedicine.DeleteController;
