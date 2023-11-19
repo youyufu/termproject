@@ -33,7 +33,7 @@ public class Main {
         ChecklistViewModel checklistViewModel = new ChecklistViewModel();
         LocalDate localDate = LocalDate.now();
         MedicineDataAccessInterface medicineDAO = getMedicineDAO(localDate);
-        SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel);
+        SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel, checklistViewModel);
         MainView mainView = new MainView(switchViewController, mainViewModel);
         EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO);
         DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, medicineDAO);
@@ -48,6 +48,7 @@ public class Main {
         viewManagerModel.firePropertyChanged();
         application.pack();
         application.setVisible(true);
+        checklistViewModel.firePropertyChanged();
     }
 
     private static MedicineDAO getMedicineDAO(LocalDate localDate) {
