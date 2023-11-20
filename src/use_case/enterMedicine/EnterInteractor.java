@@ -45,9 +45,18 @@ public class EnterInteractor implements EnterInputBoundary {
                 JSONObject idGroup = (JSONObject) jsonResponse.get("idGroup");
                 JSONArray rxnormId = (JSONArray) idGroup.get("rxnormId");
                 id = rxnormId.getString(0);
-                // API call to drug interaction checker
             } catch (IOException e) {
             } catch (InterruptedException e) {
+            }
+            // API call to drug interaction checker
+            String allId = medicineDataAccessObject.getIdListString() + "+" + id;
+            HttpRequest requestInteraction = HttpRequest.newBuilder()
+                    .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
+                    .method("GET", HttpRequest.BodyPublishers.noBody()).build();
+            HttpResponse<String> responseInteraction = null;
+            try {
+                responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
+                JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
             }
             if () {}
             else {
