@@ -17,12 +17,13 @@ public class DeleteInteractor implements DeleteInputBoundary {
     @Override
     public void execute(DeleteInputData input) {
         String name = input.getMedicineName();
-        if (!medicineDataAccessObject.exists(name)) {
-            deletePresenter.prepareFailView("Medicine Name Does Not Exist");
-        } else if (medicineDataAccessObject.exists(name)) {
+        if (medicineDataAccessObject.exists(name)) {
             medicineDataAccessObject.removeMedicine(name);
             DeleteOutputData deleteOutputData = new DeleteOutputData(name);
             deletePresenter.prepareSuccessView(deleteOutputData);
+        }
+        else {
+            deletePresenter.prepareFailView("Medicine Name Does Not Exist");
         }
     }
 }

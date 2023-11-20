@@ -10,8 +10,16 @@ import entity.Today;
 import entity.MedicineFactory;
 import use_case.enterMedicine.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +31,8 @@ class EnterInteractorTests {
 
     @org.junit.jupiter.api.Test
     void successTest() throws IOException {
-        MedicineDataAccessInterface userRepository = new MedicineDAO(new Today(1),
+        String jsonPath = null;
+        MedicineDataAccessInterface userRepository = new MedicineDAO(new File(jsonPath), new Today(1),
                 new MedicineFactory());
         EnterOutputBoundary successPresenter = new EnterOutputBoundary() {
             @Override

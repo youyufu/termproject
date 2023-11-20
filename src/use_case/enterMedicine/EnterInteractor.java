@@ -60,7 +60,7 @@ public class EnterInteractor implements EnterInputBoundary {
             } catch (IOException e) {
             } catch (InterruptedException e) {
             }
-            if () {}
+            if ( 1 == 2) {}
             else {
                 Dose dose = medicineFactory.createDose(enterInputData.getDoseSize(),
                         enterInputData.getInventory(),
