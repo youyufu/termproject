@@ -2,6 +2,8 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+
+import data_access.InMemoryDAO;
 import org.junit.Test;
 import data_access.MedicineDAO;
 import data_access.MedicineDataAccessInterface;
@@ -31,9 +33,7 @@ class EnterInteractorTests {
 
     @org.junit.jupiter.api.Test
     void successTest() throws IOException {
-        String jsonPath = null;
-        MedicineDataAccessInterface userRepository = new MedicineDAO(new File(jsonPath), new Today(1),
-                new MedicineFactory());
+        MedicineDataAccessInterface userRepository = new InMemoryDAO(new Today(1), new MedicineFactory());
         EnterOutputBoundary successPresenter = new EnterOutputBoundary() {
             @Override
             public void prepareSuccessView(EnterOutputData user) {
@@ -57,8 +57,8 @@ class EnterInteractorTests {
         };
 
         Integer[] myArray = new Integer[]{0, 1, 2, 3,4,5,6,7};
-        EnterInputData inputData = new EnterInputData("Oxycontin", "3", "mg",
-                "300", myArray , "Do not get addicted" );
+        EnterInputData inputData = new EnterInputData("Oxycontin", 3, "mg",
+                300, myArray , "Do not get addicted" );
         EnterInputBoundary interactor = new EnterInteractor(
                 userRepository, successPresenter, new MedicineFactory());
         interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
