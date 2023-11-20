@@ -137,7 +137,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         StringBuilder stringBuilder = new StringBuilder();
         for (Medicine medicine:userMedicines.values()) {
             stringBuilder.append(medicine.getId()).append("+");
-        } stringBuilder.deleteCharAt(stringBuilder.length());
+        } stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         return stringBuilder.toString();
     }
 
