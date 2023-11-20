@@ -1,7 +1,7 @@
 package interface_adapter.enterMedicine;
 
 public class EnterState {
-    private String enterError = null;
+    private String message = null;
     private String medicineName = "";
     private Integer doseSize;
     private String doseUnit = "";
@@ -15,7 +15,7 @@ public class EnterState {
     private Integer saturdayDoses;
     private String description = "";
     public EnterState(EnterState copy) {
-        enterError = copy.enterError;
+        message = copy.message;
         medicineName = copy.medicineName;
         doseSize = copy.doseSize;
         doseUnit = copy.doseUnit;
@@ -30,9 +30,9 @@ public class EnterState {
         description = copy.description;
     }
     public EnterState() {}
-    public String getEnterError() {return enterError;}
+    public String getMessage() {return message;}
 
-    public void setEnterError(String enterError) {this.enterError = enterError;}
+    public void setMessage(String message) {this.message = message;}
 
     public String getMedicineName() {return medicineName;}
     public Integer getDoseSize() {return doseSize;}

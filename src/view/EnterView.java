@@ -285,8 +285,8 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         EnterState state = (EnterState) evt.getNewValue();
-        if (state.getEnterError() != null) {
-            JOptionPane.showMessageDialog(this, state.getEnterError());
+        if (state.getMessage() != null) {
+            JOptionPane.showMessageDialog(this, state.getMessage());
         }
     }
 }
