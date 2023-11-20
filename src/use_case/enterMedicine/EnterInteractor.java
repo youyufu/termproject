@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
 public class EnterInteractor implements EnterInputBoundary {
     final MedicineDataAccessInterface medicineDataAccessObject;
@@ -38,7 +39,7 @@ public class EnterInteractor implements EnterInputBoundary {
                     .uri(URI.create("https://rxnav.nlm.nih.gov/REST/rxcui.json?name=" + name + "&allsrc=0&srclist=ALL&search=2"))
                     .method("GET", HttpRequest.BodyPublishers.noBody()).build();
             HttpResponse<String> response = null;
-            String id;
+            String id = "";
             try {
                 response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponse = new JSONObject(response.body());
@@ -57,10 +58,20 @@ public class EnterInteractor implements EnterInputBoundary {
             try {
                 responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
+                JSONArray fullInteractionTypeGroup = (JSONArray) jsonResponseInteraction.get("fullInteractionTypeGroup");
+                // TODO check if there is eleemnt at index 0
+                JSONArray fullInteractionType = (JSONArray) fullInteractionTypeGroup.getJSONObject(0).get("fullInteractionType");
+                ArrayList<String> warnings = new ArrayList<String>();
+                for (int i = 0; i < fullInteractionType.length(); i++) {
+                    JSONObject eachInteraction = fullInteractionType.getJSONObject(i);
+                    if (eachInteraction.getString("comment").contains(id)) {
+                        // TODO get description and add it to warnings
+                    }
+                }
             } catch (IOException e) {
             } catch (InterruptedException e) {
             }
-            if () {}
+            if (1 == 2) {}
             else {
                 Dose dose = medicineFactory.createDose(enterInputData.getDoseSize(),
                         enterInputData.getInventory(),
