@@ -57,6 +57,8 @@ public class EnterInteractor implements EnterInputBoundary {
             try {
                 responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
+            } catch (IOException e) {
+            } catch (InterruptedException e) {
             }
             if () {}
             else {
