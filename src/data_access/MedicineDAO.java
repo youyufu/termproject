@@ -135,10 +135,13 @@ public class MedicineDAO implements MedicineDataAccessInterface{
     @Override
     public String getIdListString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Medicine medicine:userMedicines.values()) {
+        if (userMedicines.values().isEmpty()) {return "";}
+        else {
+            for (Medicine medicine:userMedicines.values()) {
             stringBuilder.append(medicine.getId()).append("+");
-        } stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        return stringBuilder.toString();
+            } stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            return stringBuilder.toString();
+        }
     }
 
     public Integer getTodayDay() {return today.getDay();}
