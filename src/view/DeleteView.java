@@ -31,9 +31,9 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
         header.setAlignmentX(Component.CENTER_ALIGNMENT);
         LabelTextPanel medicineName = new LabelTextPanel(new JLabel(DeleteViewModel.MEDICINE_NAME_LABEL), medicineNameInputField);
         JPanel buttons = new JPanel();
-        back = new JButton(EnterViewModel.BACK_BUTTON_LABEL);
+        back = new JButton(DeleteViewModel.BACK_BUTTON_LABEL);
         buttons.add(back);
-        delete = new JButton(EnterViewModel.ENTER_BUTTON_LABEL);
+        delete = new JButton(DeleteViewModel.DELETE_BUTTON_LABEL);
         buttons.add(delete);
         back.addActionListener(
                 new ActionListener() {
