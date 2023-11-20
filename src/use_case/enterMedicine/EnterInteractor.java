@@ -49,6 +49,7 @@ public class EnterInteractor implements EnterInputBoundary {
             } catch (InterruptedException e) {
             }
             // API call to drug interaction checker
+            id = "";
             String allId = medicineDataAccessObject.getIdListString() + "+" + id;
             HttpRequest requestInteraction = HttpRequest.newBuilder()
                     .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
@@ -60,7 +61,7 @@ public class EnterInteractor implements EnterInputBoundary {
             } catch (IOException e) {
             } catch (InterruptedException e) {
             }
-            if ( 1 == 2) {}
+            if (1 == 2) {}
             else {
                 Dose dose = medicineFactory.createDose(enterInputData.getDoseSize(),
                         enterInputData.getInventory(),

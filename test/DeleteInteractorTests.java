@@ -59,11 +59,9 @@ public class DeleteInteractorTests {
                 assertFalse(userRepository.exists("Oxycontin"));
             }
             @Override
-            public void prepareFailView(String error) {fail("Use case failure is unexpected.");}
+            public void prepareFailView(String error) {fail("Medicine Name Does Not Exist");}
 
         };
-
-        Integer[] myArray = new Integer[]{0, 1, 2, 3,4,5,6,7};
         DeleteInputData inputData = new DeleteInputData("Oxycontin");
         DeleteInputBoundary interactor = new DeleteInteractor(
                 userRepository, successPresenter);
