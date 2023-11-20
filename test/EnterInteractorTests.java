@@ -63,4 +63,36 @@ class EnterInteractorTests {
                 userRepository, successPresenter, new MedicineFactory());
         interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
     }
+    @org.junit.jupiter.api.Test
+    void successTestDose() throws IOException {
+        MedicineDataAccessInterface userRepository = new InMemoryDAO(new Today(1), new MedicineFactory());
+        EnterOutputBoundary successPresenter = new EnterOutputBoundary() {
+            @Override
+            public void prepareSuccessView(EnterOutputData user) {
+// 2 things to check: the output data is correct, and the user has been created in the DAO.
+                assertEquals("Oxycontin", user.getMedication());
+                assertTrue(userRepository.exists("Oxycontin"));
+            }
+            @Override
+            public void prepareFailView(String error) {fail("Use case failure is unexpected.");}
+
+            @Override
+            public void updateChecklistView(EnterOutputData user) {
+                assertEquals(new String[]{"Oxycontin", "3 mg"}, new String[]{user.getMedication(), user.getDose()});
+            }
+
+            @Override
+            public void updateLowView(EnterOutputData user) {
+                assertEquals(new String[]{"Oxycontin", "100"},
+                        new String[]{user.getMedication(), String.valueOf(user.getDosesRemaining())});
+            }
+        };
+
+        Integer[] myArray = new Integer[]{0,0,0,0,0,0,0};
+        EnterInputData inputData = new EnterInputData("Oxycontin", 3, "tablet",
+                300, myArray , "Do not get addicted" );
+        EnterInputBoundary interactor = new EnterInteractor(
+                userRepository, successPresenter, new MedicineFactory());
+        interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
+    }
 }
