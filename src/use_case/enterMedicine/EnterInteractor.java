@@ -30,7 +30,7 @@ public class EnterInteractor implements EnterInputBoundary {
     public void execute(EnterInputData enterInputData) {
         String name = enterInputData.getMedicine();
         if (medicineDataAccessObject.exists(name)) {
-            enterPresenter.prepareFailView(name + " already exists as a medication");
+            enterPresenter.preparePopUp(name + " already exists as a medication");
         }
         else {
             // API call to get id
@@ -38,7 +38,7 @@ public class EnterInteractor implements EnterInputBoundary {
                     .uri(URI.create("https://rxnav.nlm.nih.gov/REST/rxcui.json?name=" + name + "&allsrc=0&srclist=ALL&search=2"))
                     .method("GET", HttpRequest.BodyPublishers.noBody()).build();
             HttpResponse<String> response = null;
-            String id;
+            String id = "";
             try {
                 response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponse = new JSONObject(response.body());
@@ -60,7 +60,7 @@ public class EnterInteractor implements EnterInputBoundary {
             } catch (IOException e) {
             } catch (InterruptedException e) {
             }
-            if () {}
+            if (2 + 4 == 3) {}
             else {
                 Dose dose = medicineFactory.createDose(enterInputData.getDoseSize(),
                         enterInputData.getInventory(),
@@ -70,7 +70,7 @@ public class EnterInteractor implements EnterInputBoundary {
                         enterInputData.getDay(),
                         enterInputData.getDescription(), id);
                 if (medicine.getDose().getDosesRemaining() == 0) {
-                    enterPresenter.prepareFailView("Cannot enter medicine with 0 doses remaining.");
+                    enterPresenter.preparePopUp("Cannot enter medicine with 0 doses remaining.");
                 } else {
                     medicineDataAccessObject.saveMedicine(medicine);
                     EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(), medicine.getDoseString(),
