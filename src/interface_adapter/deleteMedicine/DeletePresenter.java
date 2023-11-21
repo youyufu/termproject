@@ -11,34 +11,24 @@ public class DeletePresenter implements DeleteOutputBoundary {
     private final DeleteViewModel deleteViewModel;
     private final ChecklistViewModel checklistViewModel;
     private final TableViewModel tableViewModel;
-
     public DeletePresenter(DeleteViewModel deleteViewModel, ChecklistViewModel
             checklistViewModel, TableViewModel tableViewModel){
         this.deleteViewModel = deleteViewModel;
         this.checklistViewModel = checklistViewModel;
         this.tableViewModel = tableViewModel;
     }
-
     public void prepareSuccessView(DeleteOutputData entry){
-
-        DeleteState deleteState = deleteViewModel.getState();
         TableState tableState = tableViewModel.getState();
+        ChecklistState checklistState = checklistViewModel.getState();
         String medicineName = entry.getMedication();
         tableState.removeData(medicineName);
-        ChecklistState checklistState = checklistViewModel.getState();
-        String checklistRemoval = entry.getMedication();
-        checklistState.removeTakeToday(checklistRemoval);
-
+        checklistState.removeTakeToday(medicineName);
+        checklistState.removeLow(medicineName);
         this.checklistViewModel.setState(checklistState);
-        checklistViewModel.firePropertyChanged();
-        this.deleteViewModel.setState(deleteState);
-        deleteViewModel.firePropertyChanged();
+        checklistViewModel.firePropertyChangedRemoveMed(medicineName);
         this.tableViewModel.setState(tableState);
         tableViewModel.firePropertyChanged();
-
     }
-
-
     public void prepareFailView(String error){
         DeleteState deleteState = deleteViewModel.getState();
         deleteState.setDeleteError(error);
