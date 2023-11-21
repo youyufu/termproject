@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.enterMedicine.EnterState;
 import interface_adapter.switchView.SwitchViewController;
 import interface_adapter.deleteMedicine.DeleteController;
 import interface_adapter.deleteMedicine.DeleteState;
@@ -10,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -53,6 +56,27 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
                             DeleteState currentState = deleteViewModel.getState();
                             deleteController.execute(currentState.getMedicineName());
                         }
+                    }
+                }
+        );
+        medicineNameInputField.addKeyListener(
+                new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        DeleteState currentState = deleteViewModel.getState();
+                        String text = medicineNameInputField.getText() + e.getKeyChar();
+                        currentState.setMedicineName(text.strip());
+                        deleteViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+
                     }
                 }
         );
