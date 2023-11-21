@@ -38,7 +38,7 @@ public class EnterInteractor implements EnterInputBoundary {
                     .uri(URI.create("https://rxnav.nlm.nih.gov/REST/rxcui.json?name=" + name + "&allsrc=0&srclist=ALL&search=2"))
                     .method("GET", HttpRequest.BodyPublishers.noBody()).build();
             HttpResponse<String> response = null;
-            String;
+            String id;
             try {
                 response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponse = new JSONObject(response.body());
