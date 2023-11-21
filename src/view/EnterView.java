@@ -112,7 +112,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyTyped(KeyEvent e) {
                         EnterState currentState = enterViewModel.getState();
                         String text = medicineNameInputField.getText() + e.getKeyChar();
-                        currentState.setMedicineName(text);
+                        currentState.setMedicineName(text.strip());
                         enterViewModel.setState(currentState);
                     }
 
@@ -127,14 +127,13 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     }
                 }
         );
-
         doseUnitInputField.addKeyListener(
                 new KeyListener() {
                     @Override
                     public void keyTyped(KeyEvent e) {
                         EnterState currentState = enterViewModel.getState();
                         String text = doseUnitInputField.getText() + e.getKeyChar();
-                        currentState.setDoseUnit(text);
+                        currentState.setDoseUnit(text.strip());
                         enterViewModel.setState(currentState);
                     }
 
@@ -155,7 +154,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyTyped(KeyEvent e) {
                         EnterState currentState = enterViewModel.getState();
                         String text = descriptionInputField.getText() + e.getKeyChar();
-                        currentState.setDescription(text);
+                        currentState.setDescription(text.strip());
                         enterViewModel.setState(currentState);
                     }
 
@@ -179,8 +178,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void stateChanged(ChangeEvent e) {
                 EnterState currentState = enterViewModel.getState();
-                Integer currentInt = (Integer) doseSize.getModel().getValue();
-                currentState.setDoseSize(currentInt);
+                Object currentInt = doseSize.getModel().getValue();
+                if (currentInt == null) {currentState.setDoseSize(0);}
+                else{currentState.setDoseSize((Integer) currentInt);}
             }
         });
         this.add(doseSizePanel);
@@ -191,8 +191,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void stateChanged(ChangeEvent e) {
                 EnterState currentState = enterViewModel.getState();
-                Integer currentInt = (Integer) doseInventory.getModel().getValue();
-                currentState.setDoseInventory(currentInt);
+                Object currentInt = doseInventory.getModel().getValue();
+                if (currentInt == null) {currentState.setDoseInventory(0);}
+                else{currentState.setDoseInventory((Integer) currentInt);}
             }
         });
         this.add(doseInventoryPanel);
@@ -203,8 +204,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void stateChanged(ChangeEvent e) {
                 EnterState currentState = enterViewModel.getState();
-                Integer currentInt = (Integer) sunday.getModel().getValue();
-                currentState.setSundayDoses(currentInt);
+                Object currentInt = sunday.getModel().getValue();
+                if (currentInt == null) {currentState.setSundayDoses(0);}
+                else{currentState.setSundayDoses((Integer) currentInt);}
             }
         });
         this.add(sundayPanel);
@@ -214,8 +216,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void stateChanged(ChangeEvent e) {
                 EnterState currentState = enterViewModel.getState();
-                Integer currentInt = (Integer) monday.getModel().getValue();
-                currentState.setMondayDoses(currentInt);
+                Object currentInt = monday.getModel().getValue();
+                if (currentInt == null) {currentState.setMondayDoses(0);}
+                else{currentState.setMondayDoses((Integer) currentInt);}
             }
         });
         this.add(mondayPanel);
@@ -225,8 +228,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void stateChanged(ChangeEvent e) {
                 EnterState currentState = enterViewModel.getState();
-                Integer currentInt = (Integer) tuesday.getModel().getValue();
-                currentState.setTuesdayDoses(currentInt);
+                Object currentInt = tuesday.getModel().getValue();
+                if (currentInt == null) {currentState.setTuesdayDoses(0);}
+                else{currentState.setTuesdayDoses((Integer) currentInt);}
             }
         });
         this.add(tuesdayPanel);
@@ -236,8 +240,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void stateChanged(ChangeEvent e) {
                 EnterState currentState = enterViewModel.getState();
-                Integer currentInt = (Integer) wednesday.getModel().getValue();
-                currentState.setWednesdayDoses(currentInt);
+                Object currentInt = wednesday.getModel().getValue();
+                if (currentInt == null) {currentState.setWednesdayDoses(0);}
+                else{currentState.setWednesdayDoses((Integer) currentInt);}
             }
         });
         this.add(wednesdayPanel);
@@ -247,8 +252,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void stateChanged(ChangeEvent e) {
                 EnterState currentState = enterViewModel.getState();
-                Integer currentInt = (Integer) thursday.getModel().getValue();
-                currentState.setThursdayDoses(currentInt);
+                Object currentInt = thursday.getModel().getValue();
+                if (currentInt == null) {currentState.setThursdayDoses(0);}
+                else{currentState.setThursdayDoses((Integer) currentInt);}
             }
         });
         this.add(thursdayPanel);
@@ -258,8 +264,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void stateChanged(ChangeEvent e) {
                 EnterState currentState = enterViewModel.getState();
-                Integer currentInt = (Integer) friday.getModel().getValue();
-                currentState.setFridayDoses(currentInt);
+                Object currentInt = friday.getModel().getValue();
+                if (currentInt == null) {currentState.setFridayDoses(0);}
+                else{currentState.setFridayDoses((Integer) currentInt);}
             }
         });
         this.add(fridayPanel);
@@ -269,8 +276,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
             @Override
             public void stateChanged(ChangeEvent e) {
                 EnterState currentState = enterViewModel.getState();
-                Integer currentInt = (Integer) saturday.getModel().getValue();
-                currentState.setSaturdayDoses(currentInt);
+                Object currentInt = saturday.getModel().getValue();
+                if (currentInt == null) {currentState.setSaturdayDoses(0);}
+                else{currentState.setSaturdayDoses((Integer) currentInt);}
             }
         });
         this.add(saturdayPanel);

@@ -3,16 +3,16 @@ package interface_adapter.enterMedicine;
 public class EnterState {
     private String message = null;
     private String medicineName = "";
-    private Integer doseSize;
+    private Integer doseSize = 0;
     private String doseUnit = "";
-    private Integer doseInventory;
-    private Integer sundayDoses;
-    private Integer mondayDoses;
-    private Integer tuesdayDoses;
-    private Integer wednesdayDoses;
-    private Integer thursdayDoses;
-    private Integer fridayDoses;
-    private Integer saturdayDoses;
+    private Integer doseInventory = 0;
+    private Integer sundayDoses = 0;
+    private Integer mondayDoses = 0;
+    private Integer tuesdayDoses = 0;
+    private Integer wednesdayDoses = 0;
+    private Integer thursdayDoses = 0;
+    private Integer fridayDoses = 0;
+    private Integer saturdayDoses = 0;
     private String description = "";
     public EnterState(EnterState copy) {
         message = copy.message;

@@ -23,7 +23,7 @@ public class DeleteInteractor implements DeleteInputBoundary {
             deletePresenter.prepareSuccessView(deleteOutputData);
         }
         else {
-            deletePresenter.prepareFailView("Medicine Name Does Not Exist");
+            deletePresenter.prepareFailView(name + "does not exist.");
         }
     }
 }
