@@ -31,7 +31,7 @@ public class EnterInteractor implements EnterInputBoundary {
     public void execute(EnterInputData enterInputData) {
         String name = enterInputData.getMedicine();
         if (medicineDataAccessObject.exists(name)) {
-            enterPresenter.prepareFailView(name + " already exists as a medication");
+            enterPresenter.preparePopUp(name + " already exists as a medication");
         }
         else {
             // API call to get id
@@ -81,7 +81,7 @@ public class EnterInteractor implements EnterInputBoundary {
                         enterInputData.getDay(),
                         enterInputData.getDescription(), id);
                 if (medicine.getDose().getDosesRemaining() == 0) {
-                    enterPresenter.prepareFailView("Cannot enter medicine with 0 doses remaining.");
+                    enterPresenter.preparePopUp("Cannot enter medicine with 0 doses remaining.");
                 } else {
                     medicineDataAccessObject.saveMedicine(medicine);
                     EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(), medicine.getDoseString(),
