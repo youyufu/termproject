@@ -15,9 +15,10 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
 public class EnterInteractor implements EnterInputBoundary {
-    final MedicineDataAccessInterface medicineDataAccessObject;
-    final EnterOutputBoundary enterPresenter;
-    final MedicineFactory medicineFactory;
+    private final MedicineDataAccessInterface medicineDataAccessObject;
+    private final EnterOutputBoundary enterPresenter;
+    private final MedicineFactory medicineFactory;
+    private final String DEFAULT_ID = "";
 
     public EnterInteractor(MedicineDataAccessInterface medicineDataAccessObject,
                            EnterOutputBoundary enterPresenter,
@@ -39,49 +40,53 @@ public class EnterInteractor implements EnterInputBoundary {
                     .uri(URI.create("https://rxnav.nlm.nih.gov/REST/rxcui.json?name=" + name + "&allsrc=0&srclist=ALL&search=2"))
                     .method("GET", HttpRequest.BodyPublishers.noBody()).build();
             HttpResponse<String> response = null;
-            String id = "";
+            String id = DEFAULT_ID;
             try {
                 response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponse = new JSONObject(response.body());
                 JSONObject idGroup = jsonResponse.getJSONObject("idGroup");
-                JSONArray rxnormId = idGroup.getJSONArray("rxnormId");
-                id = rxnormId.getString(0);
-            } catch (IOException e) {
-            } catch (InterruptedException e) {
-            }
-            // API call to drug interaction checker
-            String allId = medicineDataAccessObject.getIdListString() + "+" + id;
-            HttpRequest requestInteraction = HttpRequest.newBuilder()
-                    .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
-                    .method("GET", HttpRequest.BodyPublishers.noBody()).build();
-            HttpResponse<String> responseInteraction = null;
-            ArrayList<String> warnings = new ArrayList<String>();
-            try {
-                responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
-                JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
-                if (jsonResponseInteraction.has("fullInteractionTypeGroup")) {
-                    JSONArray fullInteractionTypeGroup = jsonResponseInteraction.getJSONArray("fullInteractionTypeGroup");
-                    JSONArray fullInteractionType = fullInteractionTypeGroup.getJSONObject(0).getJSONArray("fullInteractionType");
-                    for (int i = 0; i < fullInteractionType.length(); i++) {
-                        JSONObject eachInteraction = fullInteractionType.getJSONObject(i);
-                        if (eachInteraction.getString("comment").contains(id)) {
-                            String description = eachInteraction
-                                    .getJSONArray("interactionPair")
-                                    .getJSONObject(0).
-                                    getString("description");
-                            warnings.add(description);
-                        }
-                    }
-                    if (!warnings.isEmpty()) {
-                        StringBuilder popUpMessage = new StringBuilder();
-                        for (String description:warnings) {
-                            popUpMessage.append("Warning - drug interaction detected: ").append(description).append("\n");
-                        }
-                        enterPresenter.preparePopUp(popUpMessage.toString());
-                    }
+                if (idGroup.has("rxnormId")) {
+                    JSONArray rxnormId = idGroup.getJSONArray("rxnormId");
+                    id = rxnormId.getString(0);
                 }
             } catch (IOException e) {
             } catch (InterruptedException e) {
+            }
+            if (!id.equals(DEFAULT_ID)) {
+                // API call to drug interaction checker
+                String allId = medicineDataAccessObject.getIdListString() + "+" + id;
+                HttpRequest requestInteraction = HttpRequest.newBuilder()
+                        .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
+                        .method("GET", HttpRequest.BodyPublishers.noBody()).build();
+                HttpResponse<String> responseInteraction = null;
+                ArrayList<String> warnings = new ArrayList<String>();
+                try {
+                    responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
+                    JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
+                    if (jsonResponseInteraction.has("fullInteractionTypeGroup")) {
+                        JSONArray fullInteractionTypeGroup = jsonResponseInteraction.getJSONArray("fullInteractionTypeGroup");
+                        JSONArray fullInteractionType = fullInteractionTypeGroup.getJSONObject(0).getJSONArray("fullInteractionType");
+                        for (int i = 0; i < fullInteractionType.length(); i++) {
+                            JSONObject eachInteraction = fullInteractionType.getJSONObject(i);
+                            if (eachInteraction.getString("comment").contains(id)) {
+                                String description = eachInteraction
+                                        .getJSONArray("interactionPair")
+                                        .getJSONObject(0).
+                                        getString("description");
+                                warnings.add(description);
+                            }
+                        }
+                        if (!warnings.isEmpty()) {
+                            StringBuilder popUpMessage = new StringBuilder();
+                            for (String description:warnings) {
+                                popUpMessage.append("Warning - drug interaction detected: ").append(description).append("\n");
+                            }
+                            enterPresenter.preparePopUp(popUpMessage.toString());
+                        }
+                    }
+                } catch (IOException e) {
+                } catch (InterruptedException e) {
+                }
             }
             if (enterInputData.getDoseSize() == 0) {
                 enterPresenter.preparePopUp("Cannot enter medicine with a dose size of 0.");
