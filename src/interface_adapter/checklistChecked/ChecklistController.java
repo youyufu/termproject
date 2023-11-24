@@ -39,7 +39,7 @@ public class ChecklistController {
                     change(tableState,m,num);
                 }
             }
-            System.out.println(infact.split(" ")[0] + "--"+ m);
+
 
             String[] tableData = new String[]{medicine.getName(), medicine.getDoseString(),
                     CrossUseCaseFactory.map.get(medicine.getName())+" "+infact.split(" ")[1], String.valueOf(weeklySched[0]), String.valueOf(weeklySched[1]),
@@ -48,7 +48,7 @@ public class ChecklistController {
             tableState.addData(tableData);
         }
         this.tableState = tableState;
-        System.out.println(CrossUseCaseFactory.map.get(m)-num);
+
 
         JLabel lowMed = new JLabel(m + " (" + (CrossUseCaseFactory.map.get(m))  + " doses remaining)");
         lowStock.remove(lowMap.get(m));
