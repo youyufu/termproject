@@ -1,21 +1,21 @@
 package interface_adapter.enterMedicine;
 
 public class EnterState {
-    private String enterError = null;
+    private String message = null;
     private String medicineName = "";
-    private Integer doseSize;
+    private Integer doseSize = 0;
     private String doseUnit = "";
-    private Integer doseInventory;
-    private Integer sundayDoses;
-    private Integer mondayDoses;
-    private Integer tuesdayDoses;
-    private Integer wednesdayDoses;
-    private Integer thursdayDoses;
-    private Integer fridayDoses;
-    private Integer saturdayDoses;
+    private Integer doseInventory = 0;
+    private Integer sundayDoses = 0;
+    private Integer mondayDoses = 0;
+    private Integer tuesdayDoses = 0;
+    private Integer wednesdayDoses = 0;
+    private Integer thursdayDoses = 0;
+    private Integer fridayDoses = 0;
+    private Integer saturdayDoses = 0;
     private String description = "";
     public EnterState(EnterState copy) {
-        enterError = copy.enterError;
+        message = copy.message;
         medicineName = copy.medicineName;
         doseSize = copy.doseSize;
         doseUnit = copy.doseUnit;
@@ -30,9 +30,9 @@ public class EnterState {
         description = copy.description;
     }
     public EnterState() {}
-    public String getEnterError() {return enterError;}
+    public String getMessage() {return message;}
 
-    public void setEnterError(String enterError) {this.enterError = enterError;}
+    public void setMessage(String message) {this.message = message;}
 
     public String getMedicineName() {return medicineName;}
     public Integer getDoseSize() {return doseSize;}

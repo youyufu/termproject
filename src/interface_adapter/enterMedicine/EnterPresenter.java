@@ -56,9 +56,9 @@ public class EnterPresenter implements EnterOutputBoundary {
     }
 
     @Override
-    public void prepareFailView(String error){
+    public void preparePopUp(String message){
         EnterState enterState = enterViewModel.getState();
-        enterState.setEnterError(error);
+        enterState.setMessage(message);
         enterViewModel.firePropertyChanged();
     }
 }

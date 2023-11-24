@@ -8,6 +8,7 @@ import java.beans.PropertyChangeSupport;
 
 public class DeleteViewModel extends ViewModel {
     public static final String BACK_BUTTON_LABEL = "Back";
+    public static final String DELETE_BUTTON_LABEL = "Delete";
     public static final String HEADER_LABEL = "Enter your medication below to delete!";
     public static final String MEDICINE_NAME_LABEL = "Name of Medication:";
     private static DeleteState deleteState = new DeleteState();

@@ -21,9 +21,6 @@ public class ChecklistUseCaseFactory {
         ChecklistState checklistState = checklistViewModel.getState();
         for (Medicine medicine: userMedicines.values()) {
             if (medicine.getDose().getDosesRemaining() < 14) {
-                if (medicine.getDose().getDosesRemaining() == 0) {
-                    checklistState.addRestock(medicine.getName());
-                }
                 String[] checklistData = new String[]{medicine.getName(), String.valueOf(medicine.getDose().getDosesRemaining())};
                 checklistState.addLow(checklistData);
                 checklistViewModel.firePropertyChangedAddLow(checklistData);
