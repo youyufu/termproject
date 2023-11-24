@@ -87,6 +87,8 @@ public class EnterInteractor implements EnterInputBoundary {
                 } catch (IOException e) {
                 } catch (InterruptedException e) {
                 }
+            } else {
+                enterPresenter.preparePopUp(name + " could not be found in the database. The drug will still be entered but drug interactions with " + name + " cannot be confirmed.");
             }
             if (enterInputData.getDoseSize() == 0) {
                 enterPresenter.preparePopUp("Cannot enter medicine with a dose size of 0.");

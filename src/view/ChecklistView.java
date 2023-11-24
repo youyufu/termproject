@@ -77,15 +77,19 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
         } else if (evt.getPropertyName().equals("removeMed")) {
             String medication = (String) evt.getNewValue();
             checklistViewModel.removeRestock(medication);
-            ArrayList<JCheckBox> checkBoxList = checklistMap.get(medication);
-            if (!checkBoxList.isEmpty()) {
-                for (JCheckBox checkBox: checkBoxList) {
-                    checklist.remove(checkBox);
+            if (checklistMap.containsKey(medication)) {
+                ArrayList<JCheckBox> checkBoxList = checklistMap.get(medication);
+                if (!checkBoxList.isEmpty()) {
+                    for (JCheckBox checkBox: checkBoxList) {
+                        checklist.remove(checkBox);
+                    }
                 }
             }
             checklistMap.remove(medication);
-            lowStock.remove(lowMap.get(medication));
-            lowMap.remove(medication);
+            if (lowMap.containsKey(medication)) {
+                lowStock.remove(lowMap.get(medication));
+                lowMap.remove(medication);
+            }
         } else if (evt.getPropertyName().equals("addLow")) {
             String[] medication = (String[]) evt.getNewValue();
             JLabel lowMed = new JLabel(medication[0] + " (" + medication[1] + " doses remaining)");
