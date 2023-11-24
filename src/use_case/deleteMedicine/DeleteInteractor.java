@@ -4,16 +4,12 @@ import data_access.MedicineDataAccessInterface;
 
 
 public class DeleteInteractor implements DeleteInputBoundary {
-
     final MedicineDataAccessInterface medicineDataAccessObject;
     final DeleteOutputBoundary deletePresenter;
-
-
     public DeleteInteractor(MedicineDataAccessInterface medicineDataAccessObject, DeleteOutputBoundary deletePresenter) {
         this.medicineDataAccessObject = medicineDataAccessObject;
         this.deletePresenter = deletePresenter;
     }
-
     @Override
     public void execute(DeleteInputData input) {
         String name = input.getMedicineName();
@@ -23,7 +19,7 @@ public class DeleteInteractor implements DeleteInputBoundary {
             deletePresenter.prepareSuccessView(deleteOutputData);
         }
         else {
-            deletePresenter.prepareFailView(name + "does not exist.");
+            deletePresenter.prepareFailView(name + " does not exist.");
         }
     }
 }
