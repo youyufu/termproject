@@ -34,6 +34,7 @@ public class Main {
         LocalDate localDate = LocalDate.now();
         MedicineDataAccessInterface medicineDAO = getMedicineDAO(localDate);
         SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel, checklistViewModel);
+        CrossUseCaseFactory.init(viewManagerModel,checklistViewModel,tableViewModel,switchViewController,medicineDAO);
         MainView mainView = new MainView(switchViewController, mainViewModel);
         EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO);
         DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, medicineDAO);
