@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ChecklistView extends JPanel implements ActionListener, PropertyChangeListener, ItemListener {
-    public final String viewName = "checklist";
+    public static final String viewName = "checklist";
     private final ChecklistViewModel checklistViewModel;
     private final SwitchViewController switchViewController;
     private final ChecklistController checklistController;
