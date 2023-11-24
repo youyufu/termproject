@@ -54,7 +54,6 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
         ArrayList<String[]> takeToday = this.checklistViewModel.getState().getTakeToday();
         HashMap<String, Integer> low = this.checklistViewModel.getState().getLow();
         for (String[] medication: takeToday) {
-            System.out.println(medication[1]);
             JCheckBox checkBox = new JCheckBox(("Take " + medication[1] + " of " + medication[0]));
             if (!checklistMap.containsKey(medication[0])) {
                 checklistMap.put(medication[0], new ArrayList<>());
@@ -107,7 +106,7 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
             lowMap.remove(medication);
         } else if (evt.getPropertyName().equals("addLow")) {
             String[] medication = (String[]) evt.getNewValue();
-            System.out.println("----------"+medication[0] );
+
             HashMap<String, Medicine> userMedicines = CrossUseCaseFactory.medicineDAO.getUserMedicines();
             if(null == CrossUseCaseFactory.map.get(medication[0])){
                 for (Medicine medicine:userMedicines.values()) {
@@ -144,7 +143,6 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
             for (JCheckBox checkBox: checkBoxList) {
                 if (checkBox == source && text.indexOf(medicine) != -1){
                     int num = Integer.parseInt(text.split(" ")[1]);
-                    System.out.println("(((((:"+medicine);
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
                         checklistController.cacelExecute(medicine,num,lowMap,lowStock);
                         break;
