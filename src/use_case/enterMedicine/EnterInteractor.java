@@ -43,8 +43,8 @@ public class EnterInteractor implements EnterInputBoundary {
             try {
                 response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponse = new JSONObject(response.body());
-                JSONObject idGroup = (JSONObject) jsonResponse.get("idGroup");
-                JSONArray rxnormId = (JSONArray) idGroup.get("rxnormId");
+                JSONObject idGroup = jsonResponse.getJSONObject("idGroup");
+                JSONArray rxnormId = idGroup.getJSONArray("rxnormId");
                 id = rxnormId.getString(0);
             } catch (IOException e) {
             } catch (InterruptedException e) {
@@ -55,18 +55,30 @@ public class EnterInteractor implements EnterInputBoundary {
                     .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
                     .method("GET", HttpRequest.BodyPublishers.noBody()).build();
             HttpResponse<String> responseInteraction = null;
+            ArrayList<String> warnings = new ArrayList<String>();
             try {
                 responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
-                JSONArray fullInteractionTypeGroup = (JSONArray) jsonResponseInteraction.get("fullInteractionTypeGroup");
-                // TODO check if there is eleemnt at index 0
-                JSONArray fullInteractionType = (JSONArray) fullInteractionTypeGroup.getJSONObject(0).get("fullInteractionType");
-                ArrayList<String> warnings = new ArrayList<String>();
+                JSONArray fullInteractionTypeGroup = jsonResponseInteraction.getJSONArray("fullInteractionTypeGroup");
+                // TODO check if there is element at index 0
+                JSONArray fullInteractionType = fullInteractionTypeGroup.getJSONObject(0).getJSONArray("fullInteractionType");
                 for (int i = 0; i < fullInteractionType.length(); i++) {
                     JSONObject eachInteraction = fullInteractionType.getJSONObject(i);
                     if (eachInteraction.getString("comment").contains(id)) {
-                        // TODO get description and add it to warnings
+                        // TODO check if there is element at index 0
+                        String description = eachInteraction
+                                .getJSONArray("interactionPair")
+                                .getJSONObject(0).
+                                getString("description");
+                        warnings.add(description);
                     }
+                }
+                if (!warnings.isEmpty()) {
+                    StringBuilder popUpMessage = new StringBuilder();
+                    for (String description:warnings) {
+                        popUpMessage.append("Warning - drug interaction detected: ").append(description).append("\n");
+                    }
+                    enterPresenter.preparePopUp(popUpMessage.toString());
                 }
             } catch (IOException e) {
             } catch (InterruptedException e) {
