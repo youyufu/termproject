@@ -1,5 +1,7 @@
 package app;
 
+import data_access.MedicineAPICallsInterface;
+import data_access.MedicineAPICallsObject;
 import data_access.MedicineDAO;
 import data_access.MedicineDataAccessInterface;
 import interface_adapter.MainViewModel;
@@ -32,7 +34,8 @@ public class Main {
         MedicineDataAccessInterface medicineDAO = MedicineDAO.getMedicineDAO(localDate);
         SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel, checklistViewModel);
         MainView mainView = new MainView(switchViewController, mainViewModel);
-        EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO);
+        MedicineAPICallsInterface medicineAPICallsObject = new MedicineAPICallsObject();
+        EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO, medicineAPICallsObject);
         DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, medicineDAO);
         TableView tableView = TableViewFactory.create(switchViewController, tableViewModel, medicineDAO);
         ChecklistView checklistView = ChecklistUseCaseFactory.create(switchViewController, checklistViewModel, tableViewModel, medicineDAO);

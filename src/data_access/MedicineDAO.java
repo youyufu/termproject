@@ -51,8 +51,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                 } if (today.get("dayInt") == this.today.getDay()) {
                     for (Object object1:todayArray) {
                         JSONObject med = (JSONObject) object1;
-                        Long taken = (Long) med.get("taken");
-                        Integer t = taken.intValue();
+                        Integer t = (Integer) med.get("taken");
                         this.today.add((String) med.get("name"), t);
                     }
                 } else {
