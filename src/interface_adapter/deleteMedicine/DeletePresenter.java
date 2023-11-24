@@ -2,7 +2,6 @@ package interface_adapter.deleteMedicine;
 
 import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
-import interface_adapter.checklistChecked.ChecklistState;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import use_case.deleteMedicine.DeleteOutputBoundary;
 import use_case.deleteMedicine.DeleteOutputData;
@@ -19,12 +18,8 @@ public class DeletePresenter implements DeleteOutputBoundary {
     }
     public void prepareSuccessView(DeleteOutputData entry){
         TableState tableState = tableViewModel.getState();
-        ChecklistState checklistState = checklistViewModel.getState();
         String medicineName = entry.getMedication();
         tableState.removeData(medicineName);
-        checklistState.removeTakeToday(medicineName);
-        checklistState.removeLow(medicineName);
-        this.checklistViewModel.setState(checklistState);
         checklistViewModel.firePropertyChangedRemoveMed(medicineName);
         this.tableViewModel.setState(tableState);
         tableViewModel.firePropertyChanged();

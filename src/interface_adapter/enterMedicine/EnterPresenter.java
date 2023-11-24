@@ -1,13 +1,10 @@
 package interface_adapter.enterMedicine;
 
-import java.util.ArrayList;
 import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
-import interface_adapter.checklistChecked.ChecklistState;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import use_case.enterMedicine.EnterOutputBoundary;
 import use_case.enterMedicine.EnterOutputData;
-import view.ViewManager;
 
 public class EnterPresenter implements EnterOutputBoundary {
 
@@ -38,21 +35,16 @@ public class EnterPresenter implements EnterOutputBoundary {
     }
 
     public void updateChecklistView(EnterOutputData entry){
-
-        ChecklistState checklistState = checklistViewModel.getState();
         String[] checklistAddition = new String[]{entry.getMedication(), entry.getDose()};
-        checklistState.addTakeToday(checklistAddition);
-        this.checklistViewModel.setState(checklistState);
         checklistViewModel.firePropertyChangedAddTake(checklistAddition);
     }
 
     @Override
     public void updateLowView(EnterOutputData enterOutputData) {
-        ChecklistState checklistState = checklistViewModel.getState();
         String[] lowAddition = new String[]{enterOutputData.getMedication(), String.valueOf(enterOutputData.getDosesRemaining())};
-        checklistState.addLow(lowAddition);
-        this.checklistViewModel.setState(checklistState);
-        checklistViewModel.firePropertyChangedAddLow(lowAddition);
+        if (enterOutputData.getDosesRemaining() == 0) {
+            checklistViewModel.addRestock(enterOutputData.getMedication());
+        } checklistViewModel.firePropertyChangedAddLow(lowAddition);
     }
 
     @Override
