@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
 public class EnterInteractor implements EnterInputBoundary {
     final MedicineDataAccessInterface medicineDataAccessObject;
@@ -30,7 +31,7 @@ public class EnterInteractor implements EnterInputBoundary {
     public void execute(EnterInputData enterInputData) {
         String name = enterInputData.getMedicine();
         if (medicineDataAccessObject.exists(name)) {
-            enterPresenter.prepareFailView(name + " already exists as a medication");
+            enterPresenter.preparePopUp(name + " already exists as a medication");
         }
         else {
             // API call to get id
@@ -38,12 +39,12 @@ public class EnterInteractor implements EnterInputBoundary {
                     .uri(URI.create("https://rxnav.nlm.nih.gov/REST/rxcui.json?name=" + name + "&allsrc=0&srclist=ALL&search=2"))
                     .method("GET", HttpRequest.BodyPublishers.noBody()).build();
             HttpResponse<String> response = null;
-            String id;
+            String id = "";
             try {
                 response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponse = new JSONObject(response.body());
-                JSONObject idGroup = (JSONObject) jsonResponse.get("idGroup");
-                JSONArray rxnormId = (JSONArray) idGroup.get("rxnormId");
+                JSONObject idGroup = jsonResponse.getJSONObject("idGroup");
+                JSONArray rxnormId = idGroup.getJSONArray("rxnormId");
                 id = rxnormId.getString(0);
             } catch (IOException e) {
             } catch (InterruptedException e) {
@@ -54,14 +55,37 @@ public class EnterInteractor implements EnterInputBoundary {
                     .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
                     .method("GET", HttpRequest.BodyPublishers.noBody()).build();
             HttpResponse<String> responseInteraction = null;
+            ArrayList<String> warnings = new ArrayList<String>();
             try {
                 responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
                 JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
+                if (jsonResponseInteraction.has("fullInteractionTypeGroup")) {
+                    JSONArray fullInteractionTypeGroup = jsonResponseInteraction.getJSONArray("fullInteractionTypeGroup");
+                    JSONArray fullInteractionType = fullInteractionTypeGroup.getJSONObject(0).getJSONArray("fullInteractionType");
+                    for (int i = 0; i < fullInteractionType.length(); i++) {
+                        JSONObject eachInteraction = fullInteractionType.getJSONObject(i);
+                        if (eachInteraction.getString("comment").contains(id)) {
+                            String description = eachInteraction
+                                    .getJSONArray("interactionPair")
+                                    .getJSONObject(0).
+                                    getString("description");
+                            warnings.add(description);
+                        }
+                    }
+                    if (!warnings.isEmpty()) {
+                        StringBuilder popUpMessage = new StringBuilder();
+                        for (String description:warnings) {
+                            popUpMessage.append("Warning - drug interaction detected: ").append(description).append("\n");
+                        }
+                        enterPresenter.preparePopUp(popUpMessage.toString());
+                    }
+                }
             } catch (IOException e) {
             } catch (InterruptedException e) {
             }
-            if () {}
-            else {
+            if (enterInputData.getDoseSize() == 0) {
+                enterPresenter.preparePopUp("Cannot enter medicine with a dose size of 0.");
+            } else {
                 Dose dose = medicineFactory.createDose(enterInputData.getDoseSize(),
                         enterInputData.getInventory(),
                         enterInputData.getUnit());
@@ -70,7 +94,7 @@ public class EnterInteractor implements EnterInputBoundary {
                         enterInputData.getDay(),
                         enterInputData.getDescription(), id);
                 if (medicine.getDose().getDosesRemaining() == 0) {
-                    enterPresenter.prepareFailView("Cannot enter medicine with 0 doses remaining.");
+                    enterPresenter.preparePopUp("Cannot enter medicine with 0 doses remaining.");
                 } else {
                     medicineDataAccessObject.saveMedicine(medicine);
                     EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(), medicine.getDoseString(),
