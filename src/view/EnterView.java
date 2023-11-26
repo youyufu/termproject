@@ -17,7 +17,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class EnterView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "enter";
+    public final static String viewName = "enter";
     private final EnterViewModel enterViewModel;
     private final JTextField medicineNameInputField = new JTextField(50);
     private final JTextField doseUnitInputField = new JTextField(8);
@@ -77,7 +77,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(back)) {
-                            switchViewController.execute("main");
+                            switchViewController.execute(MainView.viewName);
                         }
                     }
                 }

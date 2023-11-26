@@ -14,7 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class TableView extends JLabel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "table";
+    public final static String viewName = "table";
     private final TableViewModel tableViewModel;
     private JLabel header;
     private JPanel tablePanel;
@@ -45,7 +45,7 @@ public class TableView extends JLabel implements ActionListener, PropertyChangeL
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(back)) {
-                            switchViewController.execute("main");
+                            switchViewController.execute(MainView.viewName);
                         }
                     }
                 }
