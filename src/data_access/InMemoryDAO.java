@@ -61,10 +61,13 @@ public class InMemoryDAO implements MedicineDataAccessInterface {
     @Override
     public String getIdListString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Medicine medicine:userMedicine.values()) {
-            stringBuilder.append(medicine.getId()).append("+");
-        } stringBuilder.deleteCharAt(stringBuilder.length());
-        return stringBuilder.toString();
+        if (userMedicine.values().isEmpty()) {return "";}
+        else {
+            for (Medicine medicine:userMedicine.values()) {
+                stringBuilder.append(medicine.getId()).append("+");
+            } stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            return stringBuilder.toString();
+        }
     }
     public static InMemoryDAO getInMemoryDAO(LocalDate localDate) {
         String day = localDate.getDayOfWeek().name();

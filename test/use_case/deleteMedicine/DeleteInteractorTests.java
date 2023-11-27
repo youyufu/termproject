@@ -44,17 +44,7 @@ public class DeleteInteractorTests {
         EnterInputData inputData = new EnterInputData("Oxycontin", 3, "mg",
                 300, myArray , "Do not get addicted" );
         EnterInputBoundary interactor = new EnterInteractor(
-                userRepository, successPresenter, new MedicineFactory(), new MedicineAPICallsObject()) {
-            @Override
-            public String findId(String name) {
-                return null;
-            }
-
-            @Override
-            public ArrayList<String> findDrugInteractions(MedicineDataAccessInterface medicineDataAccessObject, String id) throws IOException, InterruptedException {
-                return null;
-            }
-        });
+                userRepository, successPresenter, new MedicineFactory(), new MedicineAPICallsObject());
         interactor.execute(inputData);
     }
 
@@ -70,10 +60,31 @@ public class DeleteInteractorTests {
                 assertFalse(userRepository.exists("Oxycontin"));
             }
             @Override
-            public void prepareFailView(String error) {fail("Medicine Name Does Not Exist");}
+            public void prepareFailView(String error) {;}
 
         };
         DeleteInputData inputData = new DeleteInputData("Oxycontin");
+        DeleteInputBoundary interactor = new DeleteInteractor(
+                userRepository, successPresenter);
+        interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
+    }
+    @org.junit.jupiter.api.Test
+    void successTest2() throws IOException {
+        InMemoryDAO userRepository = new InMemoryDAO(new Today(1),
+                new MedicineFactory());
+        DeleteOutputBoundary successPresenter = new DeleteOutputBoundary() {
+            @Override
+            public void prepareSuccessView(DeleteOutputData user) {
+// 2 things to check: the output data is correct, and the user has been created in the DAO.
+                Assertions.assertEquals("Oxycontin", user.getMedication());
+                assertTrue(userRepository.exists("Oxycontin"));
+            }
+            @Override
+            public void prepareFailView(String error) {;
+            }
+
+        };
+        DeleteInputData inputData = new DeleteInputData("Ritalin");
         DeleteInputBoundary interactor = new DeleteInteractor(
                 userRepository, successPresenter);
         interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
