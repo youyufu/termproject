@@ -3,6 +3,7 @@ package interface_adapter.enterMedicine;
 import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
+import use_case.enterMedicine.EnterInputData;
 import use_case.enterMedicine.EnterOutputBoundary;
 import use_case.enterMedicine.EnterOutputData;
 
