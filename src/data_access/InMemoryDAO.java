@@ -4,6 +4,7 @@ import entity.Medicine;
 import entity.MedicineFactory;
 import entity.Today;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class InMemoryDAO implements MedicineDataAccessInterface {
@@ -52,13 +53,11 @@ public class InMemoryDAO implements MedicineDataAccessInterface {
         userMedicine.get(medicine).getDose().takeDose();
         today.take(medicine);
     }
-
     @Override
     public void undoTakeMedicine(String medicine) {
         userMedicine.get(medicine).getDose().undoTakeDose();
         today.untake(medicine);
     }
-
     @Override
     public String getIdListString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -66,5 +65,19 @@ public class InMemoryDAO implements MedicineDataAccessInterface {
             stringBuilder.append(medicine.getId()).append("+");
         } stringBuilder.deleteCharAt(stringBuilder.length());
         return stringBuilder.toString();
+    }
+    public static InMemoryDAO getInMemoryDAO(LocalDate localDate) {
+        String day = localDate.getDayOfWeek().name();
+        Integer dayInt = null;
+        switch (day) {
+            case "SUNDAY" -> dayInt = 0;
+            case "MONDAY" -> dayInt = 1;
+            case "TUESDAY" -> dayInt = 2;
+            case "WEDNESDAY" -> dayInt = 3;
+            case "THURSDAY" -> dayInt = 4;
+            case "FRIDAY" -> dayInt = 5;
+            case "SATURDAY" -> dayInt = 6;
+        }
+        return new InMemoryDAO(new Today(dayInt), new MedicineFactory());
     }
 }

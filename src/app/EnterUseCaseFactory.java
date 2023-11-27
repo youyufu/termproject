@@ -1,6 +1,6 @@
 package app;
 
-import data_access.MedicineDAO;
+import data_access.MedicineAPICallsInterface;
 import data_access.MedicineDataAccessInterface;
 import entity.MedicineFactory;
 import interface_adapter.TableViewModel;
@@ -18,15 +18,15 @@ public class EnterUseCaseFactory {
     private EnterUseCaseFactory(){}
     public static EnterView create(SwitchViewController switchViewController, EnterViewModel enterViewModel,
                                    ChecklistViewModel checklistViewModel, TableViewModel tableViewModel,
-                                   MedicineDataAccessInterface medicineDAO){
-        EnterController enterController = createEnterUseCase(enterViewModel, checklistViewModel, tableViewModel, medicineDAO);
+                                   MedicineDataAccessInterface medicineDAO, MedicineAPICallsInterface medicineAPICallsObject){
+        EnterController enterController = createEnterUseCase(enterViewModel, checklistViewModel, tableViewModel, medicineDAO, medicineAPICallsObject);
         return new EnterView(switchViewController, enterController, enterViewModel);
     }
     public static EnterController createEnterUseCase(EnterViewModel enterViewModel, ChecklistViewModel checklistViewModel,
-                                                     TableViewModel tableViewModel, MedicineDataAccessInterface medicineDAO) {
+                                                     TableViewModel tableViewModel, MedicineDataAccessInterface medicineDAO, MedicineAPICallsInterface medicineAPICallsObject) {
         EnterOutputBoundary enterPresenter = new EnterPresenter(enterViewModel, checklistViewModel, tableViewModel);
         MedicineFactory medicineFactory = new MedicineFactory();
-        EnterInputBoundary enterInteractor = new EnterInteractor(medicineDAO, enterPresenter, medicineFactory);
+        EnterInputBoundary enterInteractor = new EnterInteractor(medicineDAO, enterPresenter, medicineFactory, medicineAPICallsObject);
         return new EnterController(enterInteractor);
     }
 }

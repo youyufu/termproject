@@ -1,29 +1,29 @@
 package use_case.enterMedicine;
 
+import data_access.MedicineAPICallsInterface;
 import data_access.MedicineDataAccessInterface;
 import entity.Dose;
 import entity.Medicine;
 import entity.MedicineFactory;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
 public class EnterInteractor implements EnterInputBoundary {
-    final MedicineDataAccessInterface medicineDataAccessObject;
-    final EnterOutputBoundary enterPresenter;
-    final MedicineFactory medicineFactory;
+    private final MedicineDataAccessInterface medicineDataAccessObject;
+    private final EnterOutputBoundary enterPresenter;
+    private final MedicineFactory medicineFactory;
+    private final MedicineAPICallsInterface medicineAPICallsObject;
+    public static final String DEFAULT_ID = "";
 
     public EnterInteractor(MedicineDataAccessInterface medicineDataAccessObject,
                            EnterOutputBoundary enterPresenter,
-                           MedicineFactory medicineFactory) {
+                           MedicineFactory medicineFactory,
+                           MedicineAPICallsInterface medicineAPICallsObject) {
         this.medicineDataAccessObject = medicineDataAccessObject;
         this.enterPresenter = enterPresenter;
         this.medicineFactory = medicineFactory;
+        this.medicineAPICallsObject = medicineAPICallsObject;
     }
 
     @Override
@@ -33,35 +33,28 @@ public class EnterInteractor implements EnterInputBoundary {
             enterPresenter.preparePopUp(name + " already exists as a medication");
         }
         else {
-            // API call to get id
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://rxnav.nlm.nih.gov/REST/rxcui.json?name=" + name + "&allsrc=0&srclist=ALL&search=2"))
-                    .method("GET", HttpRequest.BodyPublishers.noBody()).build();
-            HttpResponse<String> response = null;
-            String id;
-            try {
-                response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-                JSONObject jsonResponse = new JSONObject(response.body());
-                JSONObject idGroup = (JSONObject) jsonResponse.get("idGroup");
-                JSONArray rxnormId = (JSONArray) idGroup.get("rxnormId");
-                id = rxnormId.getString(0);
-            } catch (IOException e) {
-            } catch (InterruptedException e) {
+            String id = medicineAPICallsObject.findId(name);
+            if (!id.equals(DEFAULT_ID)) {
+                try {
+                    ArrayList<String> warnings = medicineAPICallsObject.findDrugInteractions(medicineDataAccessObject, id);
+                    if (!warnings.isEmpty()) {
+                        StringBuilder popUpMessage = new StringBuilder();
+                        for (String description:warnings) {
+                            popUpMessage.append("Warning - drug interaction detected: ").append(description).append("\n");
+                        }
+                        enterPresenter.preparePopUp(popUpMessage.toString());
+                    }
+                } catch (IOException e) {
+                    // TODO implement this
+                } catch (InterruptedException e) {
+                    // TODO implement this
+                }
+            } else {
+                enterPresenter.preparePopUp(name + " could not be found in the database. The drug will still be entered but drug interactions with " + name + " cannot be confirmed.");
             }
-            // API call to drug interaction checker
-            String allId = medicineDataAccessObject.getIdListString() + "+" + id;
-            HttpRequest requestInteraction = HttpRequest.newBuilder()
-                    .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
-                    .method("GET", HttpRequest.BodyPublishers.noBody()).build();
-            HttpResponse<String> responseInteraction = null;
-            try {
-                responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
-                JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
-            } catch (IOException e) {
-            } catch (InterruptedException e) {
-            }
-            if () {}
-            else {
+            if (enterInputData.getDoseSize() == 0) {
+                enterPresenter.preparePopUp("Cannot enter medicine with a dose size of 0.");
+            } else {
                 Dose dose = medicineFactory.createDose(enterInputData.getDoseSize(),
                         enterInputData.getInventory(),
                         enterInputData.getUnit());

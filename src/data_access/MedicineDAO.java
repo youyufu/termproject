@@ -8,6 +8,7 @@ import entity.Today;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -50,8 +51,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                 } if (today.get("dayInt") == this.today.getDay()) {
                     for (Object object1:todayArray) {
                         JSONObject med = (JSONObject) object1;
-                        Long taken = (Long) med.get("taken");
-                        Integer t = taken.intValue();
+                        Integer t = (Integer) med.get("taken");
                         this.today.add((String) med.get("name"), t);
                     }
                 } else {
@@ -148,4 +148,22 @@ public class MedicineDAO implements MedicineDataAccessInterface{
     @Override
     public HashMap<String, Integer> getTodayChecklist() {return today.getTodayChecklist();}
     public HashMap<String, Medicine> getUserMedicines() {return userMedicines;}
+    public static MedicineDAO getMedicineDAO(LocalDate localDate) {
+        String day = localDate.getDayOfWeek().name();
+        Integer dayInt = null;
+        switch (day) {
+            case "SUNDAY" -> dayInt = 0;
+            case "MONDAY" -> dayInt = 1;
+            case "TUESDAY" -> dayInt = 2;
+            case "WEDNESDAY" -> dayInt = 3;
+            case "THURSDAY" -> dayInt = 4;
+            case "FRIDAY" -> dayInt = 5;
+            case "SATURDAY" -> dayInt = 6;
+        }
+        try {
+            return new MedicineDAO("./medicine.json", new Today(dayInt), new MedicineFactory());
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
 }

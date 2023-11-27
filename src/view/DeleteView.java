@@ -17,7 +17,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class DeleteView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "delete";
+    public final static String viewName = "delete";
     private final DeleteViewModel deleteViewModel;
     private final JTextField medicineNameInputField = new JTextField(50);
     private final SwitchViewController switchViewController;
@@ -43,7 +43,7 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(back)) {
-                            switchViewController.execute("main");
+                            switchViewController.execute(MainView.viewName);
                         }
                     }
                 }
