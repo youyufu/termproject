@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 public interface MedicineAPICallsInterface {
     /**
+     * An interface for the API calls needed for the program.
+     */
+
+    /**
      * Finds the RxCUI associated with the entered name. Assigns DEFAULT_ID if it is not found.
      * @return the RxCUI associated with the entered name, DEFAULT_ID if it is not found.
      */
