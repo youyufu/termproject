@@ -4,6 +4,7 @@ package test;
 import static org.junit.Assert.assertEquals;
 
 import data_access.InMemoryDAO;
+import data_access.MedicineAPICallsObject;
 import org.junit.Test;
 import data_access.MedicineDAO;
 import data_access.MedicineDataAccessInterface;
@@ -74,7 +75,7 @@ class EnterInteractorTests {
                 assertTrue(userRepository.exists("Oxycontin"));
             }
             @Override
-            public void prepareFailView(String error) {fail("Use case failure is unexpected.");}
+            public void preparePopUp(String error) {fail("Use case failure is unexpected.");}
 
             @Override
             public void updateChecklistView(EnterOutputData user) {
@@ -92,7 +93,7 @@ class EnterInteractorTests {
         EnterInputData inputData = new EnterInputData("Oxycontin", 3, "tablet",
                 300, myArray , "Do not get addicted" );
         EnterInputBoundary interactor = new EnterInteractor(
-                userRepository, successPresenter, new MedicineFactory());
+                userRepository, successPresenter, new MedicineFactory() , new MedicineAPICallsObject());
         interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
     }
 }

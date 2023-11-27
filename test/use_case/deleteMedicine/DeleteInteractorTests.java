@@ -1,6 +1,4 @@
-import data_access.InMemoryDAO;
-import data_access.MedicineDAO;
-import data_access.MedicineDataAccessInterface;
+import data_access.*;
 import entity.MedicineFactory;
 import entity.Today;
 import org.junit.jupiter.api.Assertions;
@@ -9,6 +7,7 @@ import use_case.enterMedicine.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +25,7 @@ public class DeleteInteractorTests {
                 assertTrue(userRepository.exists("Oxycontin"));
             }
             @Override
-            public void prepareFailView(String error) {fail("Use case failure is unexpected.");}
+            public void preparePopUp(String error) {fail("Use case failure is unexpected.");}
 
             @Override
             public void updateChecklistView(EnterOutputData user) {
@@ -43,7 +42,17 @@ public class DeleteInteractorTests {
         EnterInputData inputData = new EnterInputData("Oxycontin", 3, "mg",
                 300, myArray , "Do not get addicted" );
         EnterInputBoundary interactor = new EnterInteractor(
-                userRepository, successPresenter, new MedicineFactory());
+                userRepository, successPresenter, new MedicineFactory(), new MedicineAPICallsObject()) {
+            @Override
+            public String findId(String name) {
+                return null;
+            }
+
+            @Override
+            public ArrayList<String> findDrugInteractions(MedicineDataAccessInterface medicineDataAccessObject, String id) throws IOException, InterruptedException {
+                return null;
+            }
+        });
         interactor.execute(inputData);
     }
 
