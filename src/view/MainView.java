@@ -11,7 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class MainView extends JLabel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "main";
+    public final static String viewName = "main";
     private final MainViewModel mainViewModel;
     private final JButton enter;
     private final JButton delete;
@@ -41,7 +41,7 @@ public class MainView extends JLabel implements ActionListener, PropertyChangeLi
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(enter)) {
-                            switchViewController.execute("enter");
+                            switchViewController.execute(EnterView.viewName);
                         }
                     }
                 }
@@ -51,7 +51,7 @@ public class MainView extends JLabel implements ActionListener, PropertyChangeLi
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(delete)) {
-                            switchViewController.execute("delete");
+                            switchViewController.execute(DeleteView.viewName);
                         }
                     }
                 }
@@ -61,7 +61,7 @@ public class MainView extends JLabel implements ActionListener, PropertyChangeLi
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(table)) {
-                            switchViewController.execute("table");
+                            switchViewController.execute(TableView.viewName);
                         }
                     }
                 }
@@ -71,7 +71,7 @@ public class MainView extends JLabel implements ActionListener, PropertyChangeLi
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(checklist)) {
-                            switchViewController.execute("checklist");
+                            switchViewController.execute(ChecklistView.viewName);
                         }
                     }
                 }

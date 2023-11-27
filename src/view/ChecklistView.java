@@ -43,7 +43,7 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(back)) {
-                            switchViewController.execute("main");
+                            switchViewController.execute(MainView.viewName);
                         }
                     }
                 }
