@@ -44,10 +44,9 @@ public class EnterInteractor implements EnterInputBoundary {
                         }
                         enterPresenter.preparePopUp(popUpMessage.toString());
                     }
-                } catch (IOException e) {
-                    // TODO implement this
-                } catch (InterruptedException e) {
-                    // TODO implement this
+                } catch (IOException | InterruptedException e) {
+                    enterPresenter.preparePopUp("Error retrieving data about the medication. Please try again later.");
+                    return;
                 }
             } else {
                 enterPresenter.preparePopUp(name + " could not be found in the database. The drug will still be entered but drug interactions with " + name + " cannot be confirmed.");
