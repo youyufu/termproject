@@ -1,6 +1,9 @@
 package use_case.enterMedicine;
 
 public class EnterInputData {
+    /**
+     * An object representing the data of the medicine to be created.
+     */
     final private String medicine;
     final private Integer doseSize;
     final private Integer inventory;
@@ -8,6 +11,15 @@ public class EnterInputData {
     final private Integer[] day;
     final private String description;
 
+    /**
+     * Creates the input data object.
+     * @param medicine the name of the medicine.
+     * @param doseSize the size of each dose to be taken.
+     * @param unit the unit of the medicine.
+     * @param inventory the amount of medicine in inventory.
+     * @param day the number of doses to be taken each day of the week.
+     * @param description a description of the medicine.
+     */
     public EnterInputData(String medicine,
                           Integer doseSize,
                           String unit,
@@ -22,16 +34,40 @@ public class EnterInputData {
         this.description = description;
     }
 
+    /**
+     * Gets the medicine attribute.
+     * @return the name of the medicine.
+     */
     String getMedicine() {return medicine;}
 
+    /**
+     * Gets the doseSize attribute.
+     * @return the size of the dose.
+     */
     Integer getDoseSize() {return doseSize;}
 
+    /**
+     * Gets the inventory attribute.
+     * @return the amount of the medicine remaining.
+     */
     Integer getInventory() {return inventory;}
 
+    /**
+     * Gets the unit attribute.
+     * @return the unit of the medicine.
+     */
     String getUnit() {return unit;}
 
+    /**
+     * Gets the day attribute.
+     * @return the number of doses to be taken each day.
+     */
     Integer[] getDay() {return day;}
 
+    /**
+     * Gets description attribute.
+     * @return the description for the medicine.
+     */
     String getDescription() {return description;}
 
 }
