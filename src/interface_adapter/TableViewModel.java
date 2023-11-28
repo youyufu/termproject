@@ -1,6 +1,5 @@
 package interface_adapter;
 
-import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 

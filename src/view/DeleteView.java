@@ -1,11 +1,9 @@
 package view;
 
-import interface_adapter.enterMedicine.EnterState;
 import interface_adapter.switchView.SwitchViewController;
 import interface_adapter.deleteMedicine.DeleteController;
 import interface_adapter.deleteMedicine.DeleteState;
 import interface_adapter.deleteMedicine.DeleteViewModel;
-import interface_adapter.enterMedicine.EnterViewModel;
 
 import javax.swing.*;
 import java.awt.*;

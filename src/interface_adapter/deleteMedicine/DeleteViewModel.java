@@ -1,7 +1,5 @@
 package interface_adapter.deleteMedicine;
-
 import interface_adapter.ViewModel;
-import interface_adapter.enterMedicine.EnterState;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

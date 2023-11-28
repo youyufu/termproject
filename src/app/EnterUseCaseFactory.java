@@ -15,8 +15,6 @@ import use_case.enterMedicine.EnterInteractor;
 import use_case.enterMedicine.EnterOutputBoundary;
 import view.EnterView;
 
-import javax.swing.text.View;
-
 public class EnterUseCaseFactory {
     private EnterUseCaseFactory(){}
     public static EnterView create(SwitchViewController switchViewController, EnterViewModel enterViewModel,
