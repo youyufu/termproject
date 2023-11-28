@@ -39,12 +39,12 @@ public class Main {
         DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, medicineDAO);
         TableView tableView = TableViewFactory.create(switchViewController, tableViewModel, medicineDAO);
         ChecklistView checklistView = ChecklistUseCaseFactory.create(switchViewController, checklistViewModel, tableViewModel, medicineDAO);
-        views.add(mainView, mainView.viewName);
-        views.add(enterView, enterView.viewName);
-        views.add(deleteView, deleteView.viewName);
-        views.add(tableView, tableView.viewName);
-        views.add(checklistView, checklistView.viewName);
-        viewManagerModel.setActiveView(mainView.viewName);
+        views.add(mainView, MainView.viewName);
+        views.add(enterView, EnterView.viewName);
+        views.add(deleteView, DeleteView.viewName);
+        views.add(tableView, TableView.viewName);
+        views.add(checklistView, ChecklistView.viewName);
+        viewManagerModel.setActiveView(MainView.viewName);
         viewManagerModel.firePropertyChanged();
         application.pack();
         application.setVisible(true);

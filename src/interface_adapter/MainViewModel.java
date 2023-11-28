@@ -12,17 +12,8 @@ public class MainViewModel extends ViewModel{
     public MainViewModel() {
         super("main");
     }
-
     @Override
-    public void firePropertyChanged() {
-
-    }
-
+    public void firePropertyChanged() {}
     @Override
-    public void firePropertyChanged(String[] item) {}
-
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-
-    }
+    public void addPropertyChangeListener(PropertyChangeListener listener) {}
 }

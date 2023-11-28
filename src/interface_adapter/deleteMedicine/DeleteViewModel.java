@@ -23,10 +23,6 @@ public class DeleteViewModel extends ViewModel {
     @Override
     public void firePropertyChanged() {support.firePropertyChange("state", null, deleteState);
     }
-
-    @Override
-    public void firePropertyChanged(String[] item) {}
-
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {support.addPropertyChangeListener(listener);}
 }

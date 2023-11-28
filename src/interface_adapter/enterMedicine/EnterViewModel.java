@@ -37,10 +37,6 @@ public class EnterViewModel extends ViewModel {
     @Override
     public void firePropertyChanged() {support.firePropertyChange("state", null, enterState);
     }
-
-    @Override
-    public void firePropertyChanged(String[] item) {}
-
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {support.addPropertyChangeListener(listener);}
 }

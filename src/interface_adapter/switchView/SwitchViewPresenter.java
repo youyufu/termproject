@@ -8,7 +8,7 @@ import view.ChecklistView;
 
 public class SwitchViewPresenter implements SwitchViewOutputBoundary {
     /**
-     * An output boundary to handle output data relating to the SwitchViewUseCase.
+     * An presenter to handle output data relating to the SwitchViewUseCase.
      */
     private final ViewManagerModel viewManagerModel;
     private final ChecklistViewModel checklistViewModel;
