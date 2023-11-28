@@ -10,12 +10,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class EnterInteractor implements EnterInputBoundary {
+    /**
+     * An interactor implementing the logic for deciding whether or not the entered medicine gets created.
+     */
     private final MedicineDataAccessInterface medicineDataAccessObject;
     private final EnterOutputBoundary enterPresenter;
     private final MedicineFactory medicineFactory;
     private final MedicineAPICallsInterface medicineAPICallsObject;
+    /**
+     * A default id to be assigned to medicines for which a RxCUI cannot be found.
+     */
     public static final String DEFAULT_ID = "";
 
+    /**
+     * Creates an EnterInteractor
+     * @param medicineDataAccessObject
+     * @param enterPresenter
+     * @param medicineFactory
+     * @param medicineAPICallsObject
+     */
     public EnterInteractor(MedicineDataAccessInterface medicineDataAccessObject,
                            EnterOutputBoundary enterPresenter,
                            MedicineFactory medicineFactory,
@@ -26,6 +39,11 @@ public class EnterInteractor implements EnterInputBoundary {
         this.medicineAPICallsObject = medicineAPICallsObject;
     }
 
+    /**
+     * Checks whether the entered medicine should be created or not. Creates the medicine and updates the relevent information
+     * if the medicine fulfills the requirements or calls on the presenter to create a popup if something fails.
+     * @param enterInputData data related to the medicine to be created.
+     */
     @Override
     public void execute(EnterInputData enterInputData) {
         String name = enterInputData.getMedicine();
