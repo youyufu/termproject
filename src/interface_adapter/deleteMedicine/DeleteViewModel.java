@@ -11,7 +11,7 @@ public class DeleteViewModel extends ViewModel {
     public static final String DELETE_BUTTON_LABEL = "Delete";
     public static final String HEADER_LABEL = "Enter your medication below to delete!";
     public static final String MEDICINE_NAME_LABEL = "Name of Medication:";
-    private static DeleteState deleteState = new DeleteState();
+    private DeleteState deleteState = new DeleteState();
     public DeleteViewModel() {super("delete");}
     public void setState(DeleteState state) {
         deleteState = state;
