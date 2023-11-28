@@ -54,7 +54,8 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(delete)) {
                             DeleteState currentState = deleteViewModel.getState();
-                            deleteController.execute(currentState.getMedicineName());
+                            String medName = currentState.getMedicineName();
+                            deleteController.execute(medName.replaceAll("\b", ""));
                         }
                     }
                 }
@@ -95,6 +96,6 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
         DeleteState state = (DeleteState) evt.getNewValue();
         if (state.getDeleteError() != null) {
             JOptionPane.showMessageDialog(this, state.getDeleteError());
-        }
+        } medicineNameInputField.setText(state.getMedicineName().replaceAll("\b", ""));
     }
 }

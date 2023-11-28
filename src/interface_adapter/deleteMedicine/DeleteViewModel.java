@@ -21,8 +21,7 @@ public class DeleteViewModel extends ViewModel {
     }
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     @Override
-    public void firePropertyChanged() {support.firePropertyChange("state", null, deleteState);
-    }
+    public void firePropertyChanged() {support.firePropertyChange("", null, deleteState);}
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {support.addPropertyChangeListener(listener);}
 }

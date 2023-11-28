@@ -35,8 +35,8 @@ public class Main {
         SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel, checklistViewModel);
         MainView mainView = new MainView(switchViewController, mainViewModel);
         MedicineAPICallsInterface medicineAPICallsObject = new MedicineAPICallsObject();
-        EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO, medicineAPICallsObject);
-        DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, medicineDAO);
+        EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, viewManagerModel, medicineDAO, medicineAPICallsObject);
+        DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, viewManagerModel, medicineDAO);
         TableView tableView = TableViewFactory.create(switchViewController, tableViewModel, medicineDAO);
         ChecklistView checklistView = ChecklistUseCaseFactory.create(switchViewController, checklistViewModel, tableViewModel, medicineDAO);
         views.add(mainView, MainView.viewName);
