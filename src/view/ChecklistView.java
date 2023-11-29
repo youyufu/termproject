@@ -15,7 +15,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ChecklistView extends JPanel implements ActionListener, PropertyChangeListener, ItemListener {
+public class ChecklistView extends JPanel implements PropertyChangeListener, ItemListener {
     public static final String viewName = "checklist";
     private final ChecklistViewModel checklistViewModel;
     private final SwitchViewController switchViewController;
@@ -59,8 +59,6 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
         this.add(lowStock);
         this.add(buttons);
     }
-    @Override
-    public void actionPerformed(ActionEvent e) {}
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("addTake")) {
