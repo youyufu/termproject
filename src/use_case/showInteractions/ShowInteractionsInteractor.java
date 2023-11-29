@@ -31,10 +31,9 @@ public class ShowInteractionsInteractor implements ShowInteractionsInputBoundary
 
     /**
      * get the existing drug interactions and pass it to the output boundary.
-     * @param showInteractionsInputData the signal for the interactor to execute.
      */
     @Override
-    public void execute(ShowInteractionsInputData showInteractionsInputData) {
+    public void execute() {
         try {
             ArrayList<String> warnings = medicineAPICallsInterface.findAllInteractions(medicineDataAccessInterface);
             if (warnings.isEmpty()) {showInteractionsOutputBoundary.preparePopUp("No drug interaction found between the existing medicines.\n" +
