@@ -7,6 +7,7 @@ import java.util.Comparator;
 public class TableState {
     private ArrayList<String[]> data = new ArrayList<>();
     private ArrayList<ArrayList<String>> longest = new ArrayList<>();
+    private String message = "";
     public TableState(TableState copy) {
         this.data = copy.data;
         this.longest = copy.longest;
@@ -19,6 +20,15 @@ public class TableState {
             longest.add(list);
         }
     }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
     public String[][] getData() {
         String[][] dataArray = new String[data.size()][];
         for (int i = 0; i < data.size(); i++) {

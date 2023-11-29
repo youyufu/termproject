@@ -6,6 +6,7 @@ import java.beans.PropertyChangeSupport;
 public class TableViewModel extends ViewModel{
     public static final String HEADER_LABEL = "Medication Table";
     public static final String BACK_BUTTON_LABEL = "Back";
+    public static final String SHOW_BUTTON_LABEL = "Show All Interactions";
     private TableState tableState = new TableState();
     public TableViewModel() {super("table");}
     public TableState getState() {return tableState;}
