@@ -12,7 +12,7 @@ public class ShowInteractionsPresenter implements ShowInteractionsOutputBoundary
         this.tableViewModel = tableViewModel;
     }
 
-    public void preparePopUp(){
-        tableViewModel.firePopUp();
+    public void preparePopUp(String message){
+        tableViewModel.firePopUp(message);
      }
 }
