@@ -33,7 +33,6 @@ public class Main {
         LocalDate localDate = LocalDate.now();
         MedicineDataAccessInterface medicineDAO = MedicineDAO.getMedicineDAO(localDate);
         SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel, checklistViewModel);
-        CrossUseCaseFactory.init(viewManagerModel,checklistViewModel,tableViewModel,switchViewController,medicineDAO);
         MainView mainView = new MainView(switchViewController, mainViewModel);
         MedicineAPICallsInterface medicineAPICallsObject = new MedicineAPICallsObject();
         EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, medicineDAO, medicineAPICallsObject);
