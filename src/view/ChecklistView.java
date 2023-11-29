@@ -1,7 +1,5 @@
 package view;
 
-import app.CrossUseCaseFactory;
-import entity.Medicine;
 import interface_adapter.checklistChecked.ChecklistController;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.switchView.SwitchViewController;
@@ -94,17 +92,7 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
             }
         } else if (evt.getPropertyName().equals("addLow")) {
             String[] medication = (String[]) evt.getNewValue();
-
-            HashMap<String, Medicine> userMedicines = CrossUseCaseFactory.medicineDAO.getUserMedicines();
-            if(null == CrossUseCaseFactory.map.get(medication[0])){
-                for (Medicine medicine:userMedicines.values()) {
-                    if(medicine.getName().equals(medication[0])){
-                        CrossUseCaseFactory.map.put(medication[0],Integer.parseInt(medicine.getInventoryString().split(" ")[0]));
-                    }
-                }
-
-            }
-            JLabel lowMed = new JLabel(medication[0] + " (" + CrossUseCaseFactory.map.get(medication[0]) + " doses remaining)");
+            JLabel lowMed = new JLabel(medication[0] + " (" + medication[1] + " doses remaining)");
             lowStock.add(lowMed);
             lowMap.put(medication[0], lowMed);
         } else if (evt.getPropertyName().equals("updateLow")) {
@@ -127,23 +115,17 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
     @Override
     public void itemStateChanged(ItemEvent e) {
         ItemSelectable source = e.getItemSelectable();
-        String text = ((JCheckBox)e.getSource()).getText();
         for (String medicine: checklistMap.keySet()) {
-
             ArrayList<JCheckBox> checkBoxList = checklistMap.get(medicine);
             for (JCheckBox checkBox: checkBoxList) {
-                if (checkBox == source && text.indexOf(medicine) != -1){
-                    int num = Integer.parseInt(text.split(" ")[1]);
+                if (checkBox == source)
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
-                        checklistController.cacelExecute(medicine,num,lowMap,lowStock);
+                        checklistController.execute(medicine);
                         break;
                     } else {
-
-                        checklistController.execute(medicine,num,lowMap,lowStock);
+                        checklistController.execute(medicine);
                         break;
                     }
-                }
-
             }
         }
     }
