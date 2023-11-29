@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class MainView extends JLabel implements ActionListener, PropertyChangeListener {
+public class MainView extends JPanel{
     public final static String viewName = "main";
     private final MainViewModel mainViewModel;
     private final JButton enter;
@@ -21,7 +21,6 @@ public class MainView extends JLabel implements ActionListener, PropertyChangeLi
     public MainView(SwitchViewController switchViewController, MainViewModel mainViewModel) {
         this.switchViewController = switchViewController;
         this.mainViewModel = mainViewModel;
-        mainViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel((MainViewModel.TITLE_LABEL));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -81,10 +80,4 @@ public class MainView extends JLabel implements ActionListener, PropertyChangeLi
         this.add(title);
         this.add(buttons);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {}
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {}
 }

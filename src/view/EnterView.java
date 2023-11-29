@@ -16,11 +16,20 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class EnterView extends JPanel implements ActionListener, PropertyChangeListener {
+public class EnterView extends JPanel implements PropertyChangeListener {
     public final static String viewName = "enter";
     private final EnterViewModel enterViewModel;
     private final JTextField medicineNameInputField = new JTextField(50);
     private final JTextField doseUnitInputField = new JTextField(8);
+    private final JSpinner doseSize;
+    private final JSpinner doseInventory;
+    private final JSpinner sunday;
+    private final JSpinner monday;
+    private final JSpinner tuesday;
+    private final JSpinner wednesday;
+    private final JSpinner thursday;
+    private final JSpinner friday;
+    private final JSpinner saturday;
     private final JTextField descriptionInputField = new JTextField(50);
     private final SwitchViewController switchViewController;
     private final EnterController enterController;
@@ -43,14 +52,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
     }
     static JFormattedTextField getTextField(JSpinner spinner) {
         JComponent editor = spinner.getEditor();
-        if (editor instanceof JSpinner.DefaultEditor) {
-            return ((JSpinner.DefaultEditor)editor).getTextField();
-        } else {
-            System.err.println("Unexpected editor type: "
-                    + spinner.getEditor().getClass()
-                    + " isn't a descendant of DefaultEditor");
-            return null;
-        }
+        return ((JSpinner.DefaultEditor)editor).getTextField();
     }
     public EnterView(SwitchViewController switchViewController1, EnterController enterController1, EnterViewModel enterViewModel1) {
         switchViewController = switchViewController1;
@@ -88,10 +90,13 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(enter)) {
                             EnterState currentState = enterViewModel.getState();
+                            String medName = currentState.getMedicineName();
+                            String doseUnit = currentState.getDoseUnit();
+                            String description = currentState.getDescription();
                             enterController.execute(
-                                    currentState.getMedicineName(),
+                                    medName,
                                     currentState.getDoseSize(),
-                                    currentState.getDoseUnit(),
+                                    doseUnit,
                                     currentState.getDoseInventory(),
                                     new Integer[]{currentState.getSundayDoses(),
                                             currentState.getMondayDoses(),
@@ -100,7 +105,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                                             currentState.getThursdayDoses(),
                                             currentState.getFridayDoses(),
                                             currentState.getSaturdayDoses()},
-                                    currentState.getDescription()
+                                    description
                             );
                         }
                     }
@@ -112,19 +117,14 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyTyped(KeyEvent e) {
                         EnterState currentState = enterViewModel.getState();
                         String text = medicineNameInputField.getText() + e.getKeyChar();
-                        currentState.setMedicineName(text.strip());
+                        currentState.setMedicineName(text.replaceAll("\b", "").strip());
                         enterViewModel.setState(currentState);
                     }
+                    @Override
+                    public void keyPressed(KeyEvent e) {}
 
                     @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
+                    public void keyReleased(KeyEvent e) {}
                 }
         );
         doseUnitInputField.addKeyListener(
@@ -133,19 +133,13 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyTyped(KeyEvent e) {
                         EnterState currentState = enterViewModel.getState();
                         String text = doseUnitInputField.getText() + e.getKeyChar();
-                        currentState.setDoseUnit(text.strip());
+                        currentState.setDoseUnit(text.strip().replaceAll("\b", ""));
                         enterViewModel.setState(currentState);
                     }
-
                     @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
+                    public void keyPressed(KeyEvent e) {}
                     @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
+                    public void keyReleased(KeyEvent e) {}
                 }
         );
         descriptionInputField.addKeyListener(
@@ -154,26 +148,20 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyTyped(KeyEvent e) {
                         EnterState currentState = enterViewModel.getState();
                         String text = descriptionInputField.getText() + e.getKeyChar();
-                        currentState.setDescription(text.strip());
+                        currentState.setDescription(text.strip().replaceAll("\b", ""));
                         enterViewModel.setState(currentState);
                     }
-
                     @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
+                    public void keyPressed(KeyEvent e) {}
                     @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
+                    public void keyReleased(KeyEvent e) {}
                 }
         );
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(header);
         this.add(medicineName);
         JPanel doseSizePanel = new JPanel();
-        JSpinner doseSize = addLabeledSpinner(doseSizePanel, EnterViewModel.DOSE_SIZE_LABEL, 3);
+        doseSize = addLabeledSpinner(doseSizePanel, EnterViewModel.DOSE_SIZE_LABEL, 3);
         doseSize.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -186,7 +174,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         this.add(doseSizePanel);
         this.add(doseUnit);
         JPanel doseInventoryPanel = new JPanel();
-        JSpinner doseInventory = addLabeledSpinner(doseInventoryPanel, EnterViewModel.DOSE_INVENTORY_LABEL, 5);
+        doseInventory = addLabeledSpinner(doseInventoryPanel, EnterViewModel.DOSE_INVENTORY_LABEL, 5);
         doseInventory.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -199,7 +187,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         this.add(doseInventoryPanel);
         this.add(days);
         JPanel sundayPanel = new JPanel();
-        JSpinner sunday = addLabeledSpinner(sundayPanel, EnterViewModel.SUNDAY_LABEL, 2);
+        sunday = addLabeledSpinner(sundayPanel, EnterViewModel.SUNDAY_LABEL, 2);
         sunday.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -211,7 +199,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         });
         this.add(sundayPanel);
         JPanel mondayPanel = new JPanel();
-        JSpinner monday = addLabeledSpinner(mondayPanel, EnterViewModel.MONDAY_LABEL, 2);
+        monday = addLabeledSpinner(mondayPanel, EnterViewModel.MONDAY_LABEL, 2);
         monday.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -223,7 +211,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         });
         this.add(mondayPanel);
         JPanel tuesdayPanel = new JPanel();
-        JSpinner tuesday = addLabeledSpinner(tuesdayPanel, EnterViewModel.TUESDAY_LABEL, 2);
+        tuesday = addLabeledSpinner(tuesdayPanel, EnterViewModel.TUESDAY_LABEL, 2);
         tuesday.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -235,7 +223,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         });
         this.add(tuesdayPanel);
         JPanel wednesdayPanel = new JPanel();
-        JSpinner wednesday = addLabeledSpinner(wednesdayPanel, EnterViewModel.WEDNESDAY_LABEL, 2);
+        wednesday = addLabeledSpinner(wednesdayPanel, EnterViewModel.WEDNESDAY_LABEL, 2);
         wednesday.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -247,7 +235,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         });
         this.add(wednesdayPanel);
         JPanel thursdayPanel = new JPanel();
-        JSpinner thursday = addLabeledSpinner(thursdayPanel, EnterViewModel.THURSDAY_LABEL, 2);
+        thursday = addLabeledSpinner(thursdayPanel, EnterViewModel.THURSDAY_LABEL, 2);
         thursday.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -259,7 +247,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         });
         this.add(thursdayPanel);
         JPanel fridayPanel = new JPanel();
-        JSpinner friday = addLabeledSpinner(fridayPanel, EnterViewModel.FRIDAY_LABEL, 2);
+        friday = addLabeledSpinner(fridayPanel, EnterViewModel.FRIDAY_LABEL, 2);
         friday.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -271,7 +259,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         });
         this.add(fridayPanel);
         JPanel saturdayPanel = new JPanel();
-        JSpinner saturday = addLabeledSpinner(saturdayPanel, EnterViewModel.SATURDAY_LABEL, 2);
+        saturday = addLabeledSpinner(saturdayPanel, EnterViewModel.SATURDAY_LABEL, 2);
         saturday.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -286,15 +274,22 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         this.add(buttons);
     }
     @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         EnterState state = (EnterState) evt.getNewValue();
         if (state.getMessage() != null) {
             JOptionPane.showMessageDialog(this, state.getMessage());
         }
+        medicineNameInputField.setText(state.getMedicineName());
+        doseSize.setValue(state.getDoseSize());
+        doseUnitInputField.setText(state.getDoseUnit());
+        doseInventory.setValue(state.getDoseInventory());
+        sunday.setValue(state.getSundayDoses());
+        monday.setValue(state.getMondayDoses());
+        tuesday.setValue(state.getTuesdayDoses());
+        wednesday.setValue(state.getWednesdayDoses());
+        thursday.setValue(state.getThursdayDoses());
+        friday.setValue(state.getFridayDoses());
+        saturday.setValue(state.getSaturdayDoses());
+        descriptionInputField.setText(state.getDescription());
     }
 }
