@@ -1,6 +1,5 @@
 package interface_adapter.showInteractions;
 
-import use_case.deleteMedicine.DeleteInputData;
 import use_case.showInteractions.ShowInteractionsInputBoundary;
 
 public class ShowInteractionsController {
