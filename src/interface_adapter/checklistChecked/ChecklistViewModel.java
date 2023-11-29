@@ -10,6 +10,8 @@ public class ChecklistViewModel extends ViewModel {
     public static final String HEADER_LABEL = "Today's Checklist";
     public static final String LOW_STOCK_LABEL = "Running Low On:";
     public static final String BACK_BUTTON_LABEL = "Back";
+    public static final Integer TAKE = -1;
+    public static final Integer UNTAKE = 1;
     private ArrayList<String> restock = new ArrayList<>();
     public void addRestock(String medicine) {this.restock.add(medicine);}
     public void removeRestock(String medicine) {this.restock.remove(medicine);}

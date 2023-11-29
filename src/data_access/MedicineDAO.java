@@ -70,7 +70,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         try (FileWriter fileWriter = new FileWriter(jsonFile)) {
             JSONObject file = new JSONObject();
             JSONObject today = new JSONObject();
-            today.put("dayInt", String.valueOf(this.today.getDay()));
+            today.put("dayInt", this.today.getDay());
             JSONArray dayArray = new JSONArray();
             HashMap<String, Integer> todayChecklist = this.today.getTodayChecklist();
             for (String medicine:todayChecklist.keySet()) {
