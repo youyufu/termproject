@@ -38,36 +38,36 @@ public class EnterInputData {
      * Gets the medicine attribute.
      * @return the name of the medicine.
      */
-    String getMedicine() {return medicine;}
+    public String getMedicine() {return medicine;}
 
     /**
      * Gets the doseSize attribute.
      * @return the size of the dose.
      */
-    Integer getDoseSize() {return doseSize;}
+    public Integer getDoseSize() {return doseSize;}
 
     /**
      * Gets the inventory attribute.
      * @return the amount of the medicine remaining.
      */
-    Integer getInventory() {return inventory;}
+    public Integer getInventory() {return inventory;}
 
     /**
      * Gets the unit attribute.
      * @return the unit of the medicine.
      */
-    String getUnit() {return unit;}
+    public String getUnit() {return unit;}
 
     /**
      * Gets the day attribute.
      * @return the number of doses to be taken each day.
      */
-    Integer[] getDay() {return day;}
+    public Integer[] getDay() {return day;}
 
     /**
      * Gets description attribute.
      * @return the description for the medicine.
      */
-    String getDescription() {return description;}
+    public String getDescription() {return description;}
 
 }

@@ -4,6 +4,7 @@ import data_access.MedicineAPICallsInterface;
 import data_access.MedicineDataAccessInterface;
 import entity.MedicineFactory;
 import interface_adapter.TableViewModel;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.enterMedicine.EnterController;
 import interface_adapter.enterMedicine.EnterPresenter;
@@ -17,14 +18,14 @@ import view.EnterView;
 public class EnterUseCaseFactory {
     private EnterUseCaseFactory(){}
     public static EnterView create(SwitchViewController switchViewController, EnterViewModel enterViewModel,
-                                   ChecklistViewModel checklistViewModel, TableViewModel tableViewModel,
+                                   ChecklistViewModel checklistViewModel, TableViewModel tableViewModel, ViewManagerModel viewManagerModel,
                                    MedicineDataAccessInterface medicineDAO, MedicineAPICallsInterface medicineAPICallsObject){
-        EnterController enterController = createEnterUseCase(enterViewModel, checklistViewModel, tableViewModel, medicineDAO, medicineAPICallsObject);
+        EnterController enterController = createEnterUseCase(enterViewModel, checklistViewModel,viewManagerModel, tableViewModel, medicineDAO, medicineAPICallsObject);
         return new EnterView(switchViewController, enterController, enterViewModel);
     }
-    public static EnterController createEnterUseCase(EnterViewModel enterViewModel, ChecklistViewModel checklistViewModel,
+    public static EnterController createEnterUseCase(EnterViewModel enterViewModel, ChecklistViewModel checklistViewModel, ViewManagerModel viewManagerModel,
                                                      TableViewModel tableViewModel, MedicineDataAccessInterface medicineDAO, MedicineAPICallsInterface medicineAPICallsObject) {
-        EnterOutputBoundary enterPresenter = new EnterPresenter(enterViewModel, checklistViewModel, tableViewModel);
+        EnterOutputBoundary enterPresenter = new EnterPresenter(enterViewModel, checklistViewModel, tableViewModel, viewManagerModel);
         MedicineFactory medicineFactory = new MedicineFactory();
         EnterInputBoundary enterInteractor = new EnterInteractor(medicineDAO, enterPresenter, medicineFactory, medicineAPICallsObject);
         return new EnterController(enterInteractor);

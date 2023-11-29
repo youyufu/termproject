@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class TableView extends JLabel implements ActionListener, PropertyChangeListener {
+public class TableView extends JPanel implements PropertyChangeListener {
     public final static String viewName = "table";
     private final TableViewModel tableViewModel;
     private JLabel header;
@@ -55,10 +55,6 @@ public class TableView extends JLabel implements ActionListener, PropertyChangeL
         this.add(tablePanel);
         this.add(buttons);
     }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         TableState state = (TableState) evt.getNewValue();

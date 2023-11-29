@@ -22,8 +22,7 @@ public class EnterViewModel extends ViewModel {
     public static final String SATURDAY_LABEL = "SAT:";
     public static final String DESCRIPTION_LABEL = "Please add any additional information or instructions here:";
     public static final String ENTER_BUTTON_LABEL = "Enter";
-
-    private static EnterState enterState = new EnterState();
+    private EnterState enterState = new EnterState();
     public EnterViewModel() {
         super("enter");
     }
@@ -35,12 +34,7 @@ public class EnterViewModel extends ViewModel {
     }
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     @Override
-    public void firePropertyChanged() {support.firePropertyChange("state", null, enterState);
-    }
-
-    @Override
-    public void firePropertyChanged(String[] item) {}
-
+    public void firePropertyChanged() {support.firePropertyChange("", null, enterState);}
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {support.addPropertyChangeListener(listener);}
 }

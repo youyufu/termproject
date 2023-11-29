@@ -2,7 +2,7 @@ package use_case.switchView;
 
 public class SwitchViewInteractor implements SwitchViewInputBoundary{
     /**
-     * An input boundary to handle input data relating to the SwitchViewUseCase
+     * An interactor to handle input data relating to the SwitchViewUseCase.
      */
     private final SwitchViewOutputBoundary switchViewPresenter;
 
