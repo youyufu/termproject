@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class EnterInteractor implements EnterInputBoundary {
     /**
-     * An interactor implementing the logic for deciding whether or not the entered medicine gets created.
+     * An interactor implementing the logic for deciding whether the entered medicine gets created.
      */
     private final MedicineDataAccessInterface medicineDataAccessObject;
     private final EnterOutputBoundary enterPresenter;
@@ -24,10 +24,10 @@ public class EnterInteractor implements EnterInputBoundary {
 
     /**
      * Creates an EnterInteractor
-     * @param medicineDataAccessObject
-     * @param enterPresenter
-     * @param medicineFactory
-     * @param medicineAPICallsObject
+     * @param medicineDataAccessObject the interface to get existing medicines and to store the newly created medicine.
+     * @param enterPresenter the interface responsible for preparing the presenter with the needed information.
+     * @param medicineFactory the class responsible for creating the medicine and its associated dose object.
+     * @param medicineAPICallsObject the class responsible for the API calls.
      */
     public EnterInteractor(MedicineDataAccessInterface medicineDataAccessObject,
                            EnterOutputBoundary enterPresenter,
