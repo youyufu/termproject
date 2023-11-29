@@ -7,7 +7,6 @@ public interface ShowInteractionsInputBoundary {
 
     /**
      * Passes the data to the interactor.
-     * @param showInteractionsInputData the data to be passed
      */
-    void execute(ShowInteractionsInputData showInteractionsInputData);
+    void execute();
 }
