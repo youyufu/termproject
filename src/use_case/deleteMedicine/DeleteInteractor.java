@@ -4,8 +4,17 @@ import data_access.MedicineDataAccessInterface;
 
 
 public class DeleteInteractor implements DeleteInputBoundary {
+    /**
+     *
+     */
     final MedicineDataAccessInterface medicineDataAccessObject;
     final DeleteOutputBoundary deletePresenter;
+
+    /**
+     *
+     * @param medicineDataAccessObject
+     * @param deletePresenter
+     */
     public DeleteInteractor(MedicineDataAccessInterface medicineDataAccessObject, DeleteOutputBoundary deletePresenter) {
         this.medicineDataAccessObject = medicineDataAccessObject;
         this.deletePresenter = deletePresenter;

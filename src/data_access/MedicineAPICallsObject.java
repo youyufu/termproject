@@ -13,7 +13,19 @@ import java.util.ArrayList;
 import static use_case.enterMedicine.EnterInteractor.DEFAULT_ID;
 
 public class MedicineAPICallsObject implements MedicineAPICallsInterface{
+    /**
+     * Implementation of the interface for the API calls.
+     */
+
+    /**
+     * Creates a medicine API calls object.
+     */
     public MedicineAPICallsObject() {}
+
+    /**
+     * Finds the RxCUI associated with the entered name. Assigns DEFAULT_ID if it is not found.
+     * @return the RxCUI associated with the entered name, DEFAULT_ID if it is not found.
+     */
     @Override
     public String findId(String name) {
         String id = DEFAULT_ID;
@@ -35,6 +47,14 @@ public class MedicineAPICallsObject implements MedicineAPICallsInterface{
         return id;
     }
 
+    /**
+     * Finds the drug interactions between the id of the medicine entered and all existing medicines.
+     * @param medicineDataAccessObject the data access object to find all existing medicines.
+     * @param id the id of the medicine to search for.
+     * @return the drug interactions that exists between the medicine associated with the id and the existing medicines.
+     * @throws IOException if there is an issue with the API calls.
+     * @throws InterruptedException if there is an issue with the API calls.
+     */
     @Override
     public ArrayList<String> findDrugInteractions(MedicineDataAccessInterface medicineDataAccessObject, String id) throws IOException, InterruptedException {
         String allId = medicineDataAccessObject.getIdListString() + "+" + id;

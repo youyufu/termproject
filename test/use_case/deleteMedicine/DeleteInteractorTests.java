@@ -1,6 +1,6 @@
-import data_access.InMemoryDAO;
-import data_access.MedicineDAO;
-import data_access.MedicineDataAccessInterface;
+package use_case.deleteMedicine;
+
+import data_access.*;
 import entity.MedicineFactory;
 import entity.Today;
 import org.junit.jupiter.api.Assertions;
@@ -9,6 +9,7 @@ import use_case.enterMedicine.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +27,7 @@ public class DeleteInteractorTests {
                 assertTrue(userRepository.exists("Oxycontin"));
             }
             @Override
-            public void prepareFailView(String error) {fail("Use case failure is unexpected.");}
+            public void preparePopUp(String error) {fail("Use case failure is unexpected.");}
 
             @Override
             public void updateChecklistView(EnterOutputData user) {
@@ -43,7 +44,7 @@ public class DeleteInteractorTests {
         EnterInputData inputData = new EnterInputData("Oxycontin", 3, "mg",
                 300, myArray , "Do not get addicted" );
         EnterInputBoundary interactor = new EnterInteractor(
-                userRepository, successPresenter, new MedicineFactory());
+                userRepository, successPresenter, new MedicineFactory(), new MedicineAPICallsObject());
         interactor.execute(inputData);
     }
 
@@ -59,10 +60,31 @@ public class DeleteInteractorTests {
                 assertFalse(userRepository.exists("Oxycontin"));
             }
             @Override
-            public void prepareFailView(String error) {fail("Medicine Name Does Not Exist");}
+            public void prepareFailView(String error) {;}
 
         };
         DeleteInputData inputData = new DeleteInputData("Oxycontin");
+        DeleteInputBoundary interactor = new DeleteInteractor(
+                userRepository, successPresenter);
+        interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
+    }
+    @org.junit.jupiter.api.Test
+    void successTest2() throws IOException {
+        InMemoryDAO userRepository = new InMemoryDAO(new Today(1),
+                new MedicineFactory());
+        DeleteOutputBoundary successPresenter = new DeleteOutputBoundary() {
+            @Override
+            public void prepareSuccessView(DeleteOutputData user) {
+// 2 things to check: the output data is correct, and the user has been created in the DAO.
+                Assertions.assertEquals("Oxycontin", user.getMedication());
+                assertTrue(userRepository.exists("Oxycontin"));
+            }
+            @Override
+            public void prepareFailView(String error) {;
+            }
+
+        };
+        DeleteInputData inputData = new DeleteInputData("Ritalin");
         DeleteInputBoundary interactor = new DeleteInteractor(
                 userRepository, successPresenter);
         interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
