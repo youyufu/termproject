@@ -2,7 +2,6 @@ package use_case.showInteractions;
 
 import data_access.MedicineAPICallsInterface;
 import data_access.MedicineDataAccessInterface;
-import use_case.enterMedicine.EnterOutputBoundary;
 
 import java.io.IOException;
 import java.util.ArrayList;
