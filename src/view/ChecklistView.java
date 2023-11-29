@@ -97,11 +97,13 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
             lowMap.put(medication[0], lowMed);
         } else if (evt.getPropertyName().equals("updateLow")) {
             String[] medication = (String[]) evt.getNewValue();
-            JLabel label = lowMap.get(medication[0]);
-            label.setText(medication[0] + " (" + medication[1] + " doses remaining)");
+            if (lowMap.containsKey(medication[0])) {
+                JLabel label = lowMap.get(medication[0]);
+                label.setText(medication[0] + " (" + medication[1] + " doses remaining)");
+            }
         }
         else if (evt.getPropertyName().equals("showRestock")) {
-            ArrayList<String> restock = checklistViewModel.getRestock();
+            ArrayList<String> restock = (ArrayList<String>) evt.getNewValue();
             if (!restock.isEmpty()) {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("Restock:\n");
@@ -120,10 +122,10 @@ public class ChecklistView extends JPanel implements ActionListener, PropertyCha
             for (JCheckBox checkBox: checkBoxList) {
                 if (checkBox == source)
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
-                        checklistController.execute(medicine);
+                        checklistController.execute(medicine, ChecklistViewModel.UNTAKE);
                         break;
                     } else {
-                        checklistController.execute(medicine);
+                        checklistController.execute(medicine, ChecklistViewModel.TAKE);
                         break;
                     }
             }

@@ -19,7 +19,6 @@ public class TableState {
             longest.add(list);
         }
     }
-
     public String[][] getData() {
         String[][] dataArray = new String[data.size()][];
         for (int i = 0; i < data.size(); i++) {
@@ -27,7 +26,6 @@ public class TableState {
             dataArray[i] = array;
         } return dataArray;
     }
-
     public void addData(String[] data) {
         this.data.add(data);
         for (int i = 0; i < data.length; i++) {
@@ -35,6 +33,12 @@ public class TableState {
         }
     }
     // data in the form of {medication, dose, inventory, Su, M, Tu, W, Th, F, Sa, Description}
+    public void editInventory(String name, String inventory) {
+        int i = 0;
+        while (i < data.size() && !data.get(i)[0].equals(name)) {
+            i++;
+        } data.get(i)[2] = inventory;
+    }
     public void removeData(String name) {
         int i = 0;
         while (i < data.size() && !data.get(i)[0].equals(name)) {

@@ -4,8 +4,12 @@ import data_access.MedicineDataAccessInterface;
 import entity.Medicine;
 import interface_adapter.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistController;
+import interface_adapter.checklistChecked.ChecklistPresenter;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.switchView.SwitchViewController;
+import use_case.checklistChecked.ChecklistInputBoundary;
+import use_case.checklistChecked.ChecklistInteractor;
+import use_case.checklistChecked.ChecklistOutputBoundary;
 import view.ChecklistView;
 
 import java.util.HashMap;
@@ -29,15 +33,17 @@ public class ChecklistUseCaseFactory {
             for (int i = 0; i < Math.min(userMedicines.get(medicine).getWeeklySchedule()[medicineDAO.getTodayDay()]
                             - todayChecklist.get(medicine), userMedicines.get(medicine).getDose().getDosesRemaining()); i++) {
                 checklistViewModel.firePropertyChangedAddTake(checklistData);
+            } if (userMedicines.get(medicine).getDose().getDosesRemaining() == 0) {
+                checklistViewModel.addRestock(medicine);
             }
         }
         return checklistView;
     }
-
-    //TODO: finish after Checklist CA is written
     public static ChecklistController createChecklistUseCase(ChecklistViewModel checklistViewModel,
                                                              TableViewModel tableViewModel,
                                                              MedicineDataAccessInterface medicineDAO) {
-        return new ChecklistController();
+        ChecklistOutputBoundary checklistOutputBoundary = new ChecklistPresenter(checklistViewModel, tableViewModel);
+        ChecklistInputBoundary checklistInputBoundary = new ChecklistInteractor(checklistOutputBoundary, medicineDAO);
+        return new ChecklistController(checklistInputBoundary);
     }
 }
