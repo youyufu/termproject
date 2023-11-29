@@ -7,10 +7,9 @@ public class ShowInteractionsInteractor implements ShowInteractionsInputBoundary
 
     /**
      * Passes the data to the interactor.
-     * @param showInteractionsInputData the data to be passed
      */
     @Override
-    public void execute(ShowInteractionsInputData showInteractionsInputData) {
+    public void execute() {
 
     }
 }
