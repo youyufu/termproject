@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.MyTableModel;
+import interface_adapter.showInteractions.ShowInteractionsController;
 import interface_adapter.switchView.SwitchViewController;
 import interface_adapter.TableState;
 import interface_adapter.TableViewModel;
@@ -19,11 +20,14 @@ public class TableView extends JPanel implements PropertyChangeListener {
     private JLabel header;
     private JPanel tablePanel;
     private final SwitchViewController switchViewController;
+    private final ShowInteractionsController showInteractionsController;
     private final JButton back;
+    private final JButton show;
     private JPanel buttons;
-    public TableView(SwitchViewController switchViewController1, TableViewModel tableViewModel1) {
+    public TableView(SwitchViewController switchViewController1, ShowInteractionsController showInteractionsController, TableViewModel tableViewModel1) {
         this.tableViewModel = tableViewModel1;
         this.switchViewController = switchViewController1;
+        this.showInteractionsController = showInteractionsController;
         tableViewModel.addPropertyChangeListener(this);
 
         header = new JLabel(TableViewModel.HEADER_LABEL);
@@ -50,6 +54,17 @@ public class TableView extends JPanel implements PropertyChangeListener {
                     }
                 }
         );
+
+        show = new JButton(TableViewModel.SHOW_BUTTON_LABEL);
+        buttons.add(show);
+        show.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource().equals(show)) {
+                    showInteractionsController.execute();
+                }
+            }
+        });
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(header);
         this.add(tablePanel);
@@ -58,7 +73,11 @@ public class TableView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         TableState state = (TableState) evt.getNewValue();
-        if (state.getData() != null) {
+        if (evt.getPropertyName().equals("popup")) {
+            JOptionPane.showMessageDialog(this, state.getMessage());
+        }
+        else{
+            if (state.getData() != null) {
             this.removeAll();
             tablePanel.removeAll();
             this.add(header);
@@ -71,6 +90,7 @@ public class TableView extends JPanel implements PropertyChangeListener {
             this.add(buttons);
             this.revalidate();
             this.repaint();
+            }
         }
     }
 
