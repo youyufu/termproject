@@ -23,4 +23,13 @@ public interface MedicineAPICallsInterface {
      * @throws InterruptedException if there is an issue with the API calls.
      */
     ArrayList<String> findDrugInteractions(MedicineDataAccessInterface medicineDataAccessObject, String id) throws IOException, InterruptedException;
+
+    /**
+     * Find all drug interactions between the existing medicines.
+     * @param medicineDataAccessObject the data access object to find all existing medicines.
+     * @return all drug interactions between the existing medicines.
+     * @throws IOException if there is an issue with the API calls.
+     * @throws InterruptedException if there is an issue with the API calls.
+     */
+    ArrayList<String> findAllInteractions(MedicineDataAccessInterface medicineDataAccessObject) throws IOException, InterruptedException;
 }
