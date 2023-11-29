@@ -16,7 +16,7 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class EnterView extends JPanel implements ActionListener, PropertyChangeListener {
+public class EnterView extends JPanel implements PropertyChangeListener {
     public final static String viewName = "enter";
     private final EnterViewModel enterViewModel;
     private final JTextField medicineNameInputField = new JTextField(50);
@@ -52,14 +52,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
     }
     static JFormattedTextField getTextField(JSpinner spinner) {
         JComponent editor = spinner.getEditor();
-        if (editor instanceof JSpinner.DefaultEditor) {
-            return ((JSpinner.DefaultEditor)editor).getTextField();
-        } else {
-            System.err.println("Unexpected editor type: "
-                    + spinner.getEditor().getClass()
-                    + " isn't a descendant of DefaultEditor");
-            return null;
-        }
+        return ((JSpinner.DefaultEditor)editor).getTextField();
     }
     public EnterView(SwitchViewController switchViewController1, EnterController enterController1, EnterViewModel enterViewModel1) {
         switchViewController = switchViewController1;
@@ -101,9 +94,9 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                             String doseUnit = currentState.getDoseUnit();
                             String description = currentState.getDescription();
                             enterController.execute(
-                                    medName.replaceAll("\b", ""),
+                                    medName,
                                     currentState.getDoseSize(),
-                                    doseUnit.replaceAll("\b", ""),
+                                    doseUnit,
                                     currentState.getDoseInventory(),
                                     new Integer[]{currentState.getSundayDoses(),
                                             currentState.getMondayDoses(),
@@ -112,7 +105,7 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                                             currentState.getThursdayDoses(),
                                             currentState.getFridayDoses(),
                                             currentState.getSaturdayDoses()},
-                                    description.replaceAll("\b", "")
+                                    description
                             );
                         }
                     }
@@ -124,19 +117,14 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyTyped(KeyEvent e) {
                         EnterState currentState = enterViewModel.getState();
                         String text = medicineNameInputField.getText() + e.getKeyChar();
-                        currentState.setMedicineName(text.strip());
+                        currentState.setMedicineName(text.replaceAll("\b", "").strip());
                         enterViewModel.setState(currentState);
                     }
+                    @Override
+                    public void keyPressed(KeyEvent e) {}
 
                     @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
+                    public void keyReleased(KeyEvent e) {}
                 }
         );
         doseUnitInputField.addKeyListener(
@@ -145,19 +133,13 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyTyped(KeyEvent e) {
                         EnterState currentState = enterViewModel.getState();
                         String text = doseUnitInputField.getText() + e.getKeyChar();
-                        currentState.setDoseUnit(text.strip());
+                        currentState.setDoseUnit(text.strip().replaceAll("\b", ""));
                         enterViewModel.setState(currentState);
                     }
-
                     @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
+                    public void keyPressed(KeyEvent e) {}
                     @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
+                    public void keyReleased(KeyEvent e) {}
                 }
         );
         descriptionInputField.addKeyListener(
@@ -166,19 +148,13 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
                     public void keyTyped(KeyEvent e) {
                         EnterState currentState = enterViewModel.getState();
                         String text = descriptionInputField.getText() + e.getKeyChar();
-                        currentState.setDescription(text.strip());
+                        currentState.setDescription(text.strip().replaceAll("\b", ""));
                         enterViewModel.setState(currentState);
                     }
-
                     @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
+                    public void keyPressed(KeyEvent e) {}
                     @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
+                    public void keyReleased(KeyEvent e) {}
                 }
         );
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -298,17 +274,14 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         this.add(buttons);
     }
     @Override
-    public void actionPerformed(ActionEvent e) {}
-
-    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         EnterState state = (EnterState) evt.getNewValue();
         if (state.getMessage() != null) {
             JOptionPane.showMessageDialog(this, state.getMessage());
         }
-        medicineNameInputField.setText(state.getMedicineName().replaceAll("\b", ""));
+        medicineNameInputField.setText(state.getMedicineName());
         doseSize.setValue(state.getDoseSize());
-        doseUnitInputField.setText(state.getDoseUnit().replaceAll("\b", ""));
+        doseUnitInputField.setText(state.getDoseUnit());
         doseInventory.setValue(state.getDoseInventory());
         sunday.setValue(state.getSundayDoses());
         monday.setValue(state.getMondayDoses());
@@ -317,6 +290,6 @@ public class EnterView extends JPanel implements ActionListener, PropertyChangeL
         thursday.setValue(state.getThursdayDoses());
         friday.setValue(state.getFridayDoses());
         saturday.setValue(state.getSaturdayDoses());
-        descriptionInputField.setText(state.getDescription().replaceAll("\b", ""));
+        descriptionInputField.setText(state.getDescription());
     }
 }

@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class DeleteView extends JPanel implements ActionListener, PropertyChangeListener {
+public class DeleteView extends JPanel implements PropertyChangeListener {
     public final static String viewName = "delete";
     private final DeleteViewModel deleteViewModel;
     private final JTextField medicineNameInputField = new JTextField(50);
@@ -53,7 +53,7 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
                         if (e.getSource().equals(delete)) {
                             DeleteState currentState = deleteViewModel.getState();
                             String medName = currentState.getMedicineName();
-                            deleteController.execute(medName.replaceAll("\b", ""));
+                            deleteController.execute(medName);
                         }
                     }
                 }
@@ -64,19 +64,13 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
                     public void keyTyped(KeyEvent e) {
                         DeleteState currentState = deleteViewModel.getState();
                         String text = medicineNameInputField.getText() + e.getKeyChar();
-                        currentState.setMedicineName(text.strip());
+                        currentState.setMedicineName(text.strip().replaceAll("\b", ""));
                         deleteViewModel.setState(currentState);
                     }
-
                     @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
+                    public void keyPressed(KeyEvent e) {}
                     @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
+                    public void keyReleased(KeyEvent e) {}
                 }
         );
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -86,14 +80,10 @@ public class DeleteView extends JPanel implements ActionListener, PropertyChange
 
     }
     @Override
-    public void actionPerformed(ActionEvent e) {
-    }
-
-    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         DeleteState state = (DeleteState) evt.getNewValue();
         if (state.getDeleteError() != null) {
             JOptionPane.showMessageDialog(this, state.getDeleteError());
-        } medicineNameInputField.setText(state.getMedicineName().replaceAll("\b", ""));
+        } medicineNameInputField.setText(state.getMedicineName());
     }
 }
