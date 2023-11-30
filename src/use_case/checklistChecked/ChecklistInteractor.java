@@ -4,8 +4,17 @@ import data_access.MedicineDataAccessInterface;
 import entity.Medicine;
 
 public class ChecklistInteractor implements  ChecklistInputBoundary{
+    /**
+     * Interactor class for managing checklist operations in relation to medicine data.
+     */
     private final ChecklistOutputBoundary checklistOutputBoundary;
     private final MedicineDataAccessInterface medicineDataAccessInterface;
+
+    /**
+     * Constructs a new ChecklistInteractor with specified output boundary and data access interfaces.
+     * @param checklistOutputBoundary
+     * @param medicineDataAccessInterface
+     */
     public ChecklistInteractor (ChecklistOutputBoundary checklistOutputBoundary, MedicineDataAccessInterface medicineDataAccessInterface) {
         this.checklistOutputBoundary = checklistOutputBoundary;
         this.medicineDataAccessInterface = medicineDataAccessInterface;
