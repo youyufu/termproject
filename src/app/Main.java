@@ -17,6 +17,14 @@ import java.awt.*;
 import java.time.LocalDate;
 
 public class Main {
+    /**
+     * The class from which MedBay is run.
+     */
+
+    /**
+     * Creates and runs MedBay.
+     * @param args, arguments for running the program.
+     */
     public static void main(String[] args) {
         JFrame application = new JFrame("MedBay");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -31,7 +39,7 @@ public class Main {
         TableViewModel tableViewModel = new TableViewModel();
         ChecklistViewModel checklistViewModel = new ChecklistViewModel();
         LocalDate localDate = LocalDate.now();
-        MedicineDataAccessInterface medicineDAO = MedicineDAO.getMedicineDAO(localDate);
+        MedicineDataAccessInterface medicineDAO = MedicineDAO.getMedicineDAO(localDate, "./medicine.json");
         SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel, checklistViewModel);
         MainView mainView = new MainView(switchViewController, mainViewModel);
         MedicineAPICallsInterface medicineAPICallsObject = new MedicineAPICallsObject();

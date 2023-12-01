@@ -15,10 +15,22 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class MedicineDAO implements MedicineDataAccessInterface{
+    /**
+     * A data access object for manipulating data stored in entities, as well as handling processing of JSONs for data
+     * persistence.
+     */
     private final File jsonFile;
     private HashMap<String, Medicine> userMedicines = new HashMap<>();
     private Today today;
     private final MedicineFactory medicineFactory;
+
+    /**
+     * Constructs a MedicineDAO data access object.
+     * @param jsonPath, the file path from which to access the data persistence layer (JSON file).
+     * @param today1, an entity representing the current day.
+     * @param medicineFactory, a factory to create Medicine and Dose entities for storing data in memory.
+     * @throws IOException, the exception thrown if the DAO cannot read the file.
+     */
     public MedicineDAO(String jsonPath, Today today1, MedicineFactory medicineFactory) throws IOException {
         this.today = today1;
         this.medicineFactory = medicineFactory;
@@ -106,9 +118,20 @@ public class MedicineDAO implements MedicineDataAccessInterface{
             throw new RuntimeException();
         }
     }
+
+    /**
+     * Checks if a specific medicine exists in the DAO.
+     * @param name, the name of the medicine.
+     * @return true if the DAO contains the medicine, false otherwise.
+     */
     public boolean exists(String name){
         return userMedicines.containsKey(name);
     }
+
+    /**
+     * Saves the medicine in the DAO and the file.
+     * @param medicine, the Medicine entity to be stored.
+     */
     public void saveMedicine(Medicine medicine){
         userMedicines.put(medicine.getName(), medicine);
         if (medicine.getWeeklySchedule()[today.getDay()] != 0) {
@@ -116,22 +139,41 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         }
         save();
     }
+
+    /**
+     * Deletes the medicine in the DAO and the file.
+     * @param medicine, the name of the medicine to be deleted.
+     */
     public void  removeMedicine(String medicine){
         userMedicines.remove(medicine);
         today.remove(medicine);
         save();
     }
+
+    /**
+     * Takes one dose of the medicine and updates the entity and file accordingly.
+     * @param medicine, the name of the medicine taken.
+     */
     public void takeMedicine(String medicine) {
         userMedicines.get(medicine).getDose().takeDose();
         today.take(medicine);
         save();
     }
+
+    /**
+     * Reverts the taking of one dose of the medicine and updates the entity and file accordingly.
+     * @param medicine, the name of the medicine taken.
+     */
     public void undoTakeMedicine(String medicine){
         userMedicines.get(medicine).getDose().undoTakeDose();
         today.untake(medicine);
         save();
     }
 
+    /**
+     * Gets all medicine IDs for API processing.
+     * @return a string of all medicine IDs formatted for an API endpoint.
+     */
     @Override
     public String getIdListString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -144,11 +186,31 @@ public class MedicineDAO implements MedicineDataAccessInterface{
         }
     }
 
+    /**
+     * Gets the current day.
+     * @return an integer representing the current day.
+     */
     public Integer getTodayDay() {return today.getDay();}
-    @Override
+
+    /**
+     * Gets the checklist from the Today entity.
+     * @return a hashmap containing information pertaining to the number of doses taken per medicine on the current day.
+     */
     public HashMap<String, Integer> getTodayChecklist() {return today.getTodayChecklist();}
+
+    /**
+     * Gets the medicines stored in the DAO.
+     * @return a hashmap containing all medicines stored in the DAO.
+     */
     public HashMap<String, Medicine> getUserMedicines() {return userMedicines;}
-    public static MedicineDAO getMedicineDAO(LocalDate localDate) {
+
+    /**
+     * Gets a DAO for the current day.
+     * @param localDate, the current day.
+     * @param jsonPath, the path of the file to read from/write to.
+     * @return a DAO for the current day that reads and writes to the specified file.
+     */
+    public static MedicineDAO getMedicineDAO(LocalDate localDate, String jsonPath) {
         String day = localDate.getDayOfWeek().name();
         Integer dayInt = null;
         switch (day) {
@@ -161,7 +223,7 @@ public class MedicineDAO implements MedicineDataAccessInterface{
             case "SATURDAY" -> dayInt = 6;
         }
         try {
-            return new MedicineDAO("./medicine.json", new Today(dayInt), new MedicineFactory());
+            return new MedicineDAO(jsonPath, new Today(dayInt), new MedicineFactory());
         } catch (IOException e) {
             throw new RuntimeException();
         }

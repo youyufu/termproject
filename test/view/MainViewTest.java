@@ -14,10 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class MainViewTest {
     MainViewModel mainViewModel = new MainViewModel();
 
-    @BeforeEach
-    void setUp() {
-    }
-
     @Test
     void testToEnter() {
         SwitchViewInputBoundary switchViewInputBoundary = new SwitchViewInputBoundary() {

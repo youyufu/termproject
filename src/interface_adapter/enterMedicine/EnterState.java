@@ -14,26 +14,9 @@ public class EnterState {
     private Integer fridayDoses = 0;
     private Integer saturdayDoses = 0;
     private String description = "";
-    public EnterState(EnterState copy) {
-        message = copy.message;
-        medicineName = copy.medicineName;
-        doseSize = copy.doseSize;
-        doseUnit = copy.doseUnit;
-        doseInventory = copy.doseInventory;
-        sundayDoses = copy.sundayDoses;
-        mondayDoses = copy.mondayDoses;
-        tuesdayDoses = copy.tuesdayDoses;
-        wednesdayDoses = copy.wednesdayDoses;
-        thursdayDoses = copy.thursdayDoses;
-        fridayDoses = copy.fridayDoses;
-        saturdayDoses = copy.saturdayDoses;
-        description = copy.description;
-    }
     public EnterState() {}
     public String getMessage() {return message;}
-
     public void setMessage(String message) {this.message = message;}
-
     public String getMedicineName() {return medicineName;}
     public Integer getDoseSize() {return doseSize;}
     public String getDoseUnit() {return doseUnit;}
