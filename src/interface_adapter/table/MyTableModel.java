@@ -1,4 +1,4 @@
-package interface_adapter;
+package interface_adapter.table;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;

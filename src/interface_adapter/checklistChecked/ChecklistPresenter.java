@@ -1,7 +1,7 @@
 package interface_adapter.checklistChecked;
 
-import interface_adapter.TableState;
-import interface_adapter.TableViewModel;
+import interface_adapter.table.TableState;
+import interface_adapter.table.TableViewModel;
 import use_case.checklistChecked.ChecklistOutputBoundary;
 import use_case.checklistChecked.ChecklistOutputData;
 

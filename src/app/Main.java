@@ -6,7 +6,7 @@ import data_access.MedicineDAO;
 import data_access.MedicineDataAccessInterface;
 import interface_adapter.MainViewModel;
 import interface_adapter.switchView.SwitchViewController;
-import interface_adapter.TableViewModel;
+import interface_adapter.table.TableViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.deleteMedicine.DeleteViewModel;
