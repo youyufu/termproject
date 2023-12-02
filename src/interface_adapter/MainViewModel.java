@@ -1,9 +1,9 @@
 package interface_adapter;
 
+/**
+ * A view model for the MainView.
+ */
 public class MainViewModel{
-    /**
-     * A view model for the MainView.
-     */
 
     /**
      * Constants for labels in the MainView:
