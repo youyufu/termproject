@@ -1,6 +1,5 @@
 package data_access;
 
-import entity.Dose;
 import entity.Medicine;
 import entity.MedicineFactory;
 import entity.Today;
@@ -49,7 +48,6 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                     JSONObject med = (JSONObject) object1;
                     Integer dS = (Integer) med.get("doseSize");
                     Integer dI = (Integer) med.get("doseInventory");
-                    Dose dose = medicineFactory.createDose(dS, dI, (String) med.get("doseUnit"));
                     Integer su = (Integer) med.get("sun");
                     Integer mo = (Integer) med.get("mon");
                     Integer tu = (Integer) med.get("tue");
@@ -58,7 +56,8 @@ public class MedicineDAO implements MedicineDataAccessInterface{
                     Integer fr = (Integer) med.get("fri");
                     Integer sa = (Integer) med.get("sat");
                     Integer[] weeklySchedule = {su, mo, tu, we, th, fr, sa};
-                    Medicine medicine = medicineFactory.createMedicine((String) med.get("name"), dose, weeklySchedule, (String) med.get("description"), (String) med.get("id"));
+                    Medicine medicine = medicineFactory.createMedicine((String) med.get("name"), dS, dI,
+                            (String) med.get("doseUnit"), weeklySchedule, (String) med.get("description"), (String) med.get("id"));
                     userMedicines.put(medicine.getName(), medicine);
                 } if (today.get("dayInt") == this.today.getDay()) {
                     for (Object object1:todayArray) {
