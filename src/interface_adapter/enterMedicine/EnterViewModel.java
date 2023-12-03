@@ -6,6 +6,13 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class EnterViewModel extends ViewModel {
+    /**
+     * A view model for the enter medicine screen.
+     */
+
+    /**
+     * Constants for labels in the EnterView.
+     */
     public static final String BACK_BUTTON_LABEL = "Back";
     public static final String HEADER_LABEL = "Enter your medication below!";
     public static final String MEDICINE_NAME_LABEL = "Name of Medication:";
@@ -23,16 +30,39 @@ public class EnterViewModel extends ViewModel {
     public static final String DESCRIPTION_LABEL = "Please add any additional information or instructions here:";
     public static final String ENTER_BUTTON_LABEL = "Enter";
     private EnterState enterState = new EnterState();
+
+    /**
+     * Creates an EnterViewModel.
+     */
     public EnterViewModel() {}
+
+    /**
+     * Set the current state.
+     * @param state the state to be set.
+     */
     public void setState(EnterState state) {
         enterState = state;
     }
+
+    /**
+     * Get the current state.
+     * @return the current state.
+     */
     public EnterState getState() {
         return enterState;
     }
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+    /**
+     * Tells all PropertyChangeListeners there has been a change.
+     */
     @Override
     public void firePropertyChanged() {support.firePropertyChange("", null, enterState);}
+
+    /**
+     * Adds a PropertyChangeListener.
+     * @param listener, a PropertyChangeListener.
+     */
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {support.addPropertyChangeListener(listener);}
 }
