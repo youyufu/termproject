@@ -1,8 +1,6 @@
 package view;
 
-import interface_adapter.MainViewModel;
 import interface_adapter.switchView.SwitchViewController;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import use_case.switchView.SwitchViewInputBoundary;
 import use_case.switchView.SwitchViewInputData;
@@ -12,7 +10,6 @@ import javax.swing.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainViewTest {
-    MainViewModel mainViewModel = new MainViewModel();
 
     @Test
     void testToEnter() {
@@ -23,7 +20,7 @@ class MainViewTest {
             }
         };
         SwitchViewController switchViewController = new SwitchViewController(switchViewInputBoundary);
-        JPanel mainView = new MainView(switchViewController, mainViewModel);
+        JPanel mainView = new MainView(switchViewController);
         JPanel buttons = (JPanel) mainView.getComponent(1);
         JButton enter = (JButton) buttons.getComponent(0);
         enter.doClick();
@@ -37,7 +34,7 @@ class MainViewTest {
             }
         };
         SwitchViewController switchViewController = new SwitchViewController(switchViewInputBoundary);
-        JPanel mainView = new MainView(switchViewController, mainViewModel);
+        JPanel mainView = new MainView(switchViewController);
         JPanel buttons = (JPanel) mainView.getComponent(1);
         JButton delete = (JButton) buttons.getComponent(1);
         delete.doClick();
@@ -51,7 +48,7 @@ class MainViewTest {
             }
         };
         SwitchViewController switchViewController = new SwitchViewController(switchViewInputBoundary);
-        JPanel mainView = new MainView(switchViewController, mainViewModel);
+        JPanel mainView = new MainView(switchViewController);
         JPanel buttons = (JPanel) mainView.getComponent(1);
         JButton table = (JButton) buttons.getComponent(2);
         table.doClick();
@@ -65,7 +62,7 @@ class MainViewTest {
             }
         };
         SwitchViewController switchViewController = new SwitchViewController(switchViewInputBoundary);
-        JPanel mainView = new MainView(switchViewController, mainViewModel);
+        JPanel mainView = new MainView(switchViewController);
         JPanel buttons = (JPanel) mainView.getComponent(1);
         JButton checklist = (JButton) buttons.getComponent(3);
         checklist.doClick();

@@ -24,6 +24,7 @@ public class ChecklistViewModel extends ViewModel {
     public void firePropertyChangedUpdateLow(String[] item) {support.firePropertyChange("updateLow", null, item);}
     public void firePropertyChangedRemoveMed(String item) {support.firePropertyChange("removeMed", null, item);}
     public void firePropertyChangedAddLow(String[] item) {support.firePropertyChange("addLow", null, item);}
+    public void firePropertyChangedRemoveLow(String item) {support.firePropertyChange("removeLow", null, item);}
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {support.addPropertyChangeListener(listener);}
 }

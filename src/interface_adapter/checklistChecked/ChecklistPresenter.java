@@ -7,8 +7,6 @@ import use_case.checklistChecked.ChecklistOutputData;
 
 import javax.swing.*;
 
-import static java.lang.Thread.sleep;
-
 public class ChecklistPresenter implements ChecklistOutputBoundary {
     private final ChecklistViewModel checklistViewModel;
     private final TableViewModel tableViewModel;
@@ -28,7 +26,10 @@ public class ChecklistPresenter implements ChecklistOutputBoundary {
         tableViewModel.firePropertyChanged();
 
         checklistViewModel.firePropertyChangedUpdateLow(new String[] {name, dosesLeft});
-        if (Integer.valueOf(dosesLeft) == 0) {
+        if (Integer.parseInt(dosesLeft) < 14) {
+            checklistViewModel.firePropertyChangedAddLow(new String[]{name, dosesLeft});
+        }
+        if (Integer.parseInt(dosesLeft) == 0) {
             checklistViewModel.addRestock(name);
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
@@ -51,6 +52,9 @@ public class ChecklistPresenter implements ChecklistOutputBoundary {
         tableViewModel.firePropertyChanged();
 
         checklistViewModel.firePropertyChangedUpdateLow(new String[] {name, dosesLeft});
+        if (Integer.parseInt(dosesLeft) >= 14) {
+            checklistViewModel.firePropertyChangedRemoveLow(name);
+        }
         if (checklistViewModel.getRestock().contains(name)) {
             checklistViewModel.removeRestock(name);
         }

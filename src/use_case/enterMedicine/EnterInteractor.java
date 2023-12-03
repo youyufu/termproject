@@ -2,7 +2,6 @@ package use_case.enterMedicine;
 
 import data_access.MedicineAPICallsInterface;
 import data_access.MedicineDataAccessInterface;
-import entity.Dose;
 import entity.Medicine;
 import entity.MedicineFactory;
 
@@ -72,11 +71,10 @@ public class EnterInteractor implements EnterInputBoundary {
             if (enterInputData.getDoseSize() == 0) {
                 enterPresenter.preparePopUp("Cannot enter medicine with a dose size of 0.");
             } else {
-                Dose dose = medicineFactory.createDose(enterInputData.getDoseSize(),
-                        enterInputData.getInventory(),
-                        enterInputData.getUnit());
                 Medicine medicine = medicineFactory.createMedicine(enterInputData.getMedicine(),
-                        dose,
+                        enterInputData.getDoseSize(),
+                        enterInputData.getInventory(),
+                        enterInputData.getUnit(),
                         enterInputData.getDay(),
                         enterInputData.getDescription(), id);
                 if (medicine.getDose().getDosesRemaining() == 0) {
