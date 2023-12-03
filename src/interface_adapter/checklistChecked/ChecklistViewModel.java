@@ -16,7 +16,7 @@ public class ChecklistViewModel extends ViewModel {
     public void addRestock(String medicine) {this.restock.add(medicine);}
     public void removeRestock(String medicine) {this.restock.remove(medicine);}
     public ArrayList<String> getRestock() {return this.restock;}
-    public ChecklistViewModel() {super("checklist");}
+    public ChecklistViewModel() {}
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     @Override
     public void firePropertyChanged() {support.firePropertyChange("showRestock", null, restock);}

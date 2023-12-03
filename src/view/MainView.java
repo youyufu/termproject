@@ -12,15 +12,13 @@ import java.beans.PropertyChangeListener;
 
 public class MainView extends JPanel{
     public final static String viewName = "main";
-    private final MainViewModel mainViewModel;
     private final JButton enter;
     private final JButton delete;
     private final JButton table;
     private final JButton checklist;
     private final SwitchViewController switchViewController;
-    public MainView(SwitchViewController switchViewController, MainViewModel mainViewModel) {
+    public MainView(SwitchViewController switchViewController) {
         this.switchViewController = switchViewController;
-        this.mainViewModel = mainViewModel;
 
         JLabel title = new JLabel((MainViewModel.TITLE_LABEL));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -75,7 +73,6 @@ public class MainView extends JPanel{
                     }
                 }
         );
-
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(buttons);

@@ -1,10 +1,10 @@
 package view;
 
-import interface_adapter.MyTableModel;
+import interface_adapter.table.MyTableModel;
 import interface_adapter.showInteractions.ShowInteractionsController;
 import interface_adapter.switchView.SwitchViewController;
-import interface_adapter.TableState;
-import interface_adapter.TableViewModel;
+import interface_adapter.table.TableState;
+import interface_adapter.table.TableViewModel;
 
 import javax.swing.*;
 import javax.swing.table.*;

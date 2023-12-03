@@ -2,7 +2,7 @@ package app;
 
 import data_access.MedicineDataAccessInterface;
 import entity.Medicine;
-import interface_adapter.TableViewModel;
+import interface_adapter.table.TableViewModel;
 import interface_adapter.checklistChecked.ChecklistController;
 import interface_adapter.checklistChecked.ChecklistPresenter;
 import interface_adapter.checklistChecked.ChecklistViewModel;

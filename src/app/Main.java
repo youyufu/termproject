@@ -4,9 +4,8 @@ import data_access.MedicineAPICallsInterface;
 import data_access.MedicineAPICallsObject;
 import data_access.MedicineDAO;
 import data_access.MedicineDataAccessInterface;
-import interface_adapter.MainViewModel;
 import interface_adapter.switchView.SwitchViewController;
-import interface_adapter.TableViewModel;
+import interface_adapter.table.TableViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.deleteMedicine.DeleteViewModel;
@@ -16,7 +15,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 
+/**
+ * The class from which MedBay is run.
+ */
 public class Main {
+
+    /**
+     * Creates and runs MedBay.
+     * @param args, arguments for running the program.
+     */
     public static void main(String[] args) {
         JFrame application = new JFrame("MedBay");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -25,15 +32,14 @@ public class Main {
         application.add(views);
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         new ViewManager(views, cardLayout, viewManagerModel);
-        MainViewModel mainViewModel = new MainViewModel();
         EnterViewModel enterViewModel = new EnterViewModel();
         DeleteViewModel deleteViewModel = new DeleteViewModel();
         TableViewModel tableViewModel = new TableViewModel();
         ChecklistViewModel checklistViewModel = new ChecklistViewModel();
         LocalDate localDate = LocalDate.now();
-        MedicineDataAccessInterface medicineDAO = MedicineDAO.getMedicineDAO(localDate);
+        MedicineDataAccessInterface medicineDAO = MedicineDAO.getMedicineDAO(localDate, "./medicine.json");
         SwitchViewController switchViewController = SwitchViewUseCaseFactory.create(viewManagerModel, checklistViewModel);
-        MainView mainView = new MainView(switchViewController, mainViewModel);
+        MainView mainView = new MainView(switchViewController);
         MedicineAPICallsInterface medicineAPICallsObject = new MedicineAPICallsObject();
         EnterView enterView = EnterUseCaseFactory.create(switchViewController, enterViewModel, checklistViewModel, tableViewModel, viewManagerModel, medicineDAO, medicineAPICallsObject);
         DeleteView deleteView = DeleteUseCaseFactory.create(switchViewController, deleteViewModel, checklistViewModel, tableViewModel, viewManagerModel, medicineDAO);

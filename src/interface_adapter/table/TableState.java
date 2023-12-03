@@ -1,4 +1,4 @@
-package interface_adapter;
+package interface_adapter.table;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,10 +8,6 @@ public class TableState {
     private ArrayList<String[]> data = new ArrayList<>();
     private ArrayList<ArrayList<String>> longest = new ArrayList<>();
     private String message = "";
-    public TableState(TableState copy) {
-        this.data = copy.data;
-        this.longest = copy.longest;
-    }
     public TableState() {
         String[] headers = {"Medication", "Dose", "Inventory", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Additional Info"};
         for (String header: headers) {
@@ -20,15 +16,12 @@ public class TableState {
             longest.add(list);
         }
     }
-
     public void setMessage(String message) {
         this.message = message;
     }
-
     public String getMessage() {
         return message;
     }
-
     public String[][] getData() {
         String[][] dataArray = new String[data.size()][];
         for (int i = 0; i < data.size(); i++) {

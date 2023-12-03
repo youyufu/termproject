@@ -1,7 +1,7 @@
 package interface_adapter.enterMedicine;
 
-import interface_adapter.TableState;
-import interface_adapter.TableViewModel;
+import interface_adapter.table.TableState;
+import interface_adapter.table.TableViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import use_case.enterMedicine.EnterOutputBoundary;

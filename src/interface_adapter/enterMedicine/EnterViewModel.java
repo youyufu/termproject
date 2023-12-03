@@ -23,9 +23,7 @@ public class EnterViewModel extends ViewModel {
     public static final String DESCRIPTION_LABEL = "Please add any additional information or instructions here:";
     public static final String ENTER_BUTTON_LABEL = "Enter";
     private EnterState enterState = new EnterState();
-    public EnterViewModel() {
-        super("enter");
-    }
+    public EnterViewModel() {}
     public void setState(EnterState state) {
         enterState = state;
     }

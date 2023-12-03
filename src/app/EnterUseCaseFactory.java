@@ -3,7 +3,7 @@ package app;
 import data_access.MedicineAPICallsInterface;
 import data_access.MedicineDataAccessInterface;
 import entity.MedicineFactory;
-import interface_adapter.TableViewModel;
+import interface_adapter.table.TableViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.checklistChecked.ChecklistViewModel;
 import interface_adapter.enterMedicine.EnterController;
