@@ -91,6 +91,12 @@ class ChecklistViewTest {
             throw new RuntimeException(e);
         }
 
+        checklistViewModel.firePropertyChangedRemoveLow("advil");
+        Exception exception0 = assertThrows(ArrayIndexOutOfBoundsException.class, () -> {lowStock.getComponent(0);});
+        String expected0 = "No such child:";
+        String actual0 = exception0.getMessage();
+        assertTrue(actual0.contains(expected0));
+        checklistViewModel.firePropertyChangedAddLow(new String[]{"advil", "1"});
         checklistViewModel.firePropertyChangedRemoveMed("advil");
         checklistViewModel.removeRestock("advil");
         assertTrue(checklistViewModel.getRestock().isEmpty());
