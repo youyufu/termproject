@@ -90,9 +90,11 @@ public class ChecklistView extends JPanel implements PropertyChangeListener, Ite
             }
         } else if (evt.getPropertyName().equals("addLow")) {
             String[] medication = (String[]) evt.getNewValue();
-            JLabel lowMed = new JLabel(medication[0] + " (" + medication[1] + " doses remaining)");
-            lowStock.add(lowMed);
-            lowMap.put(medication[0], lowMed);
+            if (!lowMap.containsKey(medication[0])) {
+                JLabel lowMed = new JLabel(medication[0] + " (" + medication[1] + " doses remaining)");
+                lowStock.add(lowMed);
+                lowMap.put(medication[0], lowMed);
+            }
         } else if (evt.getPropertyName().equals("removeLow")) {
             String medication = (String) evt.getNewValue();
             if (lowMap.containsKey(medication)) {
