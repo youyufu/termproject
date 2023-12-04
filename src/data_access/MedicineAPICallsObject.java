@@ -29,10 +29,11 @@ public class MedicineAPICallsObject implements MedicineAPICallsInterface{
     @Override
     public String findId(String name) {
         String id = DEFAULT_ID;
+        String formattedName = name.replaceAll(" ", "+");
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://rxnav.nlm.nih.gov/REST/rxcui.json?name=" + name + "&allsrc=0&srclist=ALL&search=2"))
+                .uri(URI.create("https://rxnav.nlm.nih.gov/REST/rxcui.json?name=" + formattedName + "&allsrc=0&srclist=ALL&search=2"))
                 .method("GET", HttpRequest.BodyPublishers.noBody()).build();
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             JSONObject jsonResponse = new JSONObject(response.body());
@@ -41,8 +42,7 @@ public class MedicineAPICallsObject implements MedicineAPICallsInterface{
                 JSONArray rxnormId = idGroup.getJSONArray("rxnormId");
                 id = rxnormId.getString(0);
             }
-        } catch (IOException e) {
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException ignored) {
         }
         return id;
     }
@@ -61,8 +61,8 @@ public class MedicineAPICallsObject implements MedicineAPICallsInterface{
         HttpRequest requestInteraction = HttpRequest.newBuilder()
                 .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
                 .method("GET", HttpRequest.BodyPublishers.noBody()).build();
-        HttpResponse<String> responseInteraction = null;
-        ArrayList<String> warnings = new ArrayList<String>();
+        HttpResponse<String> responseInteraction;
+        ArrayList<String> warnings = new ArrayList<>();
         responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
         JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
         if (jsonResponseInteraction.has("fullInteractionTypeGroup")) {
@@ -92,13 +92,13 @@ public class MedicineAPICallsObject implements MedicineAPICallsInterface{
      */
     @Override
     public ArrayList<String> findAllInteractions(MedicineDataAccessInterface medicineDataAccessObject) throws IOException, InterruptedException {
-        ArrayList<String> warnings = new ArrayList<String>();
+        ArrayList<String> warnings = new ArrayList<>();
         String allId = medicineDataAccessObject.getIdListString();
         if (!allId.isEmpty()) {
             HttpRequest requestInteraction = HttpRequest.newBuilder()
                     .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
                     .method("GET", HttpRequest.BodyPublishers.noBody()).build();
-            HttpResponse<String> responseInteraction = null;
+            HttpResponse<String> responseInteraction;
             responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
             JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
             if (jsonResponseInteraction.has("fullInteractionTypeGroup")) {
