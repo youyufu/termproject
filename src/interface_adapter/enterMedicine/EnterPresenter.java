@@ -9,12 +9,21 @@ import use_case.enterMedicine.EnterOutputData;
 import view.MainView;
 
 public class EnterPresenter implements EnterOutputBoundary {
-
+    /**
+     * A presenter for handling data related to entering a medicine.
+     */
     private final EnterViewModel enterViewModel;
     private final ChecklistViewModel checklistViewModel;
     private final TableViewModel tableViewModel;
     private final ViewManagerModel viewManagerModel;
 
+    /**
+     * Creates an EnterPresenter.
+     * @param enterViewModel The view model used to update the enter medicine screen.
+     * @param checklistViewModel the view model used to update the checklist screen.
+     * @param tableViewModel the view model used to update the medicine table screen.
+     * @param viewManagerModel the view manager model used to switch the current view in the view manager.
+     */
     public EnterPresenter(EnterViewModel enterViewModel, ChecklistViewModel
             checklistViewModel, TableViewModel tableViewModel, ViewManagerModel viewManagerModel){
         this.enterViewModel = enterViewModel;
@@ -23,6 +32,10 @@ public class EnterPresenter implements EnterOutputBoundary {
         this.viewManagerModel = viewManagerModel;
     }
 
+    /**
+     * Updates the view models then changes the active screen to the main screen.
+     * @param entry the data to be passed.
+     */
     @Override
     public void prepareSuccessView(EnterOutputData entry){
         TableState tableState = tableViewModel.getState();
@@ -39,11 +52,19 @@ public class EnterPresenter implements EnterOutputBoundary {
         this.enterViewModel.firePropertyChanged();
     }
 
+    /**
+     * Updates the checklist screen
+     * @param entry the data to be passed.
+     */
     public void updateChecklistView(EnterOutputData entry){
         String[] checklistAddition = new String[]{entry.getMedication(), entry.getDose()};
         checklistViewModel.firePropertyChangedAddTake(checklistAddition);
     }
 
+    /**
+     * Updates the screen indicating a low number of doses remaining.
+     * @param enterOutputData the data to be passed.
+     */
     @Override
     public void updateLowView(EnterOutputData enterOutputData) {
         String[] lowAddition = new String[]{enterOutputData.getMedication(), String.valueOf(enterOutputData.getDosesRemaining())};
@@ -52,6 +73,10 @@ public class EnterPresenter implements EnterOutputBoundary {
         } checklistViewModel.firePropertyChangedAddLow(lowAddition);
     }
 
+    /**
+     * Prepares a pop-up with a message.
+     * @param message the message to be displayed.
+     */
     @Override
     public void preparePopUp(String message){
         EnterState enterState = enterViewModel.getState();

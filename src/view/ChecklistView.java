@@ -93,6 +93,12 @@ public class ChecklistView extends JPanel implements PropertyChangeListener, Ite
             JLabel lowMed = new JLabel(medication[0] + " (" + medication[1] + " doses remaining)");
             lowStock.add(lowMed);
             lowMap.put(medication[0], lowMed);
+        } else if (evt.getPropertyName().equals("removeLow")) {
+            String medication = (String) evt.getNewValue();
+            if (lowMap.containsKey(medication)) {
+                lowStock.remove(lowMap.get(medication));
+                lowMap.remove(medication);
+            }
         } else if (evt.getPropertyName().equals("updateLow")) {
             String[] medication = (String[]) evt.getNewValue();
             if (lowMap.containsKey(medication[0])) {
