@@ -12,13 +12,20 @@ public class ChecklistInteractor implements  ChecklistInputBoundary{
 
     /**
      * Constructs a new ChecklistInteractor with specified output boundary and data access interfaces.
-     * @param checklistOutputBoundary
-     * @param medicineDataAccessInterface
+     *
+     * @param checklistOutputBoundary The output boundary for checklist.
+     * @param medicineDataAccessInterface The interface for accessing medicine-related data.
      */
     public ChecklistInteractor (ChecklistOutputBoundary checklistOutputBoundary, MedicineDataAccessInterface medicineDataAccessInterface) {
         this.checklistOutputBoundary = checklistOutputBoundary;
         this.medicineDataAccessInterface = medicineDataAccessInterface;
     }
+
+    /**
+     * Executes the checklist operation based on the provided input data.
+     *
+     * @param checklistInputData The input data for checklist.
+     */
     @Override
     public void execute(ChecklistInputData checklistInputData) {
         String name = checklistInputData.getName();
