@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ChecklistView extends JPanel implements PropertyChangeListener, ItemListener {
+    /**
+     * ChecklistView is a JPanel class that serves as the view for the checklist.
+     */
+
     public static final String viewName = "checklist";
     private final ChecklistViewModel checklistViewModel;
     private final SwitchViewController switchViewController;
@@ -25,6 +29,14 @@ public class ChecklistView extends JPanel implements PropertyChangeListener, Ite
     private JPanel lowStock = new JPanel();
     private HashMap<String, ArrayList<JCheckBox>> checklistMap = new HashMap<>();
     private HashMap<String, JLabel> lowMap = new HashMap<>();
+
+    /**
+     * Constructs a ChecklistView with the necessary controllers and view models.
+     *
+     * @param switchViewController1 The controller for switching views.
+     * @param checklistController1 The controller for checklist.
+     * @param checklistViewModel1 The view model for checklist.
+     */
     public ChecklistView(SwitchViewController switchViewController1, ChecklistController checklistController1, ChecklistViewModel checklistViewModel1) {
         this.checklistController = checklistController1;
         this.checklistViewModel = checklistViewModel1;
@@ -59,6 +71,12 @@ public class ChecklistView extends JPanel implements PropertyChangeListener, Ite
         this.add(lowStock);
         this.add(buttons);
     }
+
+    /**
+     * Responds to property changes in the checklist view model.
+     *
+     * @param evt The event of the change.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("addTake")) {
@@ -120,6 +138,12 @@ public class ChecklistView extends JPanel implements PropertyChangeListener, Ite
             }
         }
     }
+
+    /**
+     * Takes item state changes for checklist items.
+     *
+     * @param e The event to be processed.
+     */
     @Override
     public void itemStateChanged(ItemEvent e) {
         ItemSelectable source = e.getItemSelectable();
