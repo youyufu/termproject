@@ -1,10 +1,6 @@
 package interface_adapter.deleteMedicine;
 
-import interface_adapter.deleteMedicine.DeletePresenter;
 import interface_adapter.table.TableState;
-import interface_adapter.table.TableViewModel;
-import interface_adapter.ViewManagerModel;
-import interface_adapter.checklistChecked.ChecklistViewModel;
 import use_case.deleteMedicine.DeleteOutputData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
