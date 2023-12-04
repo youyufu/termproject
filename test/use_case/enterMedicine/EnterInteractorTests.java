@@ -138,4 +138,55 @@ class EnterInteractorTests {
                 userRepository, failurePresenter, new MedicineFactory() , new MedicineAPICallsObject());
         interactor.execute(inputData);
     }
+    @org.junit.jupiter.api.Test
+    void drugInteractionTest() throws IOException {
+        MedicineDataAccessInterface userRepository = new InMemoryDAO(new Today(1), new MedicineFactory());
+        MedicineFactory medicineFactory = new MedicineFactory();
+        Integer[] weeklySchedule = new Integer[]{2,1,3,0,0,1,0};
+        userRepository.saveMedicine(medicineFactory.createMedicine("Oxycontin",
+                2,
+                30,
+                "ml",
+                weeklySchedule,
+                "",
+                "123"));
+        EnterOutputBoundary successPresenter = new EnterOutputBoundary() {
+            @Override
+            public void prepareSuccessView(EnterOutputData enterOutputData) {
+                assertEquals("Phenelzine", enterOutputData.getMedication());
+            }
+
+            @Override
+            public void preparePopUp(String message) {
+                assertEquals("Warning - drug interaction detected: Phenelzine may increase the serotonergic" +
+                        " and central nervous system depressant (CNS depressant) activities of Oxycodone.\n",
+                         message);
+            }
+
+            @Override
+            public void updateChecklistView(EnterOutputData enterOutputData) {
+                assertEquals(new String[]{"Phenelzine", "5 gram"}, new String[]{enterOutputData.getMedication(),
+                        enterOutputData.getDose()});
+            }
+
+            @Override
+            public void updateLowView(EnterOutputData enterOutputData) {
+                assertEquals(new String[]{"Phenelzine", "20"}, new String[]{enterOutputData.getMedication(),
+                        String.valueOf(enterOutputData.getDosesRemaining())});
+            }
+        };
+
+        Integer[] myArray = new Integer[]{0,0,0,0,0,0,0};
+        EnterInputData inputData = new EnterInputData("Phenelzine",
+                5,
+                "gram",
+                100,
+                myArray,
+                "I will take this with Oxycontin");
+        EnterInputBoundary interactor = new EnterInteractor(userRepository,
+                successPresenter,
+                medicineFactory,
+                new MedicineAPICallsObject());
+        interactor.execute(inputData);
+    }
 }
