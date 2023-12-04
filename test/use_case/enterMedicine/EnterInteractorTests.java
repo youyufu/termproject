@@ -86,14 +86,14 @@ class EnterInteractorTests {
 
             @Override
             public void updateLowView(EnterOutputData user) {
-                assertEquals(new String[]{"Oxycontin", "100"},
+                assertEquals(new String[]{"Oxycontin", "10"},
                         new String[]{user.getMedication(), String.valueOf(user.getDosesRemaining())});
             }
         };
 
         Integer[] myArray = new Integer[]{0,0,0,0,0,0,0};
         EnterInputData inputData = new EnterInputData("Oxycontin", 3, "tablet",
-                300, myArray , "Do not get addicted" );
+                30, myArray , "Do not get addicted" );
         EnterInputBoundary interactor = new EnterInteractor(
                 userRepository, successPresenter, new MedicineFactory() , new MedicineAPICallsObject());
         interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
