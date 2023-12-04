@@ -16,6 +16,7 @@ import use_case.enterMedicine.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.*;
 import java.nio.file.Files;
@@ -198,5 +199,33 @@ class EnterInteractorTests {
                 new MedicineAPICallsObject());
         interactor.execute(inputData);
     }
+    @org.junit.jupiter.api.Test
+    void noIdZeroDoseTest() throws IOException {
+        MedicineDataAccessInterface userRepository = new InMemoryDAO(new Today(1), new MedicineFactory());
+        EnterOutputBoundary successPresenter = new EnterOutputBoundary() {
+            @Override
+            public void prepareSuccessView(EnterOutputData user) {fail("Medicine not supposed to be successfully entered.");}
+            @Override
+            public void preparePopUp(String error) {
+                ArrayList<String> messages = new ArrayList<String>();
+                messages.add("jam could not be found in the database. The drug will still be" +
+                        " entered but drug interactions with jam cannot be confirmed.");
+                messages.add("Cannot enter medicine with a dose size of 0.");
+                assertTrue(messages.contains(error));
+            }
 
+            @Override
+            public void updateChecklistView(EnterOutputData user) {fail("Medicine not supposed to be successfully entered.");}
+
+            @Override
+            public void updateLowView(EnterOutputData user) {fail("Medicine not supposed to be successfully entered.");}
+        };
+
+        Integer[] myArray = new Integer[]{0, 1, 2, 3,4,5,6,7};
+        EnterInputData inputData = new EnterInputData("jam", 0, "can",
+                300, myArray , "Do not get addicted" );
+        EnterInputBoundary interactor = new EnterInteractor(
+                userRepository, successPresenter, new MedicineFactory(), new MedicineAPICallsObject());
+        interactor.execute(inputData); // This will eventually send Output Data to the successPresenter
+    }
 }
