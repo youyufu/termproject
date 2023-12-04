@@ -48,8 +48,11 @@ public class EnterInteractor implements EnterInputBoundary {
         String name = enterInputData.getMedicine();
         if (medicineDataAccessObject.exists(name)) {
             enterPresenter.preparePopUp(name + " already exists as a medication");
-        }
-        else {
+        } else if (enterInputData.getDoseSize() == 0) {
+            enterPresenter.preparePopUp("Cannot enter medicine with a dose size of 0.");
+        } else if (enterInputData.getInventory() / enterInputData.getDoseSize() == 0) {
+            enterPresenter.preparePopUp("Cannot enter medicine with 0 doses remaining.");
+        }else {
             String id = medicineAPICallsObject.findId(name);
             if (!id.equals(DEFAULT_ID)) {
                 try {
@@ -67,41 +70,33 @@ public class EnterInteractor implements EnterInputBoundary {
                 }
             } else {
                 enterPresenter.preparePopUp(name + " could not be found in the database. The drug will still be entered but drug interactions with " + name + " cannot be confirmed.");
+            }Medicine medicine = medicineFactory.createMedicine(enterInputData.getMedicine(),
+                    enterInputData.getDoseSize(),
+                    enterInputData.getInventory(),
+                    enterInputData.getUnit(),
+                    enterInputData.getDay(),
+                    enterInputData.getDescription(), id);
+            medicineDataAccessObject.saveMedicine(medicine);
+            EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(), medicine.getDoseString(),
+                    medicine.getInventoryString(),
+                    medicine.getWeeklySchedule()[0],
+                    medicine.getWeeklySchedule()[1],
+                    medicine.getWeeklySchedule()[2],
+                    medicine.getWeeklySchedule()[3],
+                    medicine.getWeeklySchedule()[4],
+                    medicine.getWeeklySchedule()[5],
+                    medicine.getWeeklySchedule()[6],
+                    medicine.getDescription(),
+                    medicine.getDose().getDosesRemaining());
+            enterPresenter.prepareSuccessView(enterOutputData);
+            Integer today = medicineDataAccessObject.getTodayDay();
+            for (int i = 0; i < Math.min(medicine.getWeeklySchedule()[today], medicine.getDose().getDosesRemaining()); i++) {
+                enterPresenter.updateChecklistView(enterOutputData);
             }
-            if (enterInputData.getDoseSize() == 0) {
-                enterPresenter.preparePopUp("Cannot enter medicine with a dose size of 0.");
-            } else {
-                Medicine medicine = medicineFactory.createMedicine(enterInputData.getMedicine(),
-                        enterInputData.getDoseSize(),
-                        enterInputData.getInventory(),
-                        enterInputData.getUnit(),
-                        enterInputData.getDay(),
-                        enterInputData.getDescription(), id);
-                if (medicine.getDose().getDosesRemaining() == 0) {
-                    enterPresenter.preparePopUp("Cannot enter medicine with 0 doses remaining.");
-                } else {
-                    medicineDataAccessObject.saveMedicine(medicine);
-                    EnterOutputData enterOutputData = new EnterOutputData(enterInputData.getMedicine(), medicine.getDoseString(),
-                            medicine.getInventoryString(),
-                            medicine.getWeeklySchedule()[0],
-                            medicine.getWeeklySchedule()[1],
-                            medicine.getWeeklySchedule()[2],
-                            medicine.getWeeklySchedule()[3],
-                            medicine.getWeeklySchedule()[4],
-                            medicine.getWeeklySchedule()[5],
-                            medicine.getWeeklySchedule()[6],
-                            medicine.getDescription(),
-                            medicine.getDose().getDosesRemaining());
-                    enterPresenter.prepareSuccessView(enterOutputData);
-                    Integer today = medicineDataAccessObject.getTodayDay();
-                    for (int i = 0; i < Math.min(medicine.getWeeklySchedule()[today], medicine.getDose().getDosesRemaining()); i++) {
-                        enterPresenter.updateChecklistView(enterOutputData);
-                    }
-                    if (medicine.getDose().getDosesRemaining() < 14) {
-                        enterPresenter.updateLowView(enterOutputData);
-                    }
-                }
+            if (medicine.getDose().getDosesRemaining() < 14) {
+                enterPresenter.updateLowView(enterOutputData);
             }
         }
     }
 }
+
