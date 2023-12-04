@@ -92,24 +92,26 @@ public class MedicineAPICallsObject implements MedicineAPICallsInterface{
      */
     @Override
     public ArrayList<String> findAllInteractions(MedicineDataAccessInterface medicineDataAccessObject) throws IOException, InterruptedException {
-        String allId = medicineDataAccessObject.getIdListString();
-        HttpRequest requestInteraction = HttpRequest.newBuilder()
-                .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
-                .method("GET", HttpRequest.BodyPublishers.noBody()).build();
-        HttpResponse<String> responseInteraction = null;
         ArrayList<String> warnings = new ArrayList<String>();
-        responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
-        JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
-        if (jsonResponseInteraction.has("fullInteractionTypeGroup")) {
-            JSONArray fullInteractionTypeGroup = jsonResponseInteraction.getJSONArray("fullInteractionTypeGroup");
-            JSONArray fullInteractionType = fullInteractionTypeGroup.getJSONObject(0).getJSONArray("fullInteractionType");
-            for (int i = 0; i < fullInteractionType.length(); i++) {
-                JSONObject eachInteraction = fullInteractionType.getJSONObject(i);
-                String description = eachInteraction
-                        .getJSONArray("interactionPair")
-                        .getJSONObject(0).
-                        getString("description");
-                warnings.add(description);
+        String allId = medicineDataAccessObject.getIdListString();
+        if (!allId.isEmpty()) {
+            HttpRequest requestInteraction = HttpRequest.newBuilder()
+                    .uri(URI.create("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=" + allId))
+                    .method("GET", HttpRequest.BodyPublishers.noBody()).build();
+            HttpResponse<String> responseInteraction = null;
+            responseInteraction = HttpClient.newHttpClient().send(requestInteraction, HttpResponse.BodyHandlers.ofString());
+            JSONObject jsonResponseInteraction = new JSONObject(responseInteraction.body());
+            if (jsonResponseInteraction.has("fullInteractionTypeGroup")) {
+                JSONArray fullInteractionTypeGroup = jsonResponseInteraction.getJSONArray("fullInteractionTypeGroup");
+                JSONArray fullInteractionType = fullInteractionTypeGroup.getJSONObject(0).getJSONArray("fullInteractionType");
+                for (int i = 0; i < fullInteractionType.length(); i++) {
+                    JSONObject eachInteraction = fullInteractionType.getJSONObject(i);
+                    String description = eachInteraction
+                            .getJSONArray("interactionPair")
+                            .getJSONObject(0).
+                            getString("description");
+                    warnings.add(description);
+                }
             }
         }
         return warnings;
