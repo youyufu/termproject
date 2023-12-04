@@ -22,6 +22,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,6 +44,15 @@ class EnterInteractorTests {
 // 2 things to check: the output data is correct, and the user has been created in the DAO.
                 assertEquals("Oxycontin", user.getMedication());
                 assertTrue(userRepository.exists("Oxycontin"));
+                assertEquals("300 mg", user.getInventory());
+                assertEquals((Integer) 0, user.getSu());
+                assertEquals((Integer) 1, user.getM());
+                assertEquals((Integer) 2, user.getTu());
+                assertEquals((Integer) 3, user.getW());
+                assertEquals((Integer) 4, user.getTh());
+                assertEquals((Integer) 5, user.getF());
+                assertEquals((Integer) 6, user.getSa());
+                assertEquals("Do not get addicted", user.getDescription());
             }
             @Override
             public void preparePopUp(String error) {fail("Use case failure is unexpected.");}
@@ -59,7 +69,7 @@ class EnterInteractorTests {
             }
         };
 
-        Integer[] myArray = new Integer[]{0, 1, 2, 3,4,5,6,7};
+        Integer[] myArray = new Integer[]{0, 1, 2, 3,4,5,6};
         EnterInputData inputData = new EnterInputData("Oxycontin", 3, "mg",
                 300, myArray , "Do not get addicted" );
         EnterInputBoundary interactor = new EnterInteractor(
