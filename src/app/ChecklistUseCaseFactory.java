@@ -15,7 +15,22 @@ import view.ChecklistView;
 import java.util.HashMap;
 
 public class ChecklistUseCaseFactory {
+    /**
+     * ChecklistUseCaseFactory is a factory class responsible for the creation and configuration
+     * of components related to the checklist use case in the application.
+     */
+
     private ChecklistUseCaseFactory() {}
+
+    /**
+     * Creates and configures the ChecklistView for the checklist use case.
+     *
+     * @param switchViewController The controller for switching views.
+     * @param checklistViewModel The view model for checklist use case.
+     * @param tableViewModel The view model for table view.
+     * @param medicineDAO The DAO for medicine data.
+     * @return ChecklistView The configured view for checklist.
+     */
     public static ChecklistView create(SwitchViewController switchViewController, ChecklistViewModel checklistViewModel,
                                        TableViewModel tableViewModel, MedicineDataAccessInterface medicineDAO) {
         ChecklistController checklistController = ChecklistUseCaseFactory.createChecklistUseCase(checklistViewModel, tableViewModel, medicineDAO);
@@ -39,6 +54,15 @@ public class ChecklistUseCaseFactory {
         }
         return checklistView;
     }
+
+    /**
+     * Creates and configures the ChecklistController for the checklist use case.
+     *
+     * @param checklistViewModel The view model for checklist.
+     * @param tableViewModel The view model for the table view.
+     * @param medicineDAO The data access object for interacting with medicine data.
+     * @return ChecklistController The configured controller for the checklist use case.
+     */
     public static ChecklistController createChecklistUseCase(ChecklistViewModel checklistViewModel,
                                                              TableViewModel tableViewModel,
                                                              MedicineDataAccessInterface medicineDAO) {
