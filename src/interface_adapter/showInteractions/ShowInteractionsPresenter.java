@@ -26,6 +26,6 @@ public class ShowInteractionsPresenter implements ShowInteractionsOutputBoundary
         TableState tableState = tableViewModel.getState();
         tableState.setMessage(message);
         tableViewModel.setState(tableState);
-        tableViewModel.firePopUp(message);
+        tableViewModel.firePopUp();
      }
 }
