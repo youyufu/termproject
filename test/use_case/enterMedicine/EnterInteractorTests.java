@@ -149,7 +149,14 @@ class EnterInteractorTests {
                 "ml",
                 weeklySchedule,
                 "",
-                "123"));
+                "218986"));
+        userRepository.saveMedicine(medicineFactory.createMedicine("Tramadol",
+                3,
+                15,
+                "tablet",
+                weeklySchedule,
+                "take with Oxycontin",
+                "10689"));
         EnterOutputBoundary successPresenter = new EnterOutputBoundary() {
             @Override
             public void prepareSuccessView(EnterOutputData enterOutputData) {
@@ -159,7 +166,9 @@ class EnterInteractorTests {
             @Override
             public void preparePopUp(String message) {
                 assertEquals("Warning - drug interaction detected: Phenelzine may increase the serotonergic" +
-                        " and central nervous system depressant (CNS depressant) activities of Oxycodone.\n",
+                        " and central nervous system depressant (CNS depressant) activities of Oxycodone.\n" +
+                                "Warning - drug interaction detected: The risk or severity of serotonin syndrome " +
+                                "and seizure can be increased when Phenelzine is combined with Tramadol.\n",
                          message);
             }
 
@@ -189,4 +198,5 @@ class EnterInteractorTests {
                 new MedicineAPICallsObject());
         interactor.execute(inputData);
     }
+
 }
