@@ -17,6 +17,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class EnterView extends JPanel implements PropertyChangeListener {
+    /**
+     * EnterView is a JPanel class that serves as the view for enter.
+     */
+
     public final static String viewName = "enter";
     private final EnterViewModel enterViewModel;
     private final JTextField medicineNameInputField = new JTextField(50);
@@ -54,6 +58,13 @@ public class EnterView extends JPanel implements PropertyChangeListener {
         JComponent editor = spinner.getEditor();
         return ((JSpinner.DefaultEditor)editor).getTextField();
     }
+
+    /**
+     * Constructs an EnterView with the controllers and view models.
+     * @param switchViewController1 The controller for switching views.
+     * @param enterController1 The controller for enter.
+     * @param enterViewModel1 The view model for enter.
+     */
     public EnterView(SwitchViewController switchViewController1, EnterController enterController1, EnterViewModel enterViewModel1) {
         switchViewController = switchViewController1;
         enterController = enterController1;
@@ -273,6 +284,13 @@ public class EnterView extends JPanel implements PropertyChangeListener {
         this.add(description);
         this.add(buttons);
     }
+
+    /**
+     * Responds to property changes in the enter view model.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         EnterState state = (EnterState) evt.getNewValue();
