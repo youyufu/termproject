@@ -20,5 +20,5 @@ public class TableViewModel extends ViewModel {
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {support.addPropertyChangeListener(listener);}
 
-    public void firePopUp(String message){support.firePropertyChange("popup", null, tableState);};
+    public void firePopUp(){support.firePropertyChange("popup", null, tableState);};
 }
