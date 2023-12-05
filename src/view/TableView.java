@@ -15,6 +15,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class TableView extends JPanel implements PropertyChangeListener {
+    /**
+     * TableView is a JPanel class that shows the view for displaying tabular data.
+     */
+
     public final static String viewName = "table";
     private final TableViewModel tableViewModel;
     private JLabel header;
@@ -24,6 +28,14 @@ public class TableView extends JPanel implements PropertyChangeListener {
     private final JButton back;
     private final JButton show;
     private JPanel buttons;
+
+    /**
+     * Constructs a TableView with the  controllers and view model.
+     *
+     * @param switchViewController1 The controller for switching views.
+     * @param showInteractionsController The controller for showing data interactions.
+     * @param tableViewModel1 The view model for table.
+     */
     public TableView(SwitchViewController switchViewController1, ShowInteractionsController showInteractionsController, TableViewModel tableViewModel1) {
         this.tableViewModel = tableViewModel1;
         this.switchViewController = switchViewController1;
@@ -70,6 +82,13 @@ public class TableView extends JPanel implements PropertyChangeListener {
         this.add(tablePanel);
         this.add(buttons);
     }
+
+    /**
+     * Responds to property changes in the table view model.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         TableState state = (TableState) evt.getNewValue();
