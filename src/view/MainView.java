@@ -11,12 +11,22 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class MainView extends JPanel{
+    /**
+     * MainView is a JPanel class that shows the main interface.
+     */
+
     public final static String viewName = "main";
     private final JButton enter;
     private final JButton delete;
     private final JButton table;
     private final JButton checklist;
     private final SwitchViewController switchViewController;
+
+    /**
+     * Constructs a MainView with the controller for view switching.
+     *
+     * @param switchViewController The controller for switching views.
+     */
     public MainView(SwitchViewController switchViewController) {
         this.switchViewController = switchViewController;
 
