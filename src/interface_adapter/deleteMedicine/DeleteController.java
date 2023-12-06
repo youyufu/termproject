@@ -15,6 +15,11 @@ public class DeleteController {
      *                           
      */
     public DeleteController(DeleteInputBoundary deleteInputBoundary){this.deleteInputBoundary = deleteInputBoundary;}
+
+    /**
+     * Executes the delete operation based on the given medicine name.
+     * @param medicine The medicine name.
+     */
     public void execute(String medicine) {
 
         DeleteInputData deleteInputData = new DeleteInputData(medicine);
