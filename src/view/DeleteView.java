@@ -15,6 +15,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class DeleteView extends JPanel implements PropertyChangeListener {
+    /**
+     * DeleteView is a JPanel class that functions as the view for delete.
+     */
+
     public final static String viewName = "delete";
     private final DeleteViewModel deleteViewModel;
     private final JTextField medicineNameInputField = new JTextField(50);
@@ -22,6 +26,14 @@ public class DeleteView extends JPanel implements PropertyChangeListener {
     private final DeleteController deleteController;
     private final JButton back;
     private final JButton delete;
+
+    /**
+     * Constructs a DeleteView with controllers and view models.
+     *
+     * @param switchViewController1 The controller for switching views.
+     * @param deleteController1 The controller for delete.
+     * @param deleteViewModel1 The view model for delete.
+     */
     public DeleteView(SwitchViewController switchViewController1, DeleteController deleteController1, DeleteViewModel deleteViewModel1) {
         this.switchViewController = switchViewController1;
         this.deleteController = deleteController1;
@@ -79,6 +91,13 @@ public class DeleteView extends JPanel implements PropertyChangeListener {
         this.add(buttons);
 
     }
+
+    /**
+     * Responds to property changes in the delete view model.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         DeleteState state = (DeleteState) evt.getNewValue();
