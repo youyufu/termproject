@@ -1,4 +1,4 @@
-# Group 137 Term Project: MedBay
+# MedBay
 MedBay is a medication tracking program designed to replicate physical weekly medication organizers with added functionality. 
 Users add medications, including the name, dose size, dose unit, inventory, weekly schedule, and additional comments. 
 
