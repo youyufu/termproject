@@ -10,5 +10,6 @@ To delete a medication, all the user needs to do is enter its name and press del
 The project was built with Java version 17.0.9 and uses the external Maven library org.json:json:20231013.
 
 This is the link to the HealthData Drug Interaction API documentation: https://lhncbc.nlm.nih.gov/RxNav/APIs/InteractionAPIs.html
+NOTE: the API has been shut down as of March 2024. An alternative API is needed to maintain the drug interaction checking functionality.
 
 This is the link to the RxNorm API documentation: https://lhncbc.nlm.nih.gov/RxNav/APIs/api-RxNorm.findRxcuiByString.html
